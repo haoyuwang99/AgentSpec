@@ -10,50 +10,46 @@ else:
 
 def serializedATN():
     return [
-        4,1,29,138,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
+        4,1,29,128,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
         6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,
         1,0,5,0,30,8,0,10,0,12,0,33,9,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,3,1,
         42,8,1,1,1,1,1,1,1,1,1,1,2,1,2,1,2,1,3,1,3,4,3,53,8,3,11,3,12,3,
         54,1,4,1,4,4,4,59,8,4,11,4,12,4,60,1,5,1,5,4,5,65,8,5,11,5,12,5,
-        66,1,6,1,6,1,6,3,6,72,8,6,1,7,1,7,1,7,1,7,1,7,1,7,1,7,5,7,81,8,7,
-        10,7,12,7,84,9,7,1,7,1,7,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,9,1,9,1,9,
-        1,9,1,10,1,10,1,10,1,10,1,10,3,10,104,8,10,1,10,1,10,1,10,1,10,1,
-        10,5,10,111,8,10,10,10,12,10,114,9,10,1,11,1,11,3,11,118,8,11,1,
-        12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,5,12,128,8,12,10,12,12,12,
-        131,9,12,1,12,1,12,1,12,1,13,1,13,1,13,0,1,20,14,0,2,4,6,8,10,12,
-        14,16,18,20,22,24,26,0,1,1,0,28,29,136,0,31,1,0,0,0,2,36,1,0,0,0,
-        4,47,1,0,0,0,6,50,1,0,0,0,8,56,1,0,0,0,10,62,1,0,0,0,12,71,1,0,0,
-        0,14,73,1,0,0,0,16,87,1,0,0,0,18,94,1,0,0,0,20,103,1,0,0,0,22,117,
-        1,0,0,0,24,119,1,0,0,0,26,135,1,0,0,0,28,30,3,2,1,0,29,28,1,0,0,
-        0,30,33,1,0,0,0,31,29,1,0,0,0,31,32,1,0,0,0,32,34,1,0,0,0,33,31,
-        1,0,0,0,34,35,5,0,0,1,35,1,1,0,0,0,36,37,5,1,0,0,37,38,5,21,0,0,
-        38,39,5,26,0,0,39,41,3,4,2,0,40,42,3,6,3,0,41,40,1,0,0,0,41,42,1,
-        0,0,0,42,43,1,0,0,0,43,44,3,8,4,0,44,45,3,10,5,0,45,46,5,11,0,0,
-        46,3,1,0,0,0,47,48,5,2,0,0,48,49,3,12,6,0,49,5,1,0,0,0,50,52,5,3,
-        0,0,51,53,3,14,7,0,52,51,1,0,0,0,53,54,1,0,0,0,54,52,1,0,0,0,54,
-        55,1,0,0,0,55,7,1,0,0,0,56,58,5,4,0,0,57,59,3,16,8,0,58,57,1,0,0,
-        0,59,60,1,0,0,0,60,58,1,0,0,0,60,61,1,0,0,0,61,9,1,0,0,0,62,64,5,
-        5,0,0,63,65,3,22,11,0,64,63,1,0,0,0,65,66,1,0,0,0,66,64,1,0,0,0,
-        66,67,1,0,0,0,67,11,1,0,0,0,68,69,5,6,0,0,69,72,5,26,0,0,70,72,5,
-        7,0,0,71,68,1,0,0,0,71,70,1,0,0,0,72,13,1,0,0,0,73,74,5,8,0,0,74,
-        75,5,26,0,0,75,76,5,22,0,0,76,77,5,17,0,0,77,82,3,18,9,0,78,79,5,
-        14,0,0,79,81,3,18,9,0,80,78,1,0,0,0,81,84,1,0,0,0,82,80,1,0,0,0,
-        82,83,1,0,0,0,83,85,1,0,0,0,84,82,1,0,0,0,85,86,5,18,0,0,86,15,1,
-        0,0,0,87,88,5,12,0,0,88,89,5,15,0,0,89,90,3,20,10,0,90,91,5,14,0,
-        0,91,92,3,20,10,0,92,93,5,16,0,0,93,17,1,0,0,0,94,95,5,26,0,0,95,
-        96,5,13,0,0,96,97,3,20,10,0,97,19,1,0,0,0,98,99,6,10,-1,0,99,104,
-        5,27,0,0,100,104,3,26,13,0,101,104,5,26,0,0,102,104,3,24,12,0,103,
-        98,1,0,0,0,103,100,1,0,0,0,103,101,1,0,0,0,103,102,1,0,0,0,104,112,
-        1,0,0,0,105,106,10,2,0,0,106,107,5,19,0,0,107,108,3,20,10,0,108,
-        109,5,20,0,0,109,111,1,0,0,0,110,105,1,0,0,0,111,114,1,0,0,0,112,
-        110,1,0,0,0,112,113,1,0,0,0,113,21,1,0,0,0,114,112,1,0,0,0,115,118,
-        5,24,0,0,116,118,3,24,12,0,117,115,1,0,0,0,117,116,1,0,0,0,118,23,
-        1,0,0,0,119,120,5,23,0,0,120,121,5,15,0,0,121,122,5,26,0,0,122,123,
-        5,14,0,0,123,124,5,17,0,0,124,129,3,18,9,0,125,126,5,14,0,0,126,
-        128,3,18,9,0,127,125,1,0,0,0,128,131,1,0,0,0,129,127,1,0,0,0,129,
-        130,1,0,0,0,130,132,1,0,0,0,131,129,1,0,0,0,132,133,5,18,0,0,133,
-        134,5,16,0,0,134,25,1,0,0,0,135,136,7,0,0,0,136,27,1,0,0,0,11,31,
-        41,54,60,66,71,82,103,112,117,129
+        66,1,6,1,6,1,6,3,6,72,8,6,1,7,1,7,1,7,1,7,1,7,1,8,1,8,1,8,1,8,1,
+        8,1,8,1,8,1,9,1,9,1,9,1,9,1,10,1,10,1,10,1,10,1,10,3,10,95,8,10,
+        1,10,1,10,1,10,1,10,5,10,101,8,10,10,10,12,10,104,9,10,1,11,1,11,
+        3,11,108,8,11,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,5,12,118,8,
+        12,10,12,12,12,121,9,12,1,12,1,12,1,12,1,13,1,13,1,13,0,1,20,14,
+        0,2,4,6,8,10,12,14,16,18,20,22,24,26,0,1,1,0,28,29,125,0,31,1,0,
+        0,0,2,36,1,0,0,0,4,47,1,0,0,0,6,50,1,0,0,0,8,56,1,0,0,0,10,62,1,
+        0,0,0,12,71,1,0,0,0,14,73,1,0,0,0,16,78,1,0,0,0,18,85,1,0,0,0,20,
+        94,1,0,0,0,22,107,1,0,0,0,24,109,1,0,0,0,26,125,1,0,0,0,28,30,3,
+        2,1,0,29,28,1,0,0,0,30,33,1,0,0,0,31,29,1,0,0,0,31,32,1,0,0,0,32,
+        34,1,0,0,0,33,31,1,0,0,0,34,35,5,0,0,1,35,1,1,0,0,0,36,37,5,1,0,
+        0,37,38,5,21,0,0,38,39,5,26,0,0,39,41,3,4,2,0,40,42,3,6,3,0,41,40,
+        1,0,0,0,41,42,1,0,0,0,42,43,1,0,0,0,43,44,3,8,4,0,44,45,3,10,5,0,
+        45,46,5,11,0,0,46,3,1,0,0,0,47,48,5,2,0,0,48,49,3,12,6,0,49,5,1,
+        0,0,0,50,52,5,3,0,0,51,53,3,14,7,0,52,51,1,0,0,0,53,54,1,0,0,0,54,
+        52,1,0,0,0,54,55,1,0,0,0,55,7,1,0,0,0,56,58,5,4,0,0,57,59,3,16,8,
+        0,58,57,1,0,0,0,59,60,1,0,0,0,60,58,1,0,0,0,60,61,1,0,0,0,61,9,1,
+        0,0,0,62,64,5,5,0,0,63,65,3,22,11,0,64,63,1,0,0,0,65,66,1,0,0,0,
+        66,64,1,0,0,0,66,67,1,0,0,0,67,11,1,0,0,0,68,69,5,6,0,0,69,72,5,
+        26,0,0,70,72,5,7,0,0,71,68,1,0,0,0,71,70,1,0,0,0,72,13,1,0,0,0,73,
+        74,5,8,0,0,74,75,5,26,0,0,75,76,5,22,0,0,76,77,3,20,10,0,77,15,1,
+        0,0,0,78,79,5,12,0,0,79,80,5,15,0,0,80,81,3,20,10,0,81,82,5,14,0,
+        0,82,83,3,20,10,0,83,84,5,16,0,0,84,17,1,0,0,0,85,86,5,27,0,0,86,
+        87,5,13,0,0,87,88,3,20,10,0,88,19,1,0,0,0,89,90,6,10,-1,0,90,95,
+        5,27,0,0,91,95,3,26,13,0,92,95,5,26,0,0,93,95,3,24,12,0,94,89,1,
+        0,0,0,94,91,1,0,0,0,94,92,1,0,0,0,94,93,1,0,0,0,95,102,1,0,0,0,96,
+        97,10,2,0,0,97,98,5,19,0,0,98,99,5,27,0,0,99,101,5,20,0,0,100,96,
+        1,0,0,0,101,104,1,0,0,0,102,100,1,0,0,0,102,103,1,0,0,0,103,21,1,
+        0,0,0,104,102,1,0,0,0,105,108,5,24,0,0,106,108,3,24,12,0,107,105,
+        1,0,0,0,107,106,1,0,0,0,108,23,1,0,0,0,109,110,5,23,0,0,110,111,
+        5,15,0,0,111,112,5,26,0,0,112,113,5,14,0,0,113,114,5,17,0,0,114,
+        119,3,18,9,0,115,116,5,14,0,0,116,118,3,18,9,0,117,115,1,0,0,0,118,
+        121,1,0,0,0,119,117,1,0,0,0,119,120,1,0,0,0,120,122,1,0,0,0,121,
+        119,1,0,0,0,122,123,5,18,0,0,123,124,5,16,0,0,124,25,1,0,0,0,125,
+        126,7,0,0,0,126,27,1,0,0,0,10,31,41,54,60,66,71,94,102,107,119
     ]
 
 class AgentSpecParser ( Parser ):
@@ -66,12 +62,12 @@ class AgentSpecParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ "<INVALID>", "'rule'", "'trigger'", "'query'", "'check'", 
+    literalNames = [ "<INVALID>", "'rule'", "'trigger'", "'prepare'", "'check'", 
                      "'enforce'", "'act'", "'any'", "'val'", "'true'", "'false'", 
                      "'end'", "<INVALID>", "':'", "','", "'('", "')'", "'{'", 
                      "'}'", "'['", "']'", "'@'", "'='", "'invoke_action'" ]
 
-    symbolicNames = [ "<INVALID>", "RULE", "TRIGGER", "QUERY", "CHECK", 
+    symbolicNames = [ "<INVALID>", "RULE", "TRIGGER", "PREPARE", "CHECK", 
                       "ENFORCE", "ACTION", "ANY", "VAL", "TRUE", "FALSE", 
                       "END", "EVAL_OP", "COLON", "COMMA", "LPAREN", "RPAREN", 
                       "LBRACE", "RBRACE", "LBRACK", "RBRACK", "AT", "EQ", 
@@ -81,11 +77,11 @@ class AgentSpecParser ( Parser ):
     RULE_program = 0
     RULE_rule = 1
     RULE_triggerClause = 2
-    RULE_queryClause = 3
+    RULE_prepareClause = 3
     RULE_checkClause = 4
     RULE_enforceClause = 5
     RULE_event = 6
-    RULE_query = 7
+    RULE_prepare = 7
     RULE_condition = 8
     RULE_kvPair = 9
     RULE_value = 10
@@ -93,14 +89,14 @@ class AgentSpecParser ( Parser ):
     RULE_actionInvoke = 12
     RULE_number = 13
 
-    ruleNames =  [ "program", "rule", "triggerClause", "queryClause", "checkClause", 
-                   "enforceClause", "event", "query", "condition", "kvPair", 
-                   "value", "enforcement", "actionInvoke", "number" ]
+    ruleNames =  [ "program", "rule", "triggerClause", "prepareClause", 
+                   "checkClause", "enforceClause", "event", "prepare", "condition", 
+                   "kvPair", "value", "enforcement", "actionInvoke", "number" ]
 
     EOF = Token.EOF
     RULE=1
     TRIGGER=2
-    QUERY=3
+    PREPARE=3
     CHECK=4
     ENFORCE=5
     ACTION=6
@@ -227,8 +223,8 @@ class AgentSpecParser ( Parser ):
         def END(self):
             return self.getToken(AgentSpecParser.END, 0)
 
-        def queryClause(self):
-            return self.getTypedRuleContext(AgentSpecParser.QueryClauseContext,0)
+        def prepareClause(self):
+            return self.getTypedRuleContext(AgentSpecParser.PrepareClauseContext,0)
 
 
         def getRuleIndex(self):
@@ -265,7 +261,7 @@ class AgentSpecParser ( Parser ):
             _la = self._input.LA(1)
             if _la==3:
                 self.state = 40
-                self.queryClause()
+                self.prepareClause()
 
 
             self.state = 43
@@ -330,52 +326,52 @@ class AgentSpecParser ( Parser ):
         return localctx
 
 
-    class QueryClauseContext(ParserRuleContext):
+    class PrepareClauseContext(ParserRuleContext):
         __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def QUERY(self):
-            return self.getToken(AgentSpecParser.QUERY, 0)
+        def PREPARE(self):
+            return self.getToken(AgentSpecParser.PREPARE, 0)
 
-        def query(self, i:int=None):
+        def prepare(self, i:int=None):
             if i is None:
-                return self.getTypedRuleContexts(AgentSpecParser.QueryContext)
+                return self.getTypedRuleContexts(AgentSpecParser.PrepareContext)
             else:
-                return self.getTypedRuleContext(AgentSpecParser.QueryContext,i)
+                return self.getTypedRuleContext(AgentSpecParser.PrepareContext,i)
 
 
         def getRuleIndex(self):
-            return AgentSpecParser.RULE_queryClause
+            return AgentSpecParser.RULE_prepareClause
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterQueryClause" ):
-                listener.enterQueryClause(self)
+            if hasattr( listener, "enterPrepareClause" ):
+                listener.enterPrepareClause(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitQueryClause" ):
-                listener.exitQueryClause(self)
+            if hasattr( listener, "exitPrepareClause" ):
+                listener.exitPrepareClause(self)
 
 
 
 
-    def queryClause(self):
+    def prepareClause(self):
 
-        localctx = AgentSpecParser.QueryClauseContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 6, self.RULE_queryClause)
+        localctx = AgentSpecParser.PrepareClauseContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 6, self.RULE_prepareClause)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 50
-            self.match(AgentSpecParser.QUERY)
+            self.match(AgentSpecParser.PREPARE)
             self.state = 52 
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
                 self.state = 51
-                self.query()
+                self.prepare()
                 self.state = 54 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
@@ -575,7 +571,7 @@ class AgentSpecParser ( Parser ):
         return localctx
 
 
-    class QueryContext(ParserRuleContext):
+    class PrepareContext(ParserRuleContext):
         __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -591,44 +587,28 @@ class AgentSpecParser ( Parser ):
         def EQ(self):
             return self.getToken(AgentSpecParser.EQ, 0)
 
-        def LBRACE(self):
-            return self.getToken(AgentSpecParser.LBRACE, 0)
+        def value(self):
+            return self.getTypedRuleContext(AgentSpecParser.ValueContext,0)
 
-        def kvPair(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(AgentSpecParser.KvPairContext)
-            else:
-                return self.getTypedRuleContext(AgentSpecParser.KvPairContext,i)
-
-
-        def RBRACE(self):
-            return self.getToken(AgentSpecParser.RBRACE, 0)
-
-        def COMMA(self, i:int=None):
-            if i is None:
-                return self.getTokens(AgentSpecParser.COMMA)
-            else:
-                return self.getToken(AgentSpecParser.COMMA, i)
 
         def getRuleIndex(self):
-            return AgentSpecParser.RULE_query
+            return AgentSpecParser.RULE_prepare
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterQuery" ):
-                listener.enterQuery(self)
+            if hasattr( listener, "enterPrepare" ):
+                listener.enterPrepare(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitQuery" ):
-                listener.exitQuery(self)
+            if hasattr( listener, "exitPrepare" ):
+                listener.exitPrepare(self)
 
 
 
 
-    def query(self):
+    def prepare(self):
 
-        localctx = AgentSpecParser.QueryContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 14, self.RULE_query)
-        self._la = 0 # Token type
+        localctx = AgentSpecParser.PrepareContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 14, self.RULE_prepare)
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 73
@@ -638,23 +618,7 @@ class AgentSpecParser ( Parser ):
             self.state = 75
             self.match(AgentSpecParser.EQ)
             self.state = 76
-            self.match(AgentSpecParser.LBRACE)
-            self.state = 77
-            self.kvPair()
-            self.state = 82
-            self._errHandler.sync(self)
-            _la = self._input.LA(1)
-            while _la==14:
-                self.state = 78
-                self.match(AgentSpecParser.COMMA)
-                self.state = 79
-                self.kvPair()
-                self.state = 84
-                self._errHandler.sync(self)
-                _la = self._input.LA(1)
-
-            self.state = 85
-            self.match(AgentSpecParser.RBRACE)
+            self.value(0)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -710,17 +674,17 @@ class AgentSpecParser ( Parser ):
         self.enterRule(localctx, 16, self.RULE_condition)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 87
+            self.state = 78
             self.match(AgentSpecParser.EVAL_OP)
-            self.state = 88
+            self.state = 79
             self.match(AgentSpecParser.LPAREN)
-            self.state = 89
+            self.state = 80
             self.value(0)
-            self.state = 90
+            self.state = 81
             self.match(AgentSpecParser.COMMA)
-            self.state = 91
+            self.state = 82
             self.value(0)
-            self.state = 92
+            self.state = 83
             self.match(AgentSpecParser.RPAREN)
         except RecognitionException as re:
             localctx.exception = re
@@ -738,8 +702,8 @@ class AgentSpecParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def IDENTIFIER(self):
-            return self.getToken(AgentSpecParser.IDENTIFIER, 0)
+        def STRING(self):
+            return self.getToken(AgentSpecParser.STRING, 0)
 
         def COLON(self):
             return self.getToken(AgentSpecParser.COLON, 0)
@@ -768,11 +732,11 @@ class AgentSpecParser ( Parser ):
         self.enterRule(localctx, 18, self.RULE_kvPair)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 94
-            self.match(AgentSpecParser.IDENTIFIER)
-            self.state = 95
+            self.state = 85
+            self.match(AgentSpecParser.STRING)
+            self.state = 86
             self.match(AgentSpecParser.COLON)
-            self.state = 96
+            self.state = 87
             self.value(0)
         except RecognitionException as re:
             localctx.exception = re
@@ -804,11 +768,8 @@ class AgentSpecParser ( Parser ):
             return self.getTypedRuleContext(AgentSpecParser.ActionInvokeContext,0)
 
 
-        def value(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(AgentSpecParser.ValueContext)
-            else:
-                return self.getTypedRuleContext(AgentSpecParser.ValueContext,i)
+        def value(self):
+            return self.getTypedRuleContext(AgentSpecParser.ValueContext,0)
 
 
         def LBRACK(self):
@@ -839,32 +800,32 @@ class AgentSpecParser ( Parser ):
         self.enterRecursionRule(localctx, 20, self.RULE_value, _p)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 103
+            self.state = 94
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [27]:
-                self.state = 99
+                self.state = 90
                 self.match(AgentSpecParser.STRING)
                 pass
             elif token in [28, 29]:
-                self.state = 100
+                self.state = 91
                 self.number()
                 pass
             elif token in [26]:
-                self.state = 101
+                self.state = 92
                 self.match(AgentSpecParser.IDENTIFIER)
                 pass
             elif token in [23]:
-                self.state = 102
+                self.state = 93
                 self.actionInvoke()
                 pass
             else:
                 raise NoViableAltException(self)
 
             self._ctx.stop = self._input.LT(-1)
-            self.state = 112
+            self.state = 102
             self._errHandler.sync(self)
-            _alt = self._interp.adaptivePredict(self._input,8,self._ctx)
+            _alt = self._interp.adaptivePredict(self._input,7,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt==1:
                     if self._parseListeners is not None:
@@ -872,19 +833,19 @@ class AgentSpecParser ( Parser ):
                     _prevctx = localctx
                     localctx = AgentSpecParser.ValueContext(self, _parentctx, _parentState)
                     self.pushNewRecursionContext(localctx, _startState, self.RULE_value)
-                    self.state = 105
+                    self.state = 96
                     if not self.precpred(self._ctx, 2):
                         from antlr4.error.Errors import FailedPredicateException
                         raise FailedPredicateException(self, "self.precpred(self._ctx, 2)")
-                    self.state = 106
+                    self.state = 97
                     self.match(AgentSpecParser.LBRACK)
-                    self.state = 107
-                    self.value(0)
-                    self.state = 108
+                    self.state = 98
+                    self.match(AgentSpecParser.STRING)
+                    self.state = 99
                     self.match(AgentSpecParser.RBRACK) 
-                self.state = 114
+                self.state = 104
                 self._errHandler.sync(self)
-                _alt = self._interp.adaptivePredict(self._input,8,self._ctx)
+                _alt = self._interp.adaptivePredict(self._input,7,self._ctx)
 
         except RecognitionException as re:
             localctx.exception = re
@@ -928,17 +889,17 @@ class AgentSpecParser ( Parser ):
         localctx = AgentSpecParser.EnforcementContext(self, self._ctx, self.state)
         self.enterRule(localctx, 22, self.RULE_enforcement)
         try:
-            self.state = 117
+            self.state = 107
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [24]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 115
+                self.state = 105
                 self.match(AgentSpecParser.ENFORCEMENT)
                 pass
             elif token in [23]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 116
+                self.state = 106
                 self.actionInvoke()
                 pass
             else:
@@ -1012,33 +973,33 @@ class AgentSpecParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 119
+            self.state = 109
             self.match(AgentSpecParser.INVOKE)
-            self.state = 120
+            self.state = 110
             self.match(AgentSpecParser.LPAREN)
-            self.state = 121
+            self.state = 111
             self.match(AgentSpecParser.IDENTIFIER)
-            self.state = 122
+            self.state = 112
             self.match(AgentSpecParser.COMMA)
-            self.state = 123
+            self.state = 113
             self.match(AgentSpecParser.LBRACE)
-            self.state = 124
+            self.state = 114
             self.kvPair()
-            self.state = 129
+            self.state = 119
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==14:
-                self.state = 125
+                self.state = 115
                 self.match(AgentSpecParser.COMMA)
-                self.state = 126
+                self.state = 116
                 self.kvPair()
-                self.state = 131
+                self.state = 121
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 132
+            self.state = 122
             self.match(AgentSpecParser.RBRACE)
-            self.state = 133
+            self.state = 123
             self.match(AgentSpecParser.RPAREN)
         except RecognitionException as re:
             localctx.exception = re
@@ -1083,7 +1044,7 @@ class AgentSpecParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 135
+            self.state = 125
             _la = self._input.LA(1)
             if not(_la==28 or _la==29):
                 self._errHandler.recoverInline(self)

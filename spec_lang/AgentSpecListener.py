@@ -35,12 +35,12 @@ class AgentSpecListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by AgentSpecParser#queryClause.
-    def enterQueryClause(self, ctx:AgentSpecParser.QueryClauseContext):
+    # Enter a parse tree produced by AgentSpecParser#prepareClause.
+    def enterPrepareClause(self, ctx:AgentSpecParser.PrepareClauseContext):
         pass
 
-    # Exit a parse tree produced by AgentSpecParser#queryClause.
-    def exitQueryClause(self, ctx:AgentSpecParser.QueryClauseContext):
+    # Exit a parse tree produced by AgentSpecParser#prepareClause.
+    def exitPrepareClause(self, ctx:AgentSpecParser.PrepareClauseContext):
         pass
 
 
@@ -71,12 +71,12 @@ class AgentSpecListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by AgentSpecParser#query.
-    def enterQuery(self, ctx:AgentSpecParser.QueryContext):
+    # Enter a parse tree produced by AgentSpecParser#prepare.
+    def enterPrepare(self, ctx:AgentSpecParser.PrepareContext):
         pass
 
-    # Exit a parse tree produced by AgentSpecParser#query.
-    def exitQuery(self, ctx:AgentSpecParser.QueryContext):
+    # Exit a parse tree produced by AgentSpecParser#prepare.
+    def exitPrepare(self, ctx:AgentSpecParser.PrepareContext):
         pass
 
 

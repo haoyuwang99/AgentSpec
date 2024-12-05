@@ -1,6 +1,6 @@
 RULE=1
 TRIGGER=2
-QUERY=3
+PREPARE=3
 CHECK=4
 ENFORCE=5
 ACTION=6
@@ -29,7 +29,7 @@ INTEGER=28
 FLOAT=29
 'rule'=1
 'trigger'=2
-'query'=3
+'prepare'=3
 'check'=4
 'enforce'=5
 'act'=6

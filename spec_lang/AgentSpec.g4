@@ -3,7 +3,7 @@ grammar AgentSpec;
 // Lexer Rules
 RULE: 'rule';
 TRIGGER: 'trigger';
-QUERY: 'query';
+PREPARE: 'prepare';
 CHECK: 'check';
 ENFORCE: 'enforce';  
 ACTION: 'act';
@@ -36,14 +36,14 @@ program: rule* EOF;
 
 rule: RULE AT IDENTIFIER
       triggerClause
-      queryClause?
+      prepareClause?
       checkClause
       enforceClause
       END;
 
 triggerClause: TRIGGER event;
 
-queryClause: QUERY query+;
+prepareClause: PREPARE prepare+;
 
 checkClause: CHECK condition+;
 
@@ -51,13 +51,13 @@ enforceClause: ENFORCE enforcement+;
 
 event: ACTION IDENTIFIER | ANY;
 
-query: VAL IDENTIFIER EQ LBRACE kvPair (COMMA kvPair)* RBRACE;
+prepare: VAL IDENTIFIER EQ value;
 
 condition: EVAL_OP LPAREN value COMMA value RPAREN; 
 
-kvPair: IDENTIFIER COLON value;
+kvPair: STRING COLON value;
 
-value: STRING | number | IDENTIFIER | value LBRACK value RBRACK | actionInvoke;
+value: STRING | number | IDENTIFIER | value LBRACK STRING RBRACK | actionInvoke;
 
 enforcement: ENFORCEMENT | actionInvoke;
 
