@@ -1,24 +1,14 @@
 from antlr4 import *
-from spec_lang.AgentSpecListener import AgentSpecListener
-from tool import Tool
+import unittest
+from spec_lang.AgentSpecListener import AgentSpecListener 
 from spec_lang.AgentSpecLexer import AgentSpecLexer
 from spec_lang.AgentSpecParser import AgentSpecParser 
 
-class AgentInterpreter(AgentSpecListener):
+class RuleInterpreter(AgentSpecListener):
     
-    def __init__(self) -> None:
-        super().__init__()
-        self.event = ""
-        self.state_dict = {
-            "cur_act" : {
-                "name" : "ControlTrafficLight",
-                "intersection_id": 123,
-                "traffic_id": "pedestrain-north-west",
-                "status": "walk"
-            },
-            "cur_prompt" : "This is a test",
-            "history_trajectory": []
-        } #TODO: we should have global state here.
+    def __init__(self, rule_str ) -> None:
+        super().__init__() 
+        self.rule_str = rule_str
         self.check = False
     
     def enforce(self, ctx: AgentSpecParser.EnforcementContext):
@@ -60,9 +50,13 @@ class AgentInterpreter(AgentSpecListener):
   
     def eval_action_invoke(self, ctx: AgentSpecParser.ActionInvokeContext):
         action=  self.parse_action(ctx)
-        tool = Tool(action["name"], action["args"])
-        # TODO: HERE WE SHOULD HAVE AN INTERFACE TO CALL THE AGENT
-        return tool.invoke()
+        # TODO: indexing tools, then call
+        # tool = Tool(action["name"], action["args"]) 
+        # tool.invoke()
+        return {
+            "traffic_id": "vehicle-east-west",
+            "traffic_light_state": "green"
+        }
     
     def eval_val_id(self, id: str):
         if not id in self.state_dict:
@@ -97,10 +91,6 @@ class AgentInterpreter(AgentSpecListener):
                 raise ValueError(f"> {value.getText()}\n    error: {key} is not a key in {value.value().getText()}")
             return val[key] 
         raise ValueError(f"unsupported value type {value.getText()}")
-
-    def enterEvent(self, event: AgentSpecParser.EventContext):
-        self.event = event.getText()
-        return super().enterEvent(event) 
     
     def enterPrepare(self, ctx: AgentSpecParser.PrepareContext): 
         self.state_dict[ctx.IDENTIFIER().getText()] = self.eval_value(ctx.value())
@@ -113,10 +103,40 @@ class AgentInterpreter(AgentSpecListener):
     def enterEnforcement(self, ctx: AgentSpecParser.EnforcementContext):
         if self.check:
             print("enforce")
-            self.enforce(ctx)
+            self.enforce(ctx) 
 
-def main():
-    rule = """rule @conflict_traffic_light_status
+    def interpret(self, cur_action, cur_prompt, history_trajectory): 
+            
+        self.state_dict = {
+            "cur_act" : cur_action,
+            "cur_prompt" : cur_prompt,
+            "history_trajectory": history_trajectory
+        }  
+
+        input_stream = InputStream(self.rule_str)
+        lexer = AgentSpecLexer(input_stream)
+        token_stream = CommonTokenStream(lexer)
+        parser = AgentSpecParser(token_stream)
+
+        # Parse the input using the top-level rule (e.g., program)
+        tree = parser.program() 
+        walker = ParseTreeWalker()
+        
+        # TODO: error handling
+        walker.walk(self, tree) 
+        return
+ 
+class TestRuleInterpreter(unittest.TestCase):
+    def test_interpret(self):
+        cur_action = {
+            "name" : "ControlTrafficLight",
+            "intersection_id": 123,
+            "traffic_id": "pedestrain-north-west",
+            "traffic_light_state" : "walk"
+        }
+        cur_prompt = "This is a test"
+        history_trajectory = [] 
+        rule = """rule @conflict_traffic_light_status
 trigger 
     act ManageTrafficLightsStates
 prepare  
@@ -129,19 +149,9 @@ check
 enforce
     llm_self_reflect
 end
-"""
-    
-    input_stream = InputStream(rule)
-    lexer = AgentSpecLexer(input_stream)
-    token_stream = CommonTokenStream(lexer)
-    parser = AgentSpecParser(token_stream)
+""" 
+        rule_interpreter = RuleInterpreter(rule)
+        rule_interpreter.interpret(cur_action, cur_prompt, history_trajectory)
 
-    # Parse the input using the top-level rule (e.g., program)
-    tree = parser.program()
-    print(tree.toStringTree(recog=parser))
-    
-    interpreter = AgentInterpreter()
-    walker = ParseTreeWalker()
-    walker.walk(interpreter, tree)
-    
-main()
+if __name__ == "__main__":
+    unittest.main()

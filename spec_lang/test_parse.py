@@ -54,30 +54,30 @@ class TestAgentSpecParser(unittest.TestCase):
 if __name__ == "__main__":
     unittest.main()
 
-def main():
-    # Get input for testing
-    input_text = """
-    rule @inspect_dangerous_command_before_execution
-    trigger 
-        act TerminalExecute  
-    check 
-        llm_judge(cur_action["command"], "Return true if it is risky command, [description of risky command]")
-    enforce 
-        user_inspection
-    end
-    """
+# def main():
+#     # Get input for testing
+#     input_text = """
+#     rule @inspect_dangerous_command_before_execution
+#     trigger 
+#         act TerminalExecute  
+#     check 
+#         llm_judge(cur_action["command"], "Return true if it is risky command, [description of risky command]")
+#     enforce 
+#         user_inspection
+#     end
+#     """
 
-    # Create a lexer and parser
-    input_stream = InputStream(input_text)
-    lexer = AgentSpecLexer(input_stream)
-    token_stream = CommonTokenStream(lexer)
-    parser = AgentSpecParser(token_stream)
+#     # Create a lexer and parser
+#     input_stream = InputStream(input_text)
+#     lexer = AgentSpecLexer(input_stream)
+#     token_stream = CommonTokenStream(lexer)
+#     parser = AgentSpecParser(token_stream)
 
-    # Parse the input using the top-level rule (e.g., program)
-    tree = parser.program()
+#     # Parse the input using the top-level rule (e.g., program)
+#     tree = parser.program()
 
-    # Print the parse tree
-    print(tree.toStringTree(recog=parser))
+#     # Print the parse tree
+#     print(tree.toStringTree(recog=parser))
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
