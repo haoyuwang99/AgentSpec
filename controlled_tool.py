@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+from agent_rule import Rule
 from global_states import *
 from collections.abc import Awaitable
-from inspect import signature
+from inspect import signature 
+from typing import List
+
 from typing import (
     Any,
     Callable,
@@ -31,8 +34,8 @@ class ControlledTool(BaseTool):
     func: Optional[Callable[..., str]]
     """The function to run when the tool is called."""
     coroutine: Optional[Callable[..., Awaitable[str]]] = None
-    """The asynchronous version of the function."""
-
+    """The asynchronous version of the function.""" 
+    rules: Optional[List[Any]] = None
     # --- Runnable ---
 
     async def ainvoke(
@@ -92,18 +95,20 @@ class ControlledTool(BaseTool):
             if config_param := _get_runnable_config_param(self.func):
                 kwargs[config_param] = config
             # before execute the cmd, verify.
+            # TODO: use priority queue instead.
             for rule in self.rules:
-                # TODO:
                 #1. check if the rule is triggered.
-                if rule.trigger != self.name or rule.trigger != "any":
+                if not rule.triggered(self.name): 
                     continue
-
-                #2. interpret the following prepare/condition/enforce of the rule.
                 
+                # TODO:
+                #2. interpret the following prepare/condition/enforce of the rule.
+                rule.check()
 
-                #3. check the enforcement of the rule:
-                #   for USER_INSPECT, we either 1)continue if user authorized or 2) return an empty dict if not
-                #   for SELF_REFLECT, we exit the execution to let the agent execute an new option.
+                print(rule.get_enforcement())
+            #     #3. check the enforcement of the rule:
+            #     #   for USER_INSPECT, we either 1)continue if user authorized or 2) return an empty dict if not
+            #     #   for SELF_REFLECT, we exit the execution to let the agent execute an new option.
                 
             return self.func(*args, **kwargs)
         msg = "Tool does not support sync invocation."
@@ -129,6 +134,8 @@ class ControlledTool(BaseTool):
         return await super()._arun(
             *args, config=config, run_manager=run_manager, **kwargs
         )
+    
+    
 
     # TODO: this is for backwards compatibility, remove in future
     def __init__(
@@ -137,9 +144,9 @@ class ControlledTool(BaseTool):
         """Initialize tool."""
         super().__init__(  # type: ignore[call-arg]
             name=name, func=func, description=description, **kwargs
-        )
-        self.rules = rules
+        ) 
         registered_tools.add(name)
+        self.rules = rules
 
     @classmethod
     def from_function(

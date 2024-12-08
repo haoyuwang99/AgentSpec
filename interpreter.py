@@ -1,4 +1,5 @@
 from antlr4 import *
+from global_states import *
 import unittest
 from spec_lang.AgentSpecListener import AgentSpecListener 
 from spec_lang.AgentSpecLexer import AgentSpecLexer
@@ -23,30 +24,37 @@ class RuleInterpreter(AgentSpecListener):
         return {"name":name, "args": arg_dict}
 
     def eval_condition(self, ctx: AgentSpecParser.ConditionContext) -> bool:
-        arg0 = self.eval_value(ctx.value(0))
-        arg1 = self.eval_value(ctx.value(1))
-        op = ctx.EVAL_OP().getText()
-        if op == "eq":
-            return arg0 == arg1
-        elif op == "lt":
-            return arg0 < arg1
-        elif op == "gt":
-            return arg0 > arg1  
-        elif op == "leq":
-            return arg0 <= arg1
-        elif op == "geq":
-            return arg0 >= arg1 
-        elif op == "llm_judge":
-            #TODO: input: arg0 could be any value, 
-            #             arg1: a string discribing the requirement.
-            #      ouput: whether the requirement being satisfied. 
+        if ctx.TRUE() !=None:
             return True
-        elif op == "llm_emu":
-            #TODO: input: arg0: max risky score, return true if the score is less than arg0. let's say risk score (0-5)
-            #             arg1: evaluation metric descrition which map from emulation result to risky score.
-            return True
+        elif ctx.FALSE() !=None:
+            return False
+        elif ctx.NOT() !=None:
+            return not self.eval_condition(ctx.condition())
         else:
-            raise ValueError(f"unreachable: {op}") 
+            arg0 = self.eval_value(ctx.value(0))
+            arg1 = self.eval_value(ctx.value(1))
+            op = ctx.EVAL_OP().getText()
+            if op == "eq":
+                return arg0 == arg1
+            elif op == "lt":
+                return arg0 < arg1
+            elif op == "gt":
+                return arg0 > arg1  
+            elif op == "leq":
+                return arg0 <= arg1
+            elif op == "geq":
+                return arg0 >= arg1 
+            elif op == "llm_judge":
+                #TODO: input: arg0 could be any value, 
+                #             arg1: a string discribing the requirement.
+                #      ouput: whether the requirement being satisfied. 
+                return True
+            elif op == "llm_emu":
+                #TODO: input: arg0: max risky score, return true if the score is less than arg0. let's say risk score (0-5)
+                #             arg1: evaluation metric descrition which map from emulation result to risky score.
+                return True
+            else:
+                raise ValueError(f"unreachable: {op}") 
   
     def eval_action_invoke(self, ctx: AgentSpecParser.ActionInvokeContext):
         action=  self.parse_action(ctx)
@@ -101,15 +109,15 @@ class RuleInterpreter(AgentSpecListener):
         return super().enterCondition(ctx)
     
     def enterEnforcement(self, ctx: AgentSpecParser.EnforcementContext):
-        if self.check:
-            print("enforce")
-            self.enforce(ctx) 
+        if self.check: 
+            self.enforce = ctx.getText()
+        else : 
+            self.enforce = "none"
 
-    def interpret(self, cur_action, cur_prompt, history_trajectory): 
-            
+    def interpret(self, cur_action, user_input, history_trajectory): 
         self.state_dict = {
             "cur_act" : cur_action,
-            "cur_prompt" : cur_prompt,
+            "cur_prompt" : user_input,
             "history_trajectory": history_trajectory
         }  
 
@@ -123,8 +131,8 @@ class RuleInterpreter(AgentSpecListener):
         walker = ParseTreeWalker()
         
         # TODO: error handling
-        walker.walk(self, tree) 
-        return
+        walker.walk(self, tree)  
+        return self.enforce
  
 class TestRuleInterpreter(unittest.TestCase):
     def test_interpret(self):
@@ -136,20 +144,7 @@ class TestRuleInterpreter(unittest.TestCase):
         }
         cur_prompt = "This is a test"
         history_trajectory = [] 
-        rule = """rule @conflict_traffic_light_status
-trigger 
-    act ManageTrafficLightsStates
-prepare  
-    val light_states = invoke_action(CheckTrafficLightsStates, {"intersection_id":cur_act["intersection_id"]})
-check 
-    eq(light_states["traffic_id"],"vehicle-east-west")
-    eq(light_states["traffic_light_state"], "green") 
-    eq(cur_act["traffic_id"], "pedestrain-north-west")
-    eq(cur_act["traffic_light_state"], "walk")
-enforce
-    llm_self_reflect
-end
-""" 
+        rule = example_rule
         rule_interpreter = RuleInterpreter(rule)
         rule_interpreter.interpret(cur_action, cur_prompt, history_trajectory)
 

@@ -23,8 +23,9 @@ LBRACK: '[';
 RBRACK: ']';
 AT: '@';
 EQ: '=';
+NOT: '!';
 INVOKE: 'invoke_action';
-ENFORCEMENT: 'user_inspection' | 'llm_self_reflect'; //todo: customized enforcements
+ENFORCEMENT: 'user_inspection' | 'llm_self_reflect' | 'none'; //todo: customized enforcements
 WS: [ \t\r\n]+ -> skip; // Ignore whitespace
 IDENTIFIER: [a-zA-Z_][a-zA-Z0-9_]*; // Identifier rule
 STRING: '"' .*? '"'; // String literal
@@ -53,7 +54,7 @@ event: ACTION IDENTIFIER | ANY;
 
 prepare: VAL IDENTIFIER EQ value;
 
-condition: EVAL_OP LPAREN value COMMA value RPAREN; 
+condition: EVAL_OP LPAREN value COMMA value RPAREN | TRUE | FALSE | NOT condition; 
 
 kvPair: STRING COLON value;
 
