@@ -5,10 +5,10 @@ from global_states import *
 from spec_lang.AgentSpecListener import AgentSpecListener 
 from spec_lang.AgentSpecLexer import AgentSpecLexer
 from spec_lang.AgentSpecParser import AgentSpecParser 
-from interpreter import RuleInterpreter
+from interpreter import RuleInterpreter 
+from enforcement import Enforcement
 
-class RuleParser(AgentSpecListener):
-    
+class RuleParser(AgentSpecListener): 
     def enterEvent(self, ctx: AgentSpecParser.EventContext):
         if ctx.ACTION()!=None:
             self.event = ctx.IDENTIFIER().getText()
@@ -45,32 +45,3 @@ class Rule(object):
         enforcement = self.interpreter.interpret(action, input, traj) 
         return Enforcement(enforcement)
      
-class EnforceResult:
-    CONTINUE = 1
-    SELF_REFLECT = 2
-    FINISH = 3
-
-def none():
-    return EnforceResult.CONTINUE
-
-def llm_self_reflect():
-    return EnforceResult.SELF_REFLECT
-
-def user_inspection():
-    return EnforceResult.FINISH
- 
-
-class Enforcement : 
-       
-    enforcements = {
-        "none" : none,
-        "llm_self_reflect": llm_self_reflect,
-        "user_inspection" : user_inspection
-                    }
-
-    def __init__(self, enforce) -> None:
-        # index enforcement function 
-        self.enforce = enforce
-     
-    def apply(self) :
-        return self.enforcements[self.enforce]() 

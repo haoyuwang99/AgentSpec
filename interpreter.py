@@ -1,5 +1,6 @@
 from antlr4 import *
 from global_states import *
+from evaluator import *
 import unittest
 from spec_lang.AgentSpecListener import AgentSpecListener 
 from spec_lang.AgentSpecLexer import AgentSpecLexer
@@ -11,10 +12,9 @@ class RuleInterpreter(AgentSpecListener):
         super().__init__() 
         self.rule_str = rule_str
         self.check = False
-    
-    def enforce(self, ctx: AgentSpecParser.EnforcementContext):
-        return  
-
+        # table for indexing the value/condition 
+        self.cond_eval_history = {}  # "ID" -> {"val": true/false, "rationale": "why this condition is evaluated as false/true"}
+        
     def parse_action(self, ctx: AgentSpecParser.ActionInvokeContext):
         name = ctx.IDENTIFIER()
         arg_dict = {}
@@ -23,41 +23,29 @@ class RuleInterpreter(AgentSpecListener):
             arg_dict[self.eval_str(kv.STRING())] = self.eval_value(kv.value())    
         return {"name":name, "args": arg_dict}
 
-    def eval_condition(self, ctx: AgentSpecParser.ConditionContext) -> bool:
-        if ctx.TRUE() !=None:
+    def eval_condition(self, ctx: AgentSpecParser.ConditionContext) -> bool: 
+        cond_str = ctx.getText()
+        if ctx.TRUE() !=None: #for testing
             return True
-        elif ctx.FALSE() !=None:
+        elif ctx.FALSE() !=None: #for testing
             return False
         elif ctx.NOT() !=None:
-            return not self.eval_condition(ctx.condition())
+            if ctx.condition().NOT()!=None:
+                res = self.eval_condition(ctx.condition())
+            else :
+                res = not self.eval_condition(ctx.condition())
+                if res == False:
+                    self.cond_eval_history[ctx.getText()] ={"val": res, "rationale": f"the following condition is not satisfied: {res[ctx.condition().getText()]}"}
+            return res
         else:
-            arg0 = self.eval_value(ctx.value(0))
-            arg1 = self.eval_value(ctx.value(1))
+            values = map(lambda val_ctx: self.eval_value(val_ctx), ctx.value()) 
             op = ctx.EVAL_OP().getText()
-            if op == "eq":
-                return arg0 == arg1
-            elif op == "lt":
-                return arg0 < arg1
-            elif op == "gt":
-                return arg0 > arg1  
-            elif op == "leq":
-                return arg0 <= arg1
-            elif op == "geq":
-                return arg0 >= arg1 
-            elif op == "llm_judge":
-                #TODO: input: arg0 could be any value, 
-                #             arg1: a string discribing the requirement.
-                #      ouput: whether the requirement being satisfied. 
-                return True
-            elif op == "llm_emu":
-                #TODO: input: arg0: max risky score, return true if the score is less than arg0. let's say risk score (0-5)
-                #             arg1: evaluation metric descrition which map from emulation result to risky score.
-                return True
-            else:
-                raise ValueError(f"unreachable: {op}") 
+            evaluator = EVALUATOR_TO_CLASS[op](op)
+            self.cond_eval_history[cond_str] = evaluator(cond_str,values)
+            return res
   
     def eval_action_invoke(self, ctx: AgentSpecParser.ActionInvokeContext):
-        action=  self.parse_action(ctx)
+        action = self.parse_action(ctx)
         # TODO: indexing tools, then call
         # tool = Tool(action["name"], action["args"]) 
         # tool.invoke()

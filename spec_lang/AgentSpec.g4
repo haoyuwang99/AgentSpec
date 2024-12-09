@@ -12,7 +12,7 @@ VAL: 'val';
 TRUE: 'true';
 FALSE: 'false'; 
 END: 'end';
-EVAL_OP: 'gt' | 'lt' | 'eq' | 'geq' | 'leq' | 'llm_judge'; // todo: customized evaluator
+EVAL_OP: 'gt' | 'lt' | 'eq' | 'geq' | 'leq' | 'llm_judge' | 'tool_emu_judge'; // todo: customized evaluator
 COLON: ':'; 
 COMMA: ',';
 LPAREN: '(';
@@ -54,7 +54,7 @@ event: ACTION IDENTIFIER | ANY;
 
 prepare: VAL IDENTIFIER EQ value;
 
-condition: EVAL_OP LPAREN value COMMA value RPAREN | TRUE | FALSE | NOT condition; 
+condition: EVAL_OP LPAREN value (COMMA value)* RPAREN | TRUE | FALSE | NOT condition; 
 
 kvPair: STRING COLON value;
 
