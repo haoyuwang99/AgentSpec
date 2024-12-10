@@ -8,6 +8,6 @@ trigger
 check 
     true
 enforce
-    llm_self_reflect
+    llm
 end
 """ 

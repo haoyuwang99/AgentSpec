@@ -5,13 +5,14 @@ import unittest
 from spec_lang.AgentSpecListener import AgentSpecListener 
 from spec_lang.AgentSpecLexer import AgentSpecLexer
 from spec_lang.AgentSpecParser import AgentSpecParser 
+ 
 
 class RuleInterpreter(AgentSpecListener):
     
     def __init__(self, rule_str ) -> None:
         super().__init__() 
         self.rule_str = rule_str
-        self.check = False
+        self.check = True
         # table for indexing the value/condition 
         self.cond_eval_history = {}  # "ID" -> {"val": true/false, "rationale": "why this condition is evaluated as false/true"}
         
@@ -25,9 +26,11 @@ class RuleInterpreter(AgentSpecListener):
 
     def eval_condition(self, ctx: AgentSpecParser.ConditionContext) -> bool: 
         cond_str = ctx.getText()
-        if ctx.TRUE() !=None: #for testing
+        if ctx.TRUE() !=None: #for testing 
+            self.cond_eval_history[ctx.getText()] ={"val": True, "rationale": f"JUST TRUE, WHAT CAN I SAY? :-)"} 
             return True
         elif ctx.FALSE() !=None: #for testing
+            self.cond_eval_history[ctx.getText()] ={"val": False, "rationale": f"JUST TRUE, WHAT CAN I SAY? :-)"}
             return False
         elif ctx.NOT() !=None:
             if ctx.condition().NOT()!=None:
@@ -91,10 +94,9 @@ class RuleInterpreter(AgentSpecListener):
     def enterPrepare(self, ctx: AgentSpecParser.PrepareContext): 
         self.state_dict[ctx.IDENTIFIER().getText()] = self.eval_value(ctx.value())
 
-    def enterCondition(self, ctx: AgentSpecParser.ConditionContext):
-        print(self.state_dict)
-        self.check = self.eval_condition(ctx)
-        return super().enterCondition(ctx)
+    def enterCheckClause(self, ctx: AgentSpecParser.CheckClauseContext):
+        for cond in ctx.condition(): 
+            self.check =  self.check and self.eval_condition(cond) 
     
     def enterEnforcement(self, ctx: AgentSpecParser.EnforcementContext):
         if self.check: 
@@ -102,7 +104,7 @@ class RuleInterpreter(AgentSpecListener):
         else : 
             self.enforce = "none"
 
-    def interpret(self, cur_action, user_input, history_trajectory): 
+    def verify(self, cur_action, user_input, history_trajectory): 
         self.state_dict = {
             "cur_act" : cur_action,
             "cur_prompt" : user_input,
@@ -118,12 +120,11 @@ class RuleInterpreter(AgentSpecListener):
         tree = parser.program() 
         walker = ParseTreeWalker()
         
-        # TODO: error handling
-        walker.walk(self, tree)  
+        walker.walk(self, tree)   
         return self.enforce
- 
+    
 class TestRuleInterpreter(unittest.TestCase):
-    def test_interpret(self):
+    def test_check(self):
         cur_action = {
             "name" : "ControlTrafficLight",
             "intersection_id": 123,
@@ -134,7 +135,7 @@ class TestRuleInterpreter(unittest.TestCase):
         history_trajectory = [] 
         rule = example_rule
         rule_interpreter = RuleInterpreter(rule)
-        rule_interpreter.interpret(cur_action, cur_prompt, history_trajectory)
+        rule_interpreter.verify(cur_action, cur_prompt, history_trajectory)
 
 if __name__ == "__main__":
     unittest.main()

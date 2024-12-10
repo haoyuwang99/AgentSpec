@@ -17,17 +17,140 @@ from langchain_core.callbacks import BaseCallbackManager
 from langchain_core.language_models import BaseLanguageModel
 from langchain_core.tools import BaseTool
 
-from langchain._api.deprecation import AGENT_DEPRECATION_WARNING
-from controlled_agent_excector import ControlledAgentExecutor
+from langchain._api.deprecation import AGENT_DEPRECATION_WARNING 
 from langchain.agents.agent_types import AgentType
 from langchain.agents.loading import AGENT_TO_CLASS, load_agent
+from langchain_core.runnables import Runnable, RunnableConfig
+from typing import Dict
 
 
-@deprecated(
-    "0.1.0",
-    message=AGENT_DEPRECATION_WARNING,
-    removal="1.0",
-)
+class ControlledAgentExecutor(AgentExecutor) : 
+    rules: Optional[List[Rule]]
+    user_input: Optional[Dict[str, Any]] = None
+   
+    def invoke(
+        self,
+        input: Dict[str, Any],
+        config: Optional[RunnableConfig] = None,
+        **kwargs: Any):
+        self.user_input = input 
+        return super().invoke(input, config, **kwargs) 
+    
+    @classmethod
+    def from_agent_and_tools(cls, agent, tools, rules, callbacks = None, **kwargs):
+      
+        """Create from agent and tools.
+ 
+        Args:
+           agent: Agent to use.
+           tools: Tools to use.
+           callbacks: Callbacks to use.
+           kwargs: Additional arguments.
+ 
+        Returns:
+           AgentExecutor: Agent executor object.
+        """
+        return cls(
+           agent=agent,
+           tools=tools,
+           rules = rules,
+           callbacks=callbacks,
+           **kwargs,
+        ) 
+    
+    def validate_and_enforce(self, output: AgentAction, ctx: RuleContext): 
+        if self.rules==None:
+            raise ValueError("rule should not be none")
+        for rule in self.rules: 
+            if rule.triggered(output.tool):
+                stat, output = rule.verify_and_enforce(output.tool_input, ctx)
+                if stat == EnforceResult.CONTINUE:
+                    continue
+                elif stat == EnforceResult.FINISH:
+                    return output
+                elif stat == EnforceResult.SELF_REFLECT: 
+                    return self.validate_and_enforce(output, ctx)
+                else:
+                    raise ValueError("Unreachable")
+        return output
+
+    def _iter_next_step(self, name_to_tool_map, color_mapping, inputs, intermediate_steps, run_manager = None):
+        """Take a single step in the thought-action-observation loop. 
+        """
+        try:
+            intermediate_steps = self._prepare_intermediate_steps(intermediate_steps) 
+            # Call the LLM to see what to do.
+            output = self._action_agent.plan(
+                intermediate_steps,
+                callbacks=run_manager.get_child() if run_manager else None,
+                **inputs,
+            ) 
+           
+        except OutputParserException as e:
+            if isinstance(self.handle_parsing_errors, bool):
+                raise_error = not self.handle_parsing_errors
+            else:
+                raise_error = False
+            if raise_error:
+                raise ValueError(
+                    "An output parsing error occurred. "
+                    "In order to pass this error back to the agent and have it try "
+                    "again, pass `handle_parsing_errors=True` to the AgentExecutor. "
+                    f"This is the error: {str(e)}"
+                )
+            text = str(e)
+            if isinstance(self.handle_parsing_errors, bool):
+                if e.send_to_llm:
+                    observation = str(e.observation)
+                    text = str(e.llm_output)
+                else:
+                    observation = "Invalid or incomplete response"
+            elif isinstance(self.handle_parsing_errors, str):
+                observation = self.handle_parsing_errors
+            elif callable(self.handle_parsing_errors):
+                observation = self.handle_parsing_errors(e)
+            else:
+               raise ValueError("Got unexpected type of `handle_parsing_errors`")
+            output = AgentAction("_Exception", observation, text)
+            if run_manager:
+                run_manager.on_agent_action(output, color="green")
+            tool_run_kwargs = self._action_agent.tool_run_logging_kwargs()
+            observation = ExceptionTool().run(
+                output.tool_input,
+                verbose=self.verbose,
+                color=None,
+                callbacks=run_manager.get_child() if run_manager else None,
+                **tool_run_kwargs,
+            )
+            yield AgentStep(action=output, observation=observation)
+            return
+
+
+        ctx = RuleContext(
+            agent =self._action_agent,
+            intermediate_steps=intermediate_steps,
+            user_input=inputs
+        )
+        output = self.validate_and_enforce(output, ctx)
+        # If the tool chosen is the finishing tool, then we end and return.
+        if isinstance(output, AgentFinish):
+            yield output
+            return
+ 
+        actions: List[AgentAction]
+        if isinstance(output, AgentAction):
+            actions = [output]
+        else: 
+            print(type(output))
+            actions = output
+        for agent_action in actions:
+            yield agent_action
+        for agent_action in actions:
+            yield self._perform_agent_action(
+                name_to_tool_map, color_mapping, agent_action, run_manager
+            )
+ 
+         
 def initialize_agent(
     tools: Sequence[BaseTool],
     llm: BaseLanguageModel,
@@ -105,141 +228,3 @@ def initialize_agent(
         **kwargs,
     )
 
-class ControlledAgentExecutor(AgentExecutor) : 
-   rules: Optional[List[Rule]]
-   user_input: Optional[str] = None
-   
-   def invoke(self, user_input, config = None, **kwargs):
-       self.user_input = input 
-       return super().invoke(user_input, config, **kwargs)
-
-
-   @classmethod
-   def from_agent_and_tools(cls, agent, tools, rules, callbacks = None, **kwargs):
-      
-      """Create from agent and tools.
-
-      Args:
-         agent: Agent to use.
-         tools: Tools to use.
-         callbacks: Callbacks to use.
-         kwargs: Additional arguments.
-
-      Returns:
-         AgentExecutor: Agent executor object.
-      """
-      return cls(
-         agent=agent,
-         tools=tools,
-         rules = rules,
-         callbacks=callbacks,
-         **kwargs,
-      ) 
-   
-   #TODO: decouple this
-   def verify_and_enforce(self, inputs, intermediate_steps, output, depth, max_depth=3, run_manager = None):
-       if depth == max_depth:
-           return AgentFinish({"output": "llm self reflect exceeds max trials"}, "llm self reflect exceeds max trials")
-
-       if isinstance(output, AgentFinish):
-           return output
-       
-       action = output
-       print(action)
-       for rule in self.rules:
-           if not rule.triggered(action.tool):
-               continue 
-           
-           enforcement = rule.check(action, self.user_input, intermediate_steps)
-           res = enforcement.apply()
-
-           if res == EnforceResult.CONTINUE:
-               continue
-           elif res == EnforceResult.FINISH:
-               return AgentFinish({"output": f"action {str(action)} interrupted before execution"}, f"the action is interrupted as enforcement of {enforcement.get_name()}")
-           elif res == EnforceResult.SELF_REFLECT:
-               inputs_prime = inputs
-               # implement self-reflect, giving the feed back of previous action
-               inputs_prime["input"] = inputs_prime["input"]   + "\n "           
-               output_prime = self._action_agent.plan(
-                     intermediate_steps,
-                     callbacks=run_manager.get_child() if run_manager else None,
-                     **inputs_prime,
-               )  
-               action = self.verify_and_enforce(inputs_prime, intermediate_steps, output_prime, depth+1)
-           else:
-               raise ValueError("Not implemented") 
-       # if 
-       return action
-
-   def _iter_next_step(self, name_to_tool_map, color_mapping, inputs, intermediate_steps, run_manager = None):
-      """Take a single step in the thought-action-observation loop. 
-      """
-      try:
-         intermediate_steps = self._prepare_intermediate_steps(intermediate_steps)
-         print(inputs)
-         # Call the LLM to see what to do.
-         output = self._action_agent.plan(
-               intermediate_steps,
-               callbacks=run_manager.get_child() if run_manager else None,
-               **inputs,
-         ) 
-         
-      except OutputParserException as e:
-         if isinstance(self.handle_parsing_errors, bool):
-               raise_error = not self.handle_parsing_errors
-         else:
-               raise_error = False
-         if raise_error:
-               raise ValueError(
-                  "An output parsing error occurred. "
-                  "In order to pass this error back to the agent and have it try "
-                  "again, pass `handle_parsing_errors=True` to the AgentExecutor. "
-                  f"This is the error: {str(e)}"
-               )
-         text = str(e)
-         if isinstance(self.handle_parsing_errors, bool):
-               if e.send_to_llm:
-                  observation = str(e.observation)
-                  text = str(e.llm_output)
-               else:
-                  observation = "Invalid or incomplete response"
-         elif isinstance(self.handle_parsing_errors, str):
-               observation = self.handle_parsing_errors
-         elif callable(self.handle_parsing_errors):
-               observation = self.handle_parsing_errors(e)
-         else:
-               raise ValueError("Got unexpected type of `handle_parsing_errors`")
-         output = AgentAction("_Exception", observation, text)
-         if run_manager:
-               run_manager.on_agent_action(output, color="green")
-         tool_run_kwargs = self._action_agent.tool_run_logging_kwargs()
-         observation = ExceptionTool().run(
-               output.tool_input,
-               verbose=self.verbose,
-               color=None,
-               callbacks=run_manager.get_child() if run_manager else None,
-               **tool_run_kwargs,
-         )
-         yield AgentStep(action=output, observation=observation)
-         return
-
-      output = self.verify_and_enforce(inputs, intermediate_steps, output, 0)
-
-      # If the tool chosen is the finishing tool, then we end and return.
-      if isinstance(output, AgentFinish):
-         yield output
-         return
-
-      actions: List[AgentAction]
-      if isinstance(output, AgentAction):
-         actions = [output]
-      else:
-         raise ValueError("not implemented for this type")
-         actions = output
-      for agent_action in actions:
-         yield agent_action
-      for agent_action in actions:
-         yield self._perform_agent_action(
-               name_to_tool_map, color_mapping, agent_action, run_manager
-         )

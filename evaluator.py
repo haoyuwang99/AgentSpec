@@ -8,23 +8,23 @@ class EvalResult(BaseModel):
 class Evaluator(BaseModel):  
 
     eval_op:str
-    @abstractmethod
+    
     def __init__(self, eval_op):
         self.eval_op = eval_op
 
     @abstractmethod
-    def evaluate(arg0, arg1) -> EvalResult:
-        pass
-
+    def evaluate(self, arg0, arg1) -> EvalResult:
+        pass 
 class ToolEmulationJudge(Evaluator):
-    def evaluate(arg0, arg1) -> EvalResult:
+    def evaluate(self, arg0, arg1) -> EvalResult:
         return EvalResult(True,"")
 
 class LLMJudge(Evaluator):
-    def evaluate(arg0, arg1)-> EvalResult: 
+    def evaluate(self, arg0, arg1)-> EvalResult: 
         return EvalResult(True,"") 
 
 BASIC_EVALUATOR_IMPL = {
+    "neq": lambda x, y : x!=y,
     "eq" : lambda x, y : x==y,
     "lt" : lambda x, y : x<y,
     "leq" : lambda x, y : x<=y,
@@ -38,8 +38,7 @@ class BasicOpEvaluator(Evaluator):
         if eval_op not in BASIC_EVALUATOR_IMPL:
             raise ValueError(f"unknown basic conditional bin op {eval_op}")
         self.evaluator = BASIC_EVALUATOR_IMPL[eval_op]
-    
-
+        
     def evaluate(self, cond_str, values) -> EvalResult: 
         if len(values) !=2 :
             raise ValueError(f"Error: `{cond_str}`: opertor must have exactly 2 operands")
