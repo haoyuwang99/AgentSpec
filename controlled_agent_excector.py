@@ -1,3 +1,7 @@
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
 from langchain.agents.agent import AgentExecutor
 from typing import Optional
 from typing import List

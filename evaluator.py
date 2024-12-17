@@ -1,3 +1,7 @@
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
 from pydantic import BaseModel
 from abc import abstractmethod
 

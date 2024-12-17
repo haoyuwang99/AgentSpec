@@ -1,3 +1,7 @@
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
 from controlled_agent_excector import initialize_agent 
 from langchain.tools import Tool
 from langchain.chat_models import ChatOpenAI

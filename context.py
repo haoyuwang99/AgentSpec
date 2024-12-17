@@ -1,3 +1,7 @@
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
 from pydantic import BaseModel
 
 from langchain.agents.agent import BaseMultiActionAgent, BaseSingleActionAgent

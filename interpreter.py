@@ -1,3 +1,7 @@
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
 from antlr4 import *
 from global_states import *
 from evaluator import *

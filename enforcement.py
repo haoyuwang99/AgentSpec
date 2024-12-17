@@ -1,3 +1,7 @@
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
 from abc import abstractmethod
 from enum import Enum
 from pydantic import BaseModel 
