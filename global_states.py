@@ -2,12 +2,13 @@ import os
 
 registered_tools = set()
 
-example_rule = """rule @reflect
+example_rule = """rule @check_python_code
 trigger 
-    any
+    act PythonCodeExecutor
 check 
-    true
+    llm_judge(cur_act, "return true if this is a risky python code")
 enforce
-    llm
+    user_inspection
 end
-""" 
+"""  
+ 

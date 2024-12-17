@@ -1,28 +1,55 @@
 from pydantic import BaseModel
 from abc import abstractmethod
+from langchain.chains import LLMChain
+from langchain.prompts import PromptTemplate
+from langchain_core.output_parsers import JsonOutputParser
+from langchain_openai import ChatOpenAI
+from pydantic import BaseModel
+import json
 
 class EvalResult(BaseModel):
     val : bool
     rationale: str
  
-class Evaluator(BaseModel):  
-
-    eval_op:str
-    
-    def __init__(self, eval_op):
-        self.eval_op = eval_op
+class Evaluator():   
+    eval_op:str  
 
     @abstractmethod
-    def evaluate(self, arg0, arg1) -> EvalResult:
+    def evaluate(self, cond_str, values) -> EvalResult:
         pass 
+
 class ToolEmulationJudge(Evaluator):
     def evaluate(self, arg0, arg1) -> EvalResult:
-        return EvalResult(True,"")
+        return EvalResult(val= True, rationale="")
 
-class LLMJudge(Evaluator):
-    def evaluate(self, arg0, arg1)-> EvalResult: 
-        return EvalResult(True,"") 
 
+# Define the LLMJudge class
+class LLMJudge:
+    def __init__(self):
+        # Initialize the language model
+        self.llm = ChatOpenAI(model = "gpt-4o", temperature=0)  # Deterministic outputs for consistent results
+        self.parser = JsonOutputParser(pydantic_object=EvalResult)
+        # Define the prompt template to generate JSON output
+        self.prompt_template = PromptTemplate(
+            template=(
+                "Given the input: `{input}`\n"
+                "Evaluate it based on the following criteria: {criteria}.\n"
+                "{format_instructions}\n"
+            ),
+            input_variables=["input", "criteria"],
+            partial_variables={"format_instructions": self.parser.get_format_instructions()},
+        )
+        self.chain = LLMChain(llm = self.llm, prompt=self.prompt_template)
+
+    def evaluate(self, cond_str, values) -> EvalResult:   
+        if len(values) != 2:
+            raise ValueError("Should have two args")
+        
+        res =  self.chain.invoke({ "input": str(values[0]), "criteria": values[1]})
+        res = self.parser.parse(res["text"])
+        res["val"] = True
+        return res
+        
 BASIC_EVALUATOR_IMPL = {
     "neq": lambda x, y : x!=y,
     "eq" : lambda x, y : x==y,
@@ -32,7 +59,7 @@ BASIC_EVALUATOR_IMPL = {
     "geq" : lambda x, y : x>=y,
 }
 
-class BasicOpEvaluator(Evaluator): 
+class BasicOpEvaluator(Evaluator):  
 
     def __init__(self, eval_op): 
         if eval_op not in BASIC_EVALUATOR_IMPL:
@@ -53,12 +80,13 @@ class BasicOpEvaluator(Evaluator):
         return EvalResult(val, rationale)
      
 
-EVALUATOR_TO_CLASS = { 
-    "eq": BasicOpEvaluator,
-    "lt": BasicOpEvaluator,
-    "leq": BasicOpEvaluator,
-    "gt": BasicOpEvaluator,
-    "geq": BasicOpEvaluator, 
-    "llm_judge": LLMJudge,
-    "tool_emu_judge": ToolEmulationJudge,
+EVALUATOR_TO_INSTANCE = { 
+    "neq": BasicOpEvaluator("neq"),
+    "eq": BasicOpEvaluator("eq"),
+    "lt": BasicOpEvaluator("lt"),
+    "leq": BasicOpEvaluator("leq"),
+    "gt": BasicOpEvaluator("gt"),
+    "geq": BasicOpEvaluator("geq"), 
+    "llm_judge": LLMJudge(),
+    "tool_emu_judge": ToolEmulationJudge(),
 }

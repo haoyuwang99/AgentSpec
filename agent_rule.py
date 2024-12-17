@@ -6,14 +6,11 @@ from spec_lang.AgentSpecListener import AgentSpecListener
 from spec_lang.AgentSpecLexer import AgentSpecLexer
 from spec_lang.AgentSpecParser import AgentSpecParser 
 from interpreter import RuleInterpreter 
-from enforcement import ENFORCEMENT_TO_CLASS
-from pydantic import BaseModel
+from enforcement import ENFORCEMENT_TO_CLASS 
 from context import RuleContext
-
-from langchain.agents.agent import BaseMultiActionAgent, BaseSingleActionAgent
-from langchain_core.agents import AgentAction, AgentFinish
-from typing import Union, Optional, Any, List, Dict
  
+from langchain_core.agents import AgentAction, AgentFinish
+from typing import Union
 
 class RuleParser(AgentSpecListener): 
     def enterEvent(self, ctx: AgentSpecParser.EventContext):
@@ -48,7 +45,9 @@ class Rule(object):
 
         return Rule(example_rule, parser.getEvent())
     
-    def verify_and_enforce(self, action, ctx: RuleContext) -> Union[AgentFinish, AgentAction]: 
+    def verify_and_enforce(self, action: AgentAction, ctx: RuleContext) -> Union[AgentFinish, AgentAction]: 
+        print("aaa")
+        print(action)
         enforcement = self.interpreter.verify(action, ctx.user_input, ctx.intermediate_steps) 
         return ENFORCEMENT_TO_CLASS[enforcement](ctx=ctx).apply(action)
     

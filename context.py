@@ -5,7 +5,6 @@ from langchain_core.agents import AgentAction, AgentFinish
 from typing import Union, Optional, Any, List, Dict,Tuple
 from langchain_core.callbacks.base import Callbacks
  
-
 class RuleContext(BaseModel):
     agent: Union[BaseSingleActionAgent | BaseMultiActionAgent]
     intermediate_steps: List[Tuple[AgentAction, str]]

@@ -1,10 +1,9 @@
 from abc import abstractmethod
 from enum import Enum
 from pydantic import BaseModel 
-from langchain_core.agents import AgentAction ,AgentFinish
+from langchain_core.agents import AgentAction, AgentFinish
 from typing import Union , Tuple, Dict
 from context import RuleContext
- 
 
 class EnforceResult(Enum):
     CONTINUE =0
@@ -24,8 +23,27 @@ class EmptyEnforcement(Enforcement):
         return EnforceResult.CONTINUE, action
     
 class UserInspection(Enforcement):
-    def apply(self, action):
+      
+
+    def apply(self, action: AgentAction): 
+        """
+        Prompt the user to decide whether to take an action.
+        """
         user_auth = False
+
+        while True:
+            user_input = input(f"{str(action)}\n Do you want to perform the above action? (yes/no)\n").strip().lower()
+            if user_input in {"yes", "y"}:
+                print("Action confirmed. Proceeding...")
+                user_auth = True
+                break
+            elif user_input in {"no", "n"}:
+                print("Action declined. Exiting...")
+                user_auth = False
+                break          
+            else:
+                print("Invalid input. Please type 'yes' or 'no'.")
+
         if user_auth : 
             return EnforceResult.CONTINUE, action
         else : 

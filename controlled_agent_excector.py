@@ -58,14 +58,16 @@ class ControlledAgentExecutor(AgentExecutor) :
            **kwargs,
         ) 
     
-    def validate_and_enforce(self, output: AgentAction, ctx: RuleContext): 
+    def validate_and_enforce(self, output: Union[AgentAction|AgentFinish], ctx: RuleContext): 
         if self.rules==None:
             raise ValueError("rule should not be none")
+        if isinstance(output, AgentFinish):
+            return output
         for rule in self.rules: 
             if rule.triggered(output.tool):
-                stat, output = rule.verify_and_enforce(output.tool_input, ctx)
+                stat, output = rule.verify_and_enforce(output, ctx)
                 if stat == EnforceResult.CONTINUE:
-                    continue
+                    break
                 elif stat == EnforceResult.FINISH:
                     return output
                 elif stat == EnforceResult.SELF_REFLECT: 
@@ -131,7 +133,7 @@ class ControlledAgentExecutor(AgentExecutor) :
             intermediate_steps=intermediate_steps,
             user_input=inputs
         )
-        output = self.validate_and_enforce(output, ctx)
+        output = self.validate_and_enforce(output, ctx) 
         # If the tool chosen is the finishing tool, then we end and return.
         if isinstance(output, AgentFinish):
             yield output
@@ -151,7 +153,7 @@ class ControlledAgentExecutor(AgentExecutor) :
             )
  
          
-def initialize_agent(
+def initialize_controlled_agent(
     tools: Sequence[BaseTool],
     llm: BaseLanguageModel,
     agent: Optional[AgentType] = None,

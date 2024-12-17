@@ -4,9 +4,14 @@ from evaluator import *
 import unittest
 from spec_lang.AgentSpecListener import AgentSpecListener 
 from spec_lang.AgentSpecLexer import AgentSpecLexer
-from spec_lang.AgentSpecParser import AgentSpecParser 
- 
+from spec_lang.AgentSpecParser import AgentSpecParser  
+from antlr4.error.ErrorListener import ErrorListener
 
+class CustomErrorListener(ErrorListener): 
+    def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
+        error_message = f"Syntax error at line {line}, column {column}: {msg}"
+        raise ValueError(error_message)
+ 
 class RuleInterpreter(AgentSpecListener):
     
     def __init__(self, rule_str ) -> None:
@@ -41,10 +46,14 @@ class RuleInterpreter(AgentSpecListener):
                     self.cond_eval_history[ctx.getText()] ={"val": res, "rationale": f"the following condition is not satisfied: {res[ctx.condition().getText()]}"}
             return res
         else:
-            values = map(lambda val_ctx: self.eval_value(val_ctx), ctx.value()) 
+            values = []
+            for val_ctx in ctx.value() :
+                values.append(self.eval_value(val_ctx)) 
             op = ctx.EVAL_OP().getText()
-            evaluator = EVALUATOR_TO_CLASS[op](op)
-            self.cond_eval_history[cond_str] = evaluator(cond_str,values)
+            evaluator = EVALUATOR_TO_INSTANCE[op]
+            
+            res =  evaluator.evaluate(cond_str,values)
+            self.cond_eval_history[cond_str] = res
             return res
   
     def eval_action_invoke(self, ctx: AgentSpecParser.ActionInvokeContext):
@@ -115,6 +124,8 @@ class RuleInterpreter(AgentSpecListener):
         lexer = AgentSpecLexer(input_stream)
         token_stream = CommonTokenStream(lexer)
         parser = AgentSpecParser(token_stream)
+        parser.removeErrorListeners()  # Remove default ConsoleErrorListener
+        parser.addErrorListener(CustomErrorListener())
 
         # Parse the input using the top-level rule (e.g., program)
         tree = parser.program() 
