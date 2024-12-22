@@ -3,16 +3,15 @@ from enum import Enum
 from pydantic import BaseModel 
 from langchain_core.agents import AgentAction, AgentFinish
 from typing import Union , Tuple, Dict
-from context import RuleContext
+from state import RuleState
 
 class EnforceResult(Enum):
     CONTINUE =0
     FINISH = 1
     SELF_REFLECT = 2
 
-class Enforcement(BaseModel):    
-
-    ctx: RuleContext
+class Enforcement(BaseModel): 
+    state: RuleState
 
     @abstractmethod
     def apply(action) -> Tuple[Union[AgentFinish, AgentAction], EnforceResult]:  
@@ -22,8 +21,7 @@ class EmptyEnforcement(Enforcement):
     def apply(self, action):
         return EnforceResult.CONTINUE, action
     
-class UserInspection(Enforcement):
-      
+class UserInspection(Enforcement): 
 
     def apply(self, action: AgentAction): 
         """
@@ -52,13 +50,13 @@ class UserInspection(Enforcement):
 class LLMSelfReflect(Enforcement):
  
     def apply(self, action):
-        if self.ctx.reflection_depth > 3: #TODO: Magic Number
+        if self.state.reflection_depth > 3: #TODO: Magic Number
             return EnforceResult.FINISH, AgentFinish({"output": "llm self reflect exceeds max trials"}, "llm self reflect exceeds max trials")
 
         if isinstance(action, AgentFinish): 
             return EnforceResult.FINISH, action 
 
-        ctx = self.ctx
+        ctx = self.state
         inputs_prime = ctx.user_input
         ref_str =  f"""\n\nConsider the following (output,comment) pair for better action planning:
 Output action:{str(action)}

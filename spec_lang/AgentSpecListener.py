@@ -1,4 +1,4 @@
-# Generated from ./AgentSpec.g4 by ANTLR 4.13.2
+# Generated from ./spec_lang/AgentSpec.g4 by ANTLR 4.13.2
 from antlr4 import *
 if "." in __name__:
     from .AgentSpecParser import AgentSpecParser
@@ -23,6 +23,15 @@ class AgentSpecListener(ParseTreeListener):
 
     # Exit a parse tree produced by AgentSpecParser#rule.
     def exitRule(self, ctx:AgentSpecParser.RuleContext):
+        pass
+
+
+    # Enter a parse tree produced by AgentSpecParser#ruleClause.
+    def enterRuleClause(self, ctx:AgentSpecParser.RuleClauseContext):
+        pass
+
+    # Exit a parse tree produced by AgentSpecParser#ruleClause.
+    def exitRuleClause(self, ctx:AgentSpecParser.RuleClauseContext):
         pass
 
 
@@ -80,12 +89,12 @@ class AgentSpecListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by AgentSpecParser#condition.
-    def enterCondition(self, ctx:AgentSpecParser.ConditionContext):
+    # Enter a parse tree produced by AgentSpecParser#predicate.
+    def enterPredicate(self, ctx:AgentSpecParser.PredicateContext):
         pass
 
-    # Exit a parse tree produced by AgentSpecParser#condition.
-    def exitCondition(self, ctx:AgentSpecParser.ConditionContext):
+    # Exit a parse tree produced by AgentSpecParser#predicate.
+    def exitPredicate(self, ctx:AgentSpecParser.PredicateContext):
         pass
 
 

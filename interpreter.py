@@ -6,6 +6,12 @@ from spec_lang.AgentSpecListener import AgentSpecListener
 from spec_lang.AgentSpecLexer import AgentSpecLexer
 from spec_lang.AgentSpecParser import AgentSpecParser  
 from antlr4.error.ErrorListener import ErrorListener
+from rules.Command import Command
+from state import RuleState
+from enforcement import *
+from rule import Rule
+
+from langchain_core.agents import AgentAction, AgentFinish
 
 class CustomErrorListener(ErrorListener): 
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
@@ -14,11 +20,12 @@ class CustomErrorListener(ErrorListener):
  
 class RuleInterpreter(AgentSpecListener):
     
-    def __init__(self, rule_str ) -> None:
+    def __init__(self, rule: Rule, rule_state: RuleState) -> None:
         super().__init__() 
-        self.rule_str = rule_str
+        self.rule  = rule
         self.check = True
-        # table for indexing the value/condition 
+        self.rule_state = rule_state
+        # table for indexing the value/predicate 
         self.cond_eval_history = {}  # "ID" -> {"val": true/false, "rationale": "why this condition is evaluated as false/true"}
         
     def parse_action(self, ctx: AgentSpecParser.ActionInvokeContext):
@@ -29,7 +36,7 @@ class RuleInterpreter(AgentSpecListener):
             arg_dict[self.eval_str(kv.STRING())] = self.eval_value(kv.value())    
         return {"name":name, "args": arg_dict}
 
-    def eval_condition(self, ctx: AgentSpecParser.ConditionContext) -> bool: 
+    def eval_predicate(self, ctx: AgentSpecParser.PredicateContext) -> bool: 
         cond_str = ctx.getText()
         if ctx.TRUE() !=None: #for testing 
             self.cond_eval_history[ctx.getText()] ={"val": True, "rationale": f"JUST TRUE, WHAT CAN I SAY? :-)"} 
@@ -38,13 +45,16 @@ class RuleInterpreter(AgentSpecListener):
             self.cond_eval_history[ctx.getText()] ={"val": False, "rationale": f"JUST TRUE, WHAT CAN I SAY? :-)"}
             return False
         elif ctx.NOT() !=None:
-            if ctx.condition().NOT()!=None:
-                res = self.eval_condition(ctx.condition())
+            if ctx.predicate().NOT()!=None:
+                res = self.eval_predicate(ctx.predicate())
             else :
-                res = not self.eval_condition(ctx.condition())
+                res = not self.eval_predicate(ctx.predicate())
                 if res == False:
                     self.cond_eval_history[ctx.getText()] ={"val": res, "rationale": f"the following condition is not satisfied: {res[ctx.condition().getText()]}"}
             return res
+        elif ctx.CMD_PREDICATE() != None: 
+            # cmd = Command()
+            return True
         else:
             values = []
             for val_ctx in ctx.value() :
@@ -104,23 +114,26 @@ class RuleInterpreter(AgentSpecListener):
         self.state_dict[ctx.IDENTIFIER().getText()] = self.eval_value(ctx.value())
 
     def enterCheckClause(self, ctx: AgentSpecParser.CheckClauseContext):
-        for cond in ctx.condition(): 
-            self.check =  self.check and self.eval_condition(cond) 
+        for cond in ctx.predicate(): 
+            self.check = self.check and self.eval_predicate(cond) 
     
     def enterEnforcement(self, ctx: AgentSpecParser.EnforcementContext):
         if self.check: 
             self.enforce = ctx.getText()
         else : 
-            self.enforce = "none"
-
-    def verify(self, cur_action, user_input, history_trajectory): 
+            self.enforce = "none" 
+    
+     
+    def verify_and_enforce(self, action: AgentAction, state: RuleState) -> Union[AgentFinish, AgentAction]:  
+        print(action) 
+        
         self.state_dict = {
-            "cur_act" : cur_action,
-            "cur_prompt" : user_input,
-            "history_trajectory": history_trajectory
+            "cur_act": action.tool_input,
+            "cur_prompt": state.user_input,
+            "history_trajectory": state.intermediate_steps
         }  
 
-        input_stream = InputStream(self.rule_str)
+        input_stream = InputStream(self.rule.raw)
         lexer = AgentSpecLexer(input_stream)
         token_stream = CommonTokenStream(lexer)
         parser = AgentSpecParser(token_stream)
@@ -132,7 +145,8 @@ class RuleInterpreter(AgentSpecListener):
         walker = ParseTreeWalker()
         
         walker.walk(self, tree)   
-        return self.enforce
+        return ENFORCEMENT_TO_CLASS[self.enforce](state=state).apply(action)
+    
     
 class TestRuleInterpreter(unittest.TestCase):
     def test_check(self):
@@ -144,8 +158,8 @@ class TestRuleInterpreter(unittest.TestCase):
         }
         cur_prompt = "This is a test"
         history_trajectory = [] 
-        rule = example_rule
-        rule_interpreter = RuleInterpreter(rule)
+        rule = Rule.from_text(example_rule)
+        rule_interpreter = RuleInterpreter(rule, None)
         rule_interpreter.verify(cur_action, cur_prompt, history_trajectory)
 
 if __name__ == "__main__":

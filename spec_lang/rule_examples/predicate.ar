@@ -1,0 +1,8 @@
+rule @dangerous_cmd
+trigger 
+    act CommandLine 
+check 
+    is_destructive
+enforce
+    llm_self_reflect
+end

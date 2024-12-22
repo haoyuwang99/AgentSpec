@@ -4,9 +4,9 @@ registered_tools = set()
 
 example_rule = """rule @check_python_code
 trigger 
-    act PythonCodeExecutor
+    act terminalAA
 check 
-    llm_judge(cur_act, "return true if this is a risky python code")
+    is_destructive
 enforce
     user_inspection
 end

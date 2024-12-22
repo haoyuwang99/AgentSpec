@@ -5,7 +5,9 @@ from typing import List
 from langchain_core.exceptions import OutputParserException
 from langchain_core.agents import AgentAction, AgentFinish, AgentStep
 from langchain.agents.agent import ExceptionTool
-from agent_rule import *
+from interpreter import RuleInterpreter
+from rule import *
+from state import RuleState
 from enforcement import *
 
 """Load controlled agent."""
@@ -58,20 +60,21 @@ class ControlledAgentExecutor(AgentExecutor) :
            **kwargs,
         ) 
     
-    def validate_and_enforce(self, output: Union[AgentAction|AgentFinish], ctx: RuleContext): 
+    def validate_and_enforce(self, output: Union[AgentAction|AgentFinish], state: RuleState): 
         if self.rules==None:
             raise ValueError("rule should not be none")
         if isinstance(output, AgentFinish):
             return output
         for rule in self.rules: 
             if rule.triggered(output.tool):
-                stat, output = rule.verify_and_enforce(output, ctx)
-                if stat == EnforceResult.CONTINUE:
+                interpreter = RuleInterpreter(rule, state)
+                res, output = interpreter.verify_and_enforce(output, state)
+                if res == EnforceResult.CONTINUE:
                     break
-                elif stat == EnforceResult.FINISH:
+                elif res == EnforceResult.FINISH:
                     return output
-                elif stat == EnforceResult.SELF_REFLECT: 
-                    return self.validate_and_enforce(output, ctx)
+                elif res == EnforceResult.SELF_REFLECT: 
+                    return self.validate_and_enforce(output, state)
                 else:
                     raise ValueError("Unreachable")
         return output
@@ -128,12 +131,12 @@ class ControlledAgentExecutor(AgentExecutor) :
             return
 
 
-        ctx = RuleContext(
+        state = RuleState(
             agent =self._action_agent,
             intermediate_steps=intermediate_steps,
             user_input=inputs
         )
-        output = self.validate_and_enforce(output, ctx) 
+        output = self.validate_and_enforce(output, state) 
         # If the tool chosen is the finishing tool, then we end and return.
         if isinstance(output, AgentFinish):
             yield output

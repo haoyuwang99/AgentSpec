@@ -1,33 +1,27 @@
 from controlled_agent_excector import initialize_controlled_agent 
 from langchain.tools import Tool
 from langchain.chat_models import ChatOpenAI
-from langchain_experimental.tools import  PythonREPLTool
-from agent_rule import Rule
+from langchain_community.tools import ShellTool
+from rule import Rule
 from global_states import *
 import os
 
 # Initialize the LLM
-llm = ChatOpenAI(model = "gpt-4o-mini", temperature=0)  
-print("aaaa")
+llm = ChatOpenAI(model = "gpt-4o-mini", temperature=0)   
 
-def demo1():
- 
+def demo1(): 
     rule = Rule.from_text(example_rule) 
 
-    python_tool = Tool(
-        name="PythonCodeExecutor",
-        func=PythonREPLTool().run,
-        description="Use this to perform code tasks."
-    )
+    tool = ShellTool() 
 
     # Initialize the Agent
-    tools = [python_tool]
+    tools = [tool]
     # instead of use initialize agent from langchain, 
     # add rule for initialize controlled agent, where rules are list of rule strings. 
     agent = initialize_controlled_agent(tools, llm, agent="zero-shot-react-description", rules = [rule])
 
     # Interact with the Agent
-    response = agent.invoke("Can you help create a file named a.txt in current directory")
+    response = agent.invoke("Can you help delete the file named a.txt in current directory")
     print(response)
 
 demo1()
