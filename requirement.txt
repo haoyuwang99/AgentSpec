@@ -1,0 +1,7 @@
+antlr4-python3-runtime==4.13
+langchain==0.3.13
+langchain-core==0.3.28
+langchain-text-splitters==0.3.4
+langchain_openai==0.2.14
+langchain_community==0.3.13
+langchain_experimental==0.3.4

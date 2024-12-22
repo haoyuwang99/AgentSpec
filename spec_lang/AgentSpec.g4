@@ -24,8 +24,10 @@ RBRACK: ']';
 AT: '@';
 EQ: '=';
 NOT: '!';
+CMD_PREDICATE: 'is_git' | 'has_critical_redirection' | 'is_non_destructive' | 'is_within_length_limit'
+GIT_PREDICATE: 'is_on_dedicated_branch' | 'is_commit' | 'is_push' | 'is_minimal_change_commit' | 'is_up_to_date' | 'is_commit_msg_readable' | 'has_untracked_files' 
 INVOKE: 'invoke_action';
-ENFORCEMENT: 'user_inspection' | 'llm_self_reflect' | 'none'; //todo: customized enforcements
+ENFORCEMENT: 'user_inspection' | 'llm_self_reflect' | 'stop' | 'none'; //todo: customized enforcements
 WS: [ \t\r\n]+ -> skip; // Ignore whitespace
 IDENTIFIER: [a-zA-Z_][a-zA-Z0-9_]*; // Identifier rule
 STRING: '"' .*? '"'; // String literal
