@@ -1,13 +1,14 @@
 from pydantic import BaseModel
 
+from agent import Action
 from langchain.agents.agent import BaseMultiActionAgent, BaseSingleActionAgent
-from langchain_core.agents import AgentAction, AgentFinish
-from typing import Union, Optional, Any, List, Dict,Tuple
+from typing import Union, Optional, Any, List, Dict, Tuple
 from langchain_core.callbacks.base import Callbacks
  
 class RuleState(BaseModel):
-    agent: Union[BaseSingleActionAgent | BaseMultiActionAgent]
-    intermediate_steps: List[Tuple[AgentAction, str]]
+    action: Optional[Action] = None
+    agent: Union[BaseSingleActionAgent, BaseMultiActionAgent]
+    intermediate_steps: Any #todo: List[Tuple[AgentAction, str]]
     user_input: Optional[Union[str, Dict[str, Any]]] = None
     run_mannager: Optional[Any] = None
     merits: List[str] = []

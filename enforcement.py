@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from enum import Enum
 from pydantic import BaseModel 
-from langchain_core.agents import AgentAction, AgentFinish
+from agent import Action
 from typing import Union , Tuple, Dict
 from state import RuleState
 
@@ -14,16 +14,16 @@ class Enforcement(BaseModel):
     state: RuleState
 
     @abstractmethod
-    def apply(action) -> Tuple[Union[AgentFinish, AgentAction], EnforceResult]:  
+    def apply(action) -> Tuple[EnforceResult, Action]:  
         pass
 
 class EmptyEnforcement(Enforcement):
-    def apply(self, action):
+    def apply(self, action: Action) -> Tuple[EnforceResult, Action]:
         return EnforceResult.CONTINUE, action
     
 class UserInspection(Enforcement): 
 
-    def apply(self, action: AgentAction): 
+    def apply(self, action: Action) -> Tuple[EnforceResult, Action]: 
         """
         Prompt the user to decide whether to take an action.
         """
@@ -45,15 +45,15 @@ class UserInspection(Enforcement):
         if user_auth : 
             return EnforceResult.CONTINUE, action
         else : 
-           return EnforceResult.FINISH, AgentFinish({"output": "action interrupted by user"}, "action interrupted by user")
+           return EnforceResult.FINISH, Action.get_finish("" ,f"action {action.name}({action.input}) interrupted by user")
 
 class LLMSelfReflect(Enforcement):
  
-    def apply(self, action):
+    def apply(self, action: Action):
         if self.state.reflection_depth > 3: #TODO: Magic Number
-            return EnforceResult.FINISH, AgentFinish({"output": "llm self reflect exceeds max trials"}, "llm self reflect exceeds max trials")
+            return EnforceResult.FINISH, Action.get_finish("", "llm self reflect exceeds max trials")
 
-        if isinstance(action, AgentFinish): 
+        if action.is_finish(): 
             return EnforceResult.FINISH, action 
 
         ctx = self.state

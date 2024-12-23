@@ -10,8 +10,8 @@ from rules.Command import Command
 from state import RuleState
 from enforcement import *
 from rule import Rule
-
-from langchain_core.agents import AgentAction, AgentFinish
+from agent import Action
+ 
 
 class CustomErrorListener(ErrorListener): 
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
@@ -53,8 +53,9 @@ class RuleInterpreter(AgentSpecListener):
                     self.cond_eval_history[ctx.getText()] ={"val": res, "rationale": f"the following condition is not satisfied: {res[ctx.condition().getText()]}"}
             return res
         elif ctx.CMD_PREDICATE() != None: 
-            # cmd = Command()
-            return True
+            print(f"input: {self.rule_state.action.input}") 
+            cmd = Command(self.rule_state.action.input)
+            return cmd.eval(ctx.CMD_PREDICATE().getText())
         else:
             values = []
             for val_ctx in ctx.value() :
@@ -124,11 +125,10 @@ class RuleInterpreter(AgentSpecListener):
             self.enforce = "none" 
     
      
-    def verify_and_enforce(self, action: AgentAction, state: RuleState) -> Union[AgentFinish, AgentAction]:  
-        print(action) 
+    def verify_and_enforce(self, action: Action, state: RuleState) -> Action:
         
         self.state_dict = {
-            "cur_act": action.tool_input,
+            "cur_act": action.name,
             "cur_prompt": state.user_input,
             "history_trajectory": state.intermediate_steps
         }  

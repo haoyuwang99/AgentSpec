@@ -1,6 +1,7 @@
 from langchain.agents.agent import AgentExecutor
 from typing import Optional
-from typing import List
+from typing import List, Union
+from agent import Action
 
 from langchain_core.exceptions import OutputParserException
 from langchain_core.agents import AgentAction, AgentFinish, AgentStep
@@ -60,24 +61,24 @@ class ControlledAgentExecutor(AgentExecutor) :
            **kwargs,
         ) 
     
-    def validate_and_enforce(self, output: Union[AgentAction|AgentFinish], state: RuleState): 
+    def validate_and_enforce(self, action: Action, state: RuleState): 
         if self.rules==None:
-            raise ValueError("rule should not be none")
-        if isinstance(output, AgentFinish):
-            return output
+            raise ValueError("rules should not be none")
+        if action.is_finish():
+            return action
         for rule in self.rules: 
-            if rule.triggered(output.tool):
+            if rule.triggered(action.name):
                 interpreter = RuleInterpreter(rule, state)
-                res, output = interpreter.verify_and_enforce(output, state)
+                res, action = interpreter.verify_and_enforce(action, state)
                 if res == EnforceResult.CONTINUE:
                     break
                 elif res == EnforceResult.FINISH:
-                    return output
+                    return action
                 elif res == EnforceResult.SELF_REFLECT: 
-                    return self.validate_and_enforce(output, state)
+                    return self.validate_and_enforce(action, state)
                 else:
                     raise ValueError("Unreachable")
-        return output
+        return action
 
     def _iter_next_step(self, name_to_tool_map, color_mapping, inputs, intermediate_steps, run_manager = None):
         """Take a single step in the thought-action-observation loop. 
@@ -131,12 +132,16 @@ class ControlledAgentExecutor(AgentExecutor) :
             return
 
 
+        action = Action.from_langchain(output)
         state = RuleState(
+            action = action,
             agent =self._action_agent,
             intermediate_steps=intermediate_steps,
             user_input=inputs
         )
-        output = self.validate_and_enforce(output, state) 
+        # todo: need an adapter here.
+        action = self.validate_and_enforce(action, state) 
+        output = action.unwrap()
         # If the tool chosen is the finishing tool, then we end and return.
         if isinstance(output, AgentFinish):
             yield output
