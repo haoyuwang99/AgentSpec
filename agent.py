@@ -2,6 +2,7 @@ from abc import abstractmethod
 from pydantic import BaseModel 
 import langchain_core.agents
 from typing import Any, Union
+# key component of llm agent
 
 class Action(BaseModel):
 
@@ -37,3 +38,6 @@ class ControlledAgent():
     @abstractmethod
     def invoke():
         pass
+    
+class Tool():
+    pass

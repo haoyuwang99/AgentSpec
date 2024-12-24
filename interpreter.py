@@ -12,14 +12,12 @@ from enforcement import *
 from rule import Rule
 from agent import Action
  
-
 class CustomErrorListener(ErrorListener): 
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
         error_message = f"Syntax error at line {line}, column {column}: {msg}"
         raise ValueError(error_message)
  
 class RuleInterpreter(AgentSpecListener):
-    
     def __init__(self, rule: Rule, rule_state: RuleState) -> None:
         super().__init__() 
         self.rule  = rule

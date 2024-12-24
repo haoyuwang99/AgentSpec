@@ -2,7 +2,7 @@ from abc import abstractmethod
 from enum import Enum
 from pydantic import BaseModel 
 from agent import Action
-from typing import Union , Tuple, Dict
+from typing import Union, Tuple, Dict
 from state import RuleState
 
 class EnforceResult(Enum):
@@ -22,7 +22,6 @@ class EmptyEnforcement(Enforcement):
         return EnforceResult.CONTINUE, action
     
 class UserInspection(Enforcement): 
-
     def apply(self, action: Action) -> Tuple[EnforceResult, Action]: 
         """
         Prompt the user to decide whether to take an action.
