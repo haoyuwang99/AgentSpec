@@ -1,0 +1,32 @@
+rule @check_large_transfer
+trigger TransferFunds
+check
+    is_large_transfer
+enforce
+    stop
+end
+
+rule @check_statement_download
+trigger GetAccountStatement
+check
+    is_download_requested
+enforce
+    stop
+end
+
+rule @check_payment_date
+trigger PayBill
+check
+    is_payment_date_valid
+enforce
+    stop
+end
+
+rule @check_account_type
+trigger GetAccountInformation
+check
+    is_valid_account_type
+enforce
+    stop
+end
+

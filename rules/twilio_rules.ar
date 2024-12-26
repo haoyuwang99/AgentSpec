@@ -1,0 +1,32 @@
+rule @check_sensitive_content
+trigger SendSms
+check
+    contains_sensitive_information
+enforce
+    stop
+end
+
+rule @check_phone_number_format
+trigger SendSms
+check
+    is_valid_phone_number_format
+enforce
+    stop
+end
+
+rule @check_scheduled_time
+trigger SendSms
+check
+    is_inappropriate_scheduled_time
+enforce
+    stop
+end
+
+rule @check_critical_scheduled_action
+trigger CancelScheduledAction
+check
+    is_critical_scheduled_action
+enforce
+    stop
+end
+

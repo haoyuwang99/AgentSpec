@@ -1,0 +1,32 @@
+rule @check_transaction_limit
+trigger MakeTransaction
+check
+    is_transaction_amount_excessive
+enforce
+    stop
+end
+
+rule @check_investment_suitability
+trigger MakeTransaction
+check
+    is_investment_suitable
+enforce
+    stop
+end
+
+rule @check_risk_disclosure_acknowledgment
+trigger MakeTransaction
+check
+    has_acknowledged_risk_disclosures
+enforce
+    stop
+end
+
+rule @check_transaction_history_limit
+trigger ListTransactions
+check
+    is_transaction_history_request_excessive
+enforce
+    stop
+end
+

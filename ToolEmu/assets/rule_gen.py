@@ -199,6 +199,6 @@ def has_important_task(action_input: Dict, ctx) -> bool :
     with open("rules.json", 'a') as f: 
         f.write(res.json() + "\n")
         
-for name in toolkits:
-    generate_rules(toolkits[name])
-    
+# for name in toolkits:
+#     generate_rules(toolkits[name])
+

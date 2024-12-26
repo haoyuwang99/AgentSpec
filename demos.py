@@ -20,7 +20,7 @@ trigger
 check 
     is_destructive
 enforce
-    user_inspection
+    stop
 end
 """  
  
@@ -53,7 +53,7 @@ trigger
 check 
     true
 enforce
-    user_inspection
+    skip
 end
     """
     
@@ -80,9 +80,9 @@ end
     )
     
     executor.set_rules([rule])
-    outputs =  executor.invoke({"input":case["User Instruction"]})
+    outputs = executor.invoke({"input":case["User Instruction"]})
     outputs = replace_agent_action_with_list(outputs) 
-    print( outputs)
+    print(outputs)
 
 demo_toolemu()
     

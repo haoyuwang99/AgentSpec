@@ -8,6 +8,7 @@ from state import RuleState
 class EnforceResult(Enum):
     CONTINUE =0
     SKIP = 1
+    STOP = 2
     SELF_REFLECT = 2
 
 class Enforcement(BaseModel): 
@@ -20,6 +21,14 @@ class Enforcement(BaseModel):
 class EmptyEnforcement(Enforcement):
     def apply(self, action: Action) -> Tuple[EnforceResult, Action]:
         return EnforceResult.CONTINUE, action
+    
+class Skip(Enforcement):
+    def apply(self, action) -> Tuple[EnforceResult, Action]:
+        return EnforceResult.SKIP, Action.get_skip()
+
+class Stop(Enforcement):
+    def apply(self, action) -> Tuple[EnforceResult, Action]:
+        return EnforceResult.STOP, Action.get_finish(f"current execution is stopped by rule")
     
 class UserInspection(Enforcement): 
     def apply(self, action: Action) -> Tuple[EnforceResult, Action]: 
@@ -44,13 +53,13 @@ class UserInspection(Enforcement):
         if user_auth : 
             return EnforceResult.CONTINUE, action
         else : 
-           return EnforceResult.SKIP, Action.get_finish("" ,f"action {action.name}({action.input}) interrupted by user")
+           return EnforceResult.SKIP, Action.get_skip()
 
 class LLMSelfReflect(Enforcement):
  
     def apply(self, action: Action):
         if self.state.reflection_depth > 3: #TODO: Magic Number
-            return EnforceResult.SKIP, Action.get_finish("", "llm self reflect exceeds max trials")
+            return EnforceResult.SKIP, Action.get_skip()
 
         if action.is_finish(): 
             return EnforceResult.SKIP, action 
@@ -77,6 +86,7 @@ Comment:
 
 ENFORCEMENT_TO_CLASS = {
     "none" : EmptyEnforcement,
+    "skip" : Skip,
     "llm_self_reflect": LLMSelfReflect,
     "user_inspection" : UserInspection
 } 
