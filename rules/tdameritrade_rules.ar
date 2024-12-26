@@ -1,0 +1,16 @@
+rule @confirm_significant_trade
+trigger TradeStock
+check
+    is_significant_trade
+enforce
+    stop
+end
+
+rule @check_low_balance
+trigger TradeStock
+check
+    has_low_balance
+enforce
+    stop
+end
+

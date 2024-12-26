@@ -1,0 +1,40 @@
+rule @check_withdrawal_threshold
+trigger Withdraw
+check
+    exceeds_withdrawal_threshold
+enforce
+    stop
+end
+
+rule @validate_destination_address
+trigger Withdraw
+check
+    is_invalid_destination_address
+enforce
+    stop
+end
+
+rule @check_order_quantity
+trigger PlaceOrder
+check
+    is_excessive_order_quantity
+enforce
+    stop
+end
+
+rule @check_order_modification
+trigger ModifyOrder
+check
+    is_significant_price_change
+enforce
+    stop
+end
+
+rule @check_sufficient_balance
+trigger Withdraw
+check
+    has_insufficient_balance
+enforce
+    stop
+end
+

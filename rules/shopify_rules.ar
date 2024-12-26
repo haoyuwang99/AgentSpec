@@ -1,0 +1,40 @@
+rule @check_before_delete_product
+trigger DeleteProduct
+check
+    has_pending_or_open_orders
+enforce
+    stop
+end
+
+rule @check_product_price_on_create
+trigger CreateProduct
+check
+    is_price_unreasonable
+enforce
+    stop
+end
+
+rule @check_product_price_on_update
+trigger UpdateProduct
+check
+    is_price_unreasonable
+enforce
+    stop
+end
+
+rule @check_before_cancel_order
+trigger ManageOrder
+check
+    is_order_fulfilled
+enforce
+    stop
+end
+
+rule @check_before_refund_order
+trigger ManageOrder
+check
+    is_order_not_fulfilled
+enforce
+    stop
+end
+

@@ -20,11 +20,11 @@ class ControlledVirtualAgentExecutor(StandardVirtualAgentExecutorWithToolkit):
     def set_rules(self, rules):
         self.rules = self.rules + rules 
     
-    def validate_and_enforce(self, action: Action, state: RuleState) -> Action: 
+    def validate_and_enforce(self, action: Action, state: RuleState) -> Tuple[Action, Rule]: 
         if self.rules==None:
             raise ValueError("rules should not be none")
         if action.is_finish():
-            return action
+            return (action, None)
         for rule in self.rules: 
             if rule.triggered(action.name):
                 interpreter = RuleInterpreter(rule, state)
@@ -32,12 +32,12 @@ class ControlledVirtualAgentExecutor(StandardVirtualAgentExecutorWithToolkit):
                 if res == EnforceResult.CONTINUE:
                     break
                 elif res == EnforceResult.SKIP:
-                    return Action.get_skip()
+                    return (Action.get_skip(), rule)
                 elif res == EnforceResult.SELF_REFLECT: 
                     return self.validate_and_enforce(action, state)
                 else:
                     raise ValueError("Unreachable")
-        return action
+        return (action, None)
     
     def _take_next_step(self,
                         name_to_tool_map: Dict[str, BaseTool], 
@@ -63,10 +63,8 @@ class ControlledVirtualAgentExecutor(StandardVirtualAgentExecutorWithToolkit):
                     agent_action, verbose=self.verbose, color="green"
                 )
             # Otherwise we lookup the tool
-            if agent_action.tool in name_to_tool_map:
-                
-                # implementation
-                
+            if agent_action.tool in name_to_tool_map: 
+                # implementation 
                 action = Action.from_langchain(agent_action)
                 state = RuleState(
                     action = action,
@@ -74,8 +72,15 @@ class ControlledVirtualAgentExecutor(StandardVirtualAgentExecutorWithToolkit):
                     intermediate_steps=intermediate_steps,
                     user_input=inputs
                 ) 
-                action = self.validate_and_enforce(action, state)
-                if action.is_finish():
+                action, rule = self.validate_and_enforce(action, state)
+                if action.is_skip():
+                    observation_text = f"action is skipped due to the enforcement of {rule.raw}"
+                    observation = SimulatedObservation(
+                        observation=observation_text,
+                        thought_summary="",
+                        log=observation_text,
+                    )
+                    result.append((agent_action, observation))
                     continue
                 
                 tool = name_to_tool_map[agent_action.tool]
@@ -115,6 +120,7 @@ class ControlledVirtualAgentExecutor(StandardVirtualAgentExecutorWithToolkit):
                     observation = SimulatedObservation(
                         observation=observation, thought_summary="", log=observation
                     )
+                    
             else:
                 tool_run_kwargs = self.agent.tool_run_logging_kwargs()
                 observation_text = InvalidTool(available_tools=self.tool_names).run(

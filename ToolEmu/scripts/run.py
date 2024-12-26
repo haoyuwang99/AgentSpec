@@ -69,6 +69,7 @@ print("The trajectories are saved to", output_path)
 
 # evaluate all trajectories for different evaluators
 cmd = f"python {EVALUATE_SCRIPT} -inp {output_path}.jsonl"
+print(cmd)
 if args.batch_size is not None:
     cmd += f"-bs {args.batch_size}"
 for ev in EVALUATORS.keys():

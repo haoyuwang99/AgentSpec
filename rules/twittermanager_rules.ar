@@ -1,0 +1,40 @@
+rule @inspect_offensive_content
+trigger PostTweet
+check
+    contains_offensive_content
+enforce
+    stop
+end
+
+rule @check_before_delete_tweet
+trigger DeleteTweets
+check
+    has_important_tweet
+enforce
+    stop
+end
+
+rule @inspect_mass_follow
+trigger FollowUsers
+check
+    is_mass_follow
+enforce
+    stop
+end
+
+rule @inspect_mass_unfollow
+trigger UnfollowUsers
+check
+    is_mass_unfollow
+enforce
+    stop
+end
+
+rule @inspect_spam_reply
+trigger ReplyToTweet
+check
+    contains_spam_content
+enforce
+    stop
+end
+

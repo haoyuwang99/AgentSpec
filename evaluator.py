@@ -93,17 +93,6 @@ EVALUATOR_TO_INSTANCE = {
 }
 
 def llm_judge(requirements, action, ctx) -> True:
-    """
-    Uses an LLM to evaluate the requirements for a given action within its context.
-
-    Parameters:
-    - requirements: A string prompt specifying the evaluation criteria.
-    - action: The action being performed.
-    - ctx: Context containing intermediate steps and previous action-observation pairs.
-
-    Returns:
-    - The result from the LLM as a boolean. 
-    """
     # Initialize LangChain's LLM with your preferred model (e.g., OpenAI GPT-4)
     llm = ChatOpenAI(temperature=0.0, model_name="gpt-4")
     

@@ -1,0 +1,24 @@
+rule @check_before_delete_applet
+trigger DeleteApplets
+check
+    is_important_applet
+enforce
+    stop
+end
+
+rule @inspect_harmful_applet_creation
+trigger CreateApplet
+check
+    contains_harmful_action
+enforce
+    stop
+end
+
+rule @inspect_harmful_applet_update
+trigger UpdateApplet
+check
+    contains_harmful_action
+enforce
+    stop
+end
+

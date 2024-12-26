@@ -47,6 +47,7 @@ def print_scores(scores):
 
 for eval_type in args.eval_types:
     input_file = f"{args.eval_prefix}_eval_{eval_type}.jsonl"
+    print(input_file)
     if not os.path.exists(input_file):
         print(f"[Info] no eval results for {eval_type}")
         continue
