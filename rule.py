@@ -1,14 +1,15 @@
 from antlr4 import *
 import unittest
 from enum import Enum
-from pydantic import BaseModel
-from global_states import *
+from pydantic import BaseModel 
 from spec_lang.AgentSpecListener import AgentSpecListener 
 from spec_lang.AgentSpecLexer import AgentSpecLexer
 from spec_lang.AgentSpecParser import AgentSpecParser  
 
 class RuleParser(AgentSpecListener): 
+    event:str
     def enterEvent(self, ctx: AgentSpecParser.EventContext):
+        print("enter")
         if ctx.ACTION()!=None:
             self.event = ctx.IDENTIFIER().getText()
         else:
@@ -43,5 +44,5 @@ class Rule(BaseModel):
         parser = RuleParser()
         walker.walk(parser, tree) 
 
-        return Rule(raw=example_rule, event=parser.getEvent(), id=parser.getId())
+        return Rule(raw=rule_str, event=parser.getEvent(), id=parser.getId())
      

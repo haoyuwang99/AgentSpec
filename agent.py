@@ -9,12 +9,18 @@ class Action(BaseModel):
     name: str
     input: Any
     action: Any #
-
+    
+    def is_skip(self):
+        return self.name == "skip"
+    
     def is_finish(self):
         return self.name=="finish"
     
     def get_finish(output, log):
         return Action(name= "finish", input=None, action= langchain_core.agents.AgentFinish({"output": output}, log)) # TODO: map from different framework here.
+
+    def get_skip():
+        return Action(name = "skip", input = None, action=None)
 
     def from_langchain(action: Union[langchain_core.agents.AgentAction, langchain_core.agents.AgentFinish]):
         if isinstance(action, langchain_core.agents.AgentAction):

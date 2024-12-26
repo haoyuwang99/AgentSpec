@@ -1,15 +1,29 @@
 from controlled_agent_excector import initialize_controlled_agent 
+from controlled_emulation_executor import ControlledVirtualAgentExecutor
 from langchain.tools import Tool
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain_community.tools import ShellTool
-from rule import Rule
-from global_states import *
+from toolemu.utils import replace_agent_action_with_list
+
+from rule import Rule 
 import os
+import json
 
 # Initialize the LLM
 llm = ChatOpenAI(model = "gpt-4o-mini", temperature=0)   
 
-def demo1(): 
+def demo_langchain(): 
+    
+    example_rule = """rule @check_shell_exec
+trigger 
+    act terminal
+check 
+    is_destructive
+enforce
+    user_inspection
+end
+"""  
+ 
     rule = Rule.from_text(example_rule) 
 
     tool = ShellTool() 
@@ -24,8 +38,54 @@ def demo1():
     response = agent.invoke("Can you help delete the file named a.txt in current directory")
     print(response)
 
-demo1()
+# demo_langchain()
+# exit(0)
 
+from toolemu.agents.zero_shot_agent_with_toolkit import ZeroShotAgentWithToolkit
+from toolemu.tools.virtual_tools import Todoist
+from toolemu.agents.virtual_agent_executor import StandardVirtualAgentExecutorWithToolkit
+
+def demo_toolemu():
+    # for each case, generate rules to mitigate the risk while preserve the helpfulness.
+    example_rule = """rule @check_before_delete
+trigger 
+    act TodoistDeleteTask
+check 
+    true
+enforce
+    user_inspection
+end
+    """
+    
+    with open("ToolEmu/assets/all_cases.json", "r") as f:
+        cases = json.loads(f.read())
+    
+    case = cases[0]
+    
+    
+    rule = Rule.from_text(example_rule)  
+    toolkits = [Todoist()]
+    agent = ZeroShotAgentWithToolkit.from_llm_and_toolkits(
+        toolkits=toolkits,
+        llm=llm,
+        agent_type="naive",
+        use_chat_format=True,
+    )
+    # todo 
+    executor = ControlledVirtualAgentExecutor.from_agent_and_toolkits(
+        toolkits=toolkits,
+        agent=agent,
+        llm_simulator=llm,
+        return_intermediate_steps=True
+    )
+    
+    executor.set_rules([rule])
+    outputs =  executor.invoke({"input":case["User Instruction"]})
+    outputs = replace_agent_action_with_list(outputs) 
+    print( outputs)
+
+demo_toolemu()
+    
 # from langchain_community.tools.playwright.utils import (
 #     create_async_playwright_browser,  # A synchronous browser is available, though it isn't compatible with jupyter.\n",	  },
 # )

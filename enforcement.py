@@ -7,7 +7,7 @@ from state import RuleState
 
 class EnforceResult(Enum):
     CONTINUE =0
-    FINISH = 1
+    SKIP = 1
     SELF_REFLECT = 2
 
 class Enforcement(BaseModel): 
@@ -44,16 +44,16 @@ class UserInspection(Enforcement):
         if user_auth : 
             return EnforceResult.CONTINUE, action
         else : 
-           return EnforceResult.FINISH, Action.get_finish("" ,f"action {action.name}({action.input}) interrupted by user")
+           return EnforceResult.SKIP, Action.get_finish("" ,f"action {action.name}({action.input}) interrupted by user")
 
 class LLMSelfReflect(Enforcement):
  
     def apply(self, action: Action):
         if self.state.reflection_depth > 3: #TODO: Magic Number
-            return EnforceResult.FINISH, Action.get_finish("", "llm self reflect exceeds max trials")
+            return EnforceResult.SKIP, Action.get_finish("", "llm self reflect exceeds max trials")
 
         if action.is_finish(): 
-            return EnforceResult.FINISH, action 
+            return EnforceResult.SKIP, action 
 
         ctx = self.state
         inputs_prime = ctx.user_input
