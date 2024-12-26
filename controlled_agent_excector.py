@@ -72,7 +72,7 @@ class ControlledAgentExecutor(AgentExecutor) :
                 res, action = interpreter.verify_and_enforce(action, state)
                 if res == EnforceResult.CONTINUE:
                     break
-                elif res == EnforceResult.FINISH:
+                elif res == EnforceResult.SKIP:
                     return action
                 elif res == EnforceResult.SELF_REFLECT: 
                     return self.validate_and_enforce(action, state)
@@ -130,7 +130,6 @@ class ControlledAgentExecutor(AgentExecutor) :
             )
             yield AgentStep(action=output, observation=observation)
             return
-
 
         action = Action.from_langchain(output)
         state = RuleState(

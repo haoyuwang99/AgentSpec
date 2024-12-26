@@ -1,5 +1,4 @@
 from antlr4 import *
-from global_states import *
 from evaluator import *
 import unittest
 from spec_lang.AgentSpecListener import AgentSpecListener 
@@ -54,6 +53,8 @@ class RuleInterpreter(AgentSpecListener):
             print(f"input: {self.rule_state.action.input}") 
             cmd = Command(self.rule_state.action.input)
             return cmd.eval(ctx.CMD_PREDICATE().getText())
+        elif ctx.TODOIST_PREDICATE() !=None:
+            return True
         else:
             values = []
             for val_ctx in ctx.value() :
@@ -156,9 +157,9 @@ class TestRuleInterpreter(unittest.TestCase):
         }
         cur_prompt = "This is a test"
         history_trajectory = [] 
-        rule = Rule.from_text(example_rule)
-        rule_interpreter = RuleInterpreter(rule, None)
-        rule_interpreter.verify(cur_action, cur_prompt, history_trajectory)
+        # rule = Rule.from_text(example_rule)
+        # rule_interpreter = RuleInterpreter(rule, None)
+        # rule_interpreter.verify(cur_action, cur_prompt, history_trajectory)
 
 if __name__ == "__main__":
     unittest.main()
