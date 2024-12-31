@@ -1,0 +1,72 @@
+grammar AgentSpec;
+
+// Lexer Rules
+RULE: 'rule';
+TRIGGER: 'trigger';
+PREPARE: 'prepare';
+CHECK: 'check';
+ENFORCE: 'enforce';  
+ACTION: 'act';
+ANY: 'any'; 
+VAL: 'val';
+TRUE: 'true';
+FALSE: 'false'; 
+END: 'end';
+EVAL_OP: 'gt' | 'lt' | 'eq' | 'geq' | 'leq' | 'llm_judge' | 'tool_emu_judge'; // todo: customized evaluator 
+COLON: ':'; 
+COMMA: ',';
+LPAREN: '(';
+RPAREN: ')';
+LBRACE: '{';
+RBRACE: '}';
+LBRACK: '[';
+RBRACK: ']';
+AT: '@';
+EQ: '=';
+NOT: '!';
+TOOLEMU_PREDICATE:  'is_review_content_appropriate' | 'is_sensitive_address' | 'is_trusted_source' | 'is_malicious_intent' | 'is_excessive_order_quantity' | 'is_large_transfer' | 'is_transaction_amount_excessive' | 'is_important_document' | 'is_authorized_user' | 'is_significant_price_change' | 'person_identified' | 'contains_sensitive_information' | 'is_valid_unique_id' | 'is_harmful_scheduled_action' | 'is_valid_account_type' | 'is_reminder_time_valid' | 'is_sensitive_information_access' | 'is_important_data' | 'is_unauthorized_unlock_attempt' | 'is_important_channel' | 'is_harmful_action' | 'is_valid_phone_number_format' | 'is_investment_suitable' | 'is_important_item' | 'is_verification_accurate' | 'has_user_consent' | 'has_pending_or_open_orders' | 'is_significant_update' | 'contains_offensive_content' | 'is_unauthorized_clear' | 'allowed_operations_retrieved' | 'is_payment_method_valid' | 'has_important_tweet' | 'is_invalid_operation' | 'is_inappropriate_scheduled_time' | 'is_order_fulfilled' | 'is_sensitive_file' | 'is_sharing_level_can_edit' | 'is_high_priority_task' | 'has_important_event' | 'is_vital_patient_record' | 'is_permanent_access_request' | 'is_amount_within_balance' | 'user_owns_repository' | 'is_safe_url' | 'is_valid_file_path' | 'is_significant_diagnostic_report' | 'is_provided_data_format_correct' | 'has_important_notebook' | 'is_during_peak_hours' | 'is_suspicious_access_code_request' | 'contains_sensitive_news_keywords' | 'is_important_applet' | 'is_critical_update' | 'is_website_trusted' | 'is_sensitive_collaboration_action' | 'is_invalid_private_key_format' | 'is_critical_appointment' | 'is_generated_password_strong' | 'is_closing_incident' | 'is_download_requested' | 'is_high_gas_limit' | 'is_domain_safe' | 'is_redirection_to_new_location' | 'is_inappropriate_media' | 'is_safe_attachment' | 'is_product_in_cart' | 'is_contact_verified' | 'contains_spam_content' | 'is_invalid_quantity' | 'is_prescription_request_valid' | 'is_transaction_history_request_excessive' | 'contains_harmful_action' | 'is_event_verified' | 'exceeds_max_results' | 'is_mass_unfollow' | 'is_important_guest' | 'is_invalid_destination_address' | 'is_valid_action' | 'is_policy_in_use' | 'contains_sensitive_keywords' | 'is_price_unreasonable' | 'is_valid_package_details' | 'has_significant_refundable_amount' | 'contains_inappropriate_keywords' | 'is_event_time_range_valid' | 'is_public_post' | 'has_important_content' | 'is_excessive_quantity' | 'is_critical_scheduled_action' | 'exceeds_withdrawal_threshold' | 'is_untrusted_third_party' | 'is_significant_trade' | 'has_acknowledged_risk_disclosures' | 'is_edit_access' | 'is_order_not_fulfilled' | 'exceeds_max_grabbed_objects' | 'is_sensitive_input' | 'is_cancellation_confirmed' | 'has_insufficient_balance' | 'is_critical_domain' | 'is_access_necessary' | 'is_high_risk_operation' | 'is_valid_shipment_operation' | 'is_empty_message' | 'has_important_note' | 'is_important_email' | 'is_authorized_user_for_public_channel' | 'is_high_severity_incident' | 'is_destructive_command' | 'is_privacy_sensitive' | 'is_valid_sender_recipient_info' | 'has_important_task' | 'is_invalid_payment_info' | 'is_valid_phone_number' | 'is_unsafe_traffic_light_change' | 'is_password_strong' | 'is_payment_date_valid' | 'is_privacy_setting_risky' | 'is_critical_contact' | 'is_channel_owner' | 'is_mass_follow' | 'is_important_repository' | 'is_sensitive_destination' | 'is_search_term_specific' | 'contains_offensive_language' | 'is_valid_special_handling' | 'has_policy_conflict' | 'is_two_factor_enabled' | 'is_positive_amount' | 'is_export_location_secure' | 'is_high_priority_incident' | 'has_low_balance' | 'is_invalid_priority_time' | 'is_date_range_valid' | 'is_edit_access_link' | 'is_malicious_click';
+CMD_PREDICATE: 'is_git' | 'has_critical_redirection' | 'is_destructive' | 'is_within_length_limit' ;
+GIT_PREDICATE: 'is_on_dedicated_branch' | 'is_commit' | 'is_push' | 'is_minimal_change_commit' | 'is_up_to_date' | 'is_commit_msg_readable' | 'has_untracked_files';
+INVOKE: 'invoke_action';
+ENFORCEMENT: 'user_inspection' | 'llm_self_reflect' | 'stop' | 'none' | 'skip'; //todo: customized enforcements
+WS: [ \t\r\n]+ -> skip; // Ignore whitespace
+IDENTIFIER: [a-zA-Z_][a-zA-Z0-9_]*; // Identifier rule
+STRING: '"' .*? '"'; // String literal
+INTEGER: [0-9]+;                         // Whole numbers
+FLOAT: [0-9]+ '.' [0-9]* | '.' [0-9]+;   // Decimal numbers
+
+// Parser Rules
+program: rule* EOF; 
+
+rule: ruleClause
+      triggerClause
+      prepareClause?
+      checkClause
+      enforceClause
+      END;
+
+ruleClause: RULE AT IDENTIFIER;
+
+triggerClause: TRIGGER event;
+
+prepareClause: PREPARE prepare+;
+
+checkClause: CHECK predicate+;
+
+enforceClause: ENFORCE enforcement+; 
+
+event: IDENTIFIER | ANY;
+
+prepare: VAL IDENTIFIER EQ value;
+
+predicate: EVAL_OP LPAREN value (COMMA value)* RPAREN | TRUE | FALSE | NOT predicate | CMD_PREDICATE | GIT_PREDICATE | TOOLEMU_PREDICATE; 
+
+kvPair: STRING COLON value;
+
+value: STRING | number | IDENTIFIER | value LBRACK STRING RBRACK | actionInvoke;
+
+enforcement: ENFORCEMENT | actionInvoke;
+
+actionInvoke: INVOKE LPAREN IDENTIFIER COMMA LBRACE kvPair (COMMA kvPair)* RBRACE RPAREN;
+  
+number: INTEGER | FLOAT;
