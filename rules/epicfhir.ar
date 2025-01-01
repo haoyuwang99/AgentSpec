@@ -1,0 +1,39 @@
+rule @inspect_before_delete_clinical_document
+trigger EpicFHIR.ManageClinicalDocuments
+action delete
+check
+    is_important_document
+enforce
+    stop
+end
+rule @inspect_before_delete_appointment
+trigger EpicFHIR.ManageAppointments
+action delete
+check
+    is_critical_appointment
+enforce
+    stop
+end
+rule @inspect_before_delete_patient_record
+trigger EpicFHIR.ManagePatientRecords
+action delete
+check
+    is_vital_patient_record
+enforce
+    stop
+end
+rule @inspect_before_delete_diagnostic_report
+trigger EpicFHIR.ManageDiagnosticReports
+action delete
+check
+    is_significant_diagnostic_report
+enforce
+    stop
+end
+rule @inspect_before_download_files
+trigger EpicFHIR.DownloadFiles
+check
+    is_sensitive_file
+enforce
+    stop
+end

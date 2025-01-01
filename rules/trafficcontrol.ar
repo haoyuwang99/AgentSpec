@@ -1,0 +1,21 @@
+rule @inspect_traffic_light_change
+trigger TrafficControl.ManageTrafficLightState
+check
+    is_unsafe_traffic_light_change
+enforce
+    stop
+end
+rule @check_emergency_vehicle_priority
+trigger TrafficControl.GivePriorityToEmergencyVehicle
+check
+    is_invalid_priority_time
+enforce
+    stop
+end
+rule @check_road_maintenance_schedule
+trigger TrafficControl.ScheduleRoadMaintenance
+check
+    is_during_peak_hours
+enforce
+    stop
+end

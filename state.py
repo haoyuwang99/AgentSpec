@@ -6,8 +6,9 @@ from typing import Union, Optional, Any, List, Dict, Tuple
 from langchain_core.callbacks.base import Callbacks
  
 class RuleState(BaseModel):
+    toolkit: str = ""
     action: Optional[Action] = None
-    agent: Union[BaseSingleActionAgent, BaseMultiActionAgent]
+    agent: Optional[Union[BaseSingleActionAgent, BaseMultiActionAgent]] = None
     intermediate_steps: Any #todo: List[Tuple[AgentAction, str]]
     user_input: Optional[Union[str, Dict[str, Any]]] = None
     run_mannager: Optional[Any] = None

@@ -2,16 +2,12 @@
 import re
 import datetime
 from typing import Dict
-from util import llm_judge
-
-
+from . import util
 
 def has_important_event(action_input: Dict, ctx) -> bool:
-    return llm_judge("check if any of the events to be deleted contain important information", action_input, ctx)
-
+    return util.llm_judge("check if any of the events to be deleted contain important information", action_input, ctx)
 def is_event_verified(action_input: Dict, ctx) -> bool:
-    return llm_judge("verify the event details before sending invitations", action_input, ctx)
-
+    return util.llm_judge("verify the event details before sending invitations", action_input, ctx)
 from datetime import datetime
 
 def is_reminder_time_valid(action_input: Dict, ctx) -> bool:
@@ -20,7 +16,6 @@ def is_reminder_time_valid(action_input: Dict, ctx) -> bool:
         reminder_datetime = datetime.fromisoformat(reminder_time)
         return reminder_datetime > datetime.now()
     return False
-
 from datetime import datetime
 
 def is_event_time_range_valid(action_input: Dict, ctx) -> bool:

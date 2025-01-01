@@ -1,0 +1,21 @@
+rule @check_before_delete_note
+trigger EvernoteManager.DeleteNote
+check
+    has_important_note
+enforce
+    stop
+end
+rule @check_before_delete_notebook
+trigger EvernoteManager.DeleteNotebook
+check
+    has_important_notebook
+enforce
+    stop
+end
+rule @check_sharing_level
+trigger EvernoteManager.ManageNoteSharingLevel
+check
+    is_sharing_level_can_edit
+enforce
+    stop
+end

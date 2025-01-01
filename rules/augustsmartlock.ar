@@ -1,0 +1,28 @@
+rule @inspect_before_unlock
+trigger AugustSmartLock.UnlockDoor
+check
+    is_unauthorized_unlock_attempt
+enforce
+    stop
+end
+rule @inspect_before_delete_guest
+trigger AugustSmartLock.DeleteGuest
+check
+    is_important_guest
+enforce
+    stop
+end
+rule @inspect_before_grant_permanent_access
+trigger AugustSmartLock.GrantGuestAccess
+check
+    is_permanent_access_request
+enforce
+    stop
+end
+rule @inspect_before_generate_temp_access_code
+trigger AugustSmartLock.GenerateTemporaryAccessCode
+check
+    is_suspicious_access_code_request
+enforce
+    stop
+end

@@ -1,15 +1,15 @@
-from antlr4 import *
-from evaluator import *
+from antlr4 import * 
 import unittest
 from spec_lang.AgentSpecListener import AgentSpecListener 
 from spec_lang.AgentSpecLexer import AgentSpecLexer
 from spec_lang.AgentSpecParser import AgentSpecParser  
-from antlr4.error.ErrorListener import ErrorListener
-from rules.Command import Command
+from antlr4.error.ErrorListener import ErrorListener 
 from state import RuleState
 from enforcement import *
 from rule import Rule
 from agent import Action
+from rules.predicate_table import *
+ 
  
 class CustomErrorListener(ErrorListener): 
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
@@ -48,12 +48,18 @@ class RuleInterpreter(AgentSpecListener):
                 res = not self.eval_predicate(ctx.predicate())
                 if res == False:
                     self.cond_eval_history[ctx.getText()] ={"val": res, "rationale": f"the following condition is not satisfied: {res[ctx.condition().getText()]}"}
-            return res
-        elif ctx.CMD_PREDICATE() != None: 
-            print(f"input: {self.rule_state.action.input}") 
-            cmd = Command(self.rule_state.action.input)
-            return cmd.eval(ctx.CMD_PREDICATE().getText())
-        elif ctx.TODOIST_PREDICATE() !=None:
+            return res 
+        elif ctx.TOOLEMU_PREDICATE() !=None:
+            if self.rule.toolkit == "any":
+                raise ValueError("rule for toolemu must specify toolkit")
+            # todo: map the predicate to function execution  
+            print()
+            toolkit = self.rule.toolkit
+            predicate = ctx.TOOLEMU_PREDICATE().getText()
+            print(toolkit_table[toolkit])
+            
+            # link to 
+            exit(0)
             return True
         else:
             values = []
@@ -75,11 +81,6 @@ class RuleInterpreter(AgentSpecListener):
             "traffic_id": "vehicle-east-west",
             "traffic_light_state": "green"
         }
-    
-    def eval_val_id(self, id: str):
-        if not id in self.state_dict:
-            raise ValueError(f"> {id}\n error: undefined value {id}")
-        return self.state_dict[id]
 
     def eval_number(self, num: AgentSpecParser.NumberContext):
         if num.INTEGER() != None:
@@ -109,9 +110,6 @@ class RuleInterpreter(AgentSpecListener):
                 raise ValueError(f"> {value.getText()}\n    error: {key} is not a key in {value.value().getText()}")
             return val[key] 
         raise ValueError(f"unsupported value type {value.getText()}")
-    
-    def enterPrepare(self, ctx: AgentSpecParser.PrepareContext): 
-        self.state_dict[ctx.IDENTIFIER().getText()] = self.eval_value(ctx.value())
 
     def enterCheckClause(self, ctx: AgentSpecParser.CheckClauseContext):
         for cond in ctx.predicate(): 
@@ -124,14 +122,8 @@ class RuleInterpreter(AgentSpecListener):
             self.enforce = "none" 
     
      
-    def verify_and_enforce(self, action: Action, state: RuleState) -> Action:
+    def verify_and_enforce(self, action: Action) -> Action:
         
-        self.state_dict = {
-            "cur_act": action.name,
-            "cur_prompt": state.user_input,
-            "history_trajectory": state.intermediate_steps
-        }  
-
         input_stream = InputStream(self.rule.raw)
         lexer = AgentSpecLexer(input_stream)
         token_stream = CommonTokenStream(lexer)
@@ -144,7 +136,7 @@ class RuleInterpreter(AgentSpecListener):
         walker = ParseTreeWalker()
         
         walker.walk(self, tree)   
-        return ENFORCEMENT_TO_CLASS[self.enforce](state=state).apply(action)
+        return ENFORCEMENT_TO_CLASS[self.enforce](state=self.rule_state).apply(action)
     
     
 class TestRuleInterpreter(unittest.TestCase):
@@ -157,9 +149,29 @@ class TestRuleInterpreter(unittest.TestCase):
         }
         cur_prompt = "This is a test"
         history_trajectory = [] 
+        
         # rule = Rule.from_text(example_rule)
         # rule_interpreter = RuleInterpreter(rule, None)
         # rule_interpreter.verify(cur_action, cur_prompt, history_trajectory)
 
+def test_interpret():
+    example = """rule @check_before_delete
+trigger 
+    Todoist.TodoistDeleteTask
+check 
+    has_important_task
+enforce
+    skip
+end
+"""
+    rule = Rule.from_text(example)
+    from langchain_core.agents import AgentAction
+    action = Action.from_langchain(AgentAction(tool="TodoistDeleteTask", tool_input={"task_id": "1"}, log=""))
+    state = RuleState(action=action, agent = None, intermediate_steps=[])
+    interp = RuleInterpreter(rule, state)
+    
+    interp.verify_and_enforce(action)
+    pass
+
 if __name__ == "__main__":
-    unittest.main()
+    test_interpret()

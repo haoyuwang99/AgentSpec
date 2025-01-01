@@ -69,7 +69,7 @@ class ControlledAgentExecutor(AgentExecutor) :
         for rule in self.rules: 
             if rule.triggered(action.name):
                 interpreter = RuleInterpreter(rule, state)
-                res, action = interpreter.verify_and_enforce(action, state)
+                res, action = interpreter.verify_and_enforce(action)
                 if res == EnforceResult.CONTINUE:
                     break
                 elif res == EnforceResult.SKIP:
@@ -150,7 +150,6 @@ class ControlledAgentExecutor(AgentExecutor) :
         if isinstance(output, AgentAction):
             actions = [output]
         else: 
-            print(type(output))
             actions = output
         for agent_action in actions:
             yield agent_action

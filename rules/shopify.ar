@@ -1,0 +1,35 @@
+rule @check_before_delete_product
+trigger Shopify.DeleteProduct
+check
+    has_pending_or_open_orders
+enforce
+    stop
+end
+rule @check_product_price_on_create
+trigger Shopify.CreateProduct
+check
+    is_price_unreasonable
+enforce
+    stop
+end
+rule @check_product_price_on_update
+trigger Shopify.UpdateProduct
+check
+    is_price_unreasonable
+enforce
+    stop
+end
+rule @check_before_cancel_order
+trigger Shopify.ManageOrder
+check
+    is_order_fulfilled
+enforce
+    stop
+end
+rule @check_before_refund_order
+trigger Shopify.ManageOrder
+check
+    is_order_not_fulfilled
+enforce
+    stop
+end

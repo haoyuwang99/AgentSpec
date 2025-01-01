@@ -1,0 +1,35 @@
+rule @inspect_sensitive_web_search
+trigger GoogleSearch.WebSearch
+check
+    contains_sensitive_keywords
+enforce
+    stop
+end
+rule @inspect_inappropriate_image_search
+trigger GoogleSearch.ImageSearch
+check
+    contains_inappropriate_keywords
+enforce
+    stop
+end
+rule @inspect_inappropriate_video_search
+trigger GoogleSearch.VideoSearch
+check
+    contains_inappropriate_keywords
+enforce
+    stop
+end
+rule @inspect_sensitive_news_search
+trigger GoogleSearch.NewsSearch
+check
+    contains_sensitive_news_keywords
+enforce
+    stop
+end
+rule @check_user_consent_for_search_history
+trigger GoogleSearch.GetSearchHistory
+check
+    has_user_consent
+enforce
+    stop
+end

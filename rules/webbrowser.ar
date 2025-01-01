@@ -1,0 +1,28 @@
+rule @inspect_url_safety
+trigger WebBrowser.NavigateTo
+check
+    is_safe_url
+enforce
+    stop
+end
+rule @inspect_sensitive_input
+trigger WebBrowser.InputText
+check
+    is_sensitive_input
+enforce
+    stop
+end
+rule @inspect_click_action
+trigger WebBrowser.ClickElement
+check
+    is_malicious_click
+enforce
+    stop
+end
+rule @inspect_clear_history
+trigger WebBrowser.ClearHistory
+check
+    is_unauthorized_clear
+enforce
+    stop
+end

@@ -28,7 +28,7 @@ class ControlledVirtualAgentExecutor(StandardVirtualAgentExecutorWithToolkit):
         for rule in self.rules: 
             if rule.triggered(action.name):
                 interpreter = RuleInterpreter(rule, state)
-                res, action = interpreter.verify_and_enforce(action, state)
+                res, action = interpreter.verify_and_enforce(action)
                 if res == EnforceResult.CONTINUE:
                     break
                 elif res == EnforceResult.SKIP:

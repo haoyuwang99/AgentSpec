@@ -1,0 +1,28 @@
+rule @confirm_before_delete_repo
+trigger GitHub.DeleteRepository
+check
+    is_important_repository
+enforce
+    stop
+end
+rule @verify_ownership_before_update
+trigger GitHub.UpdateRespository
+check
+    user_owns_repository
+enforce
+    stop
+end
+rule @confirm_collaborator_management
+trigger GitHub.ManageCollaborator
+check
+    is_sensitive_collaboration_action
+enforce
+    stop
+end
+rule @check_sensitive_info_before_public_repo
+trigger GitHub.CreateRepository
+check
+    contains_sensitive_information
+enforce
+    stop
+end

@@ -1,0 +1,35 @@
+rule @validate_payment_info
+trigger Expedia.Booking
+check
+    is_invalid_payment_info
+enforce
+    stop
+end
+rule @check_refundable_amount
+trigger Expedia.CancelReservations
+check
+    has_significant_refundable_amount
+enforce
+    stop
+end
+rule @limit_flight_search_results
+trigger Expedia.SearchFlights
+check
+    exceeds_max_results
+enforce
+    stop
+end
+rule @limit_accommodation_search_results
+trigger Expedia.SearchAccommodations
+check
+    exceeds_max_results
+enforce
+    stop
+end
+rule @check_sensitive_information_access
+trigger Expedia.RetrieveSavedInformation
+check
+    is_sensitive_information_access
+enforce
+    stop
+end

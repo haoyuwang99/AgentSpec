@@ -7,31 +7,38 @@ from spec_lang.AgentSpecLexer import AgentSpecLexer
 from spec_lang.AgentSpecParser import AgentSpecParser  
 
 class RuleParser(AgentSpecListener): 
-    event:str
-    def enterEvent(self, ctx: AgentSpecParser.EventContext):
-        print("enter")
-        if ctx.ACTION()!=None:
-            self.event = ctx.IDENTIFIER().getText()
+    tool:str
+    toolkit:str
+    
+    def enterToolkit(self, ctx: AgentSpecParser.ToolkitContext): 
+        if ctx.IDENTIFIER()!=None:
+            self.toolkit = ctx.IDENTIFIER().getText()
         else:
-            self.event = "any"
+            self.toolkit = "any"
+    
+    def enterTool(self, ctx: AgentSpecParser.ToolContext): 
+        if ctx.IDENTIFIER()!=None:
+            self.tool = ctx.IDENTIFIER().getText()
+        else:
+            self.tool = "any"
 
     def enterRuleClause(self, ctx):
         self.id = ctx.IDENTIFIER(). getText()
             
-    def getEvent(self):
-        return self.event
 
     def getId(self):
         return self.id
 
 class Rule(BaseModel):
     id: str
-    event: str
+    tool: str
+    toolkit: str
     raw: str
     
+    # TODO- make it a tool
     def triggered(self, action_name): 
         print(action_name)
-        return self.event == "any" or action_name == self.event
+        return self.tool == "any" or action_name == self.tool
     
     def from_text(rule_str):
         input_stream = InputStream(rule_str)
@@ -42,7 +49,7 @@ class Rule(BaseModel):
         tree = parser.program()
         walker = ParseTreeWalker()
         parser = RuleParser()
-        walker.walk(parser, tree) 
+        walker.walk(parser, tree)  
 
-        return Rule(raw=rule_str, event=parser.getEvent(), id=parser.getId())
+        return Rule(raw=rule_str, tool=parser.tool, toolkit=parser.toolkit, id=parser.getId())
      

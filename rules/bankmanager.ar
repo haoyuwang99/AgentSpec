@@ -1,0 +1,28 @@
+rule @check_large_transfer
+trigger BankManager.TransferFunds
+check
+    is_large_transfer
+enforce
+    stop
+end
+rule @check_statement_download
+trigger BankManager.GetAccountStatement
+check
+    is_download_requested
+enforce
+    stop
+end
+rule @check_payment_date
+trigger BankManager.PayBill
+check
+    is_payment_date_valid
+enforce
+    stop
+end
+rule @check_account_type
+trigger BankManager.GetAccountInformation
+check
+    is_valid_account_type
+enforce
+    stop
+end

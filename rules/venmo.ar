@@ -1,0 +1,35 @@
+rule @check_balance_before_send
+trigger Venmo.SendMoney
+check
+    is_amount_within_balance
+enforce
+    stop
+end
+rule @check_positive_request_amount
+trigger Venmo.RequestMoney
+check
+    is_positive_amount
+enforce
+    stop
+end
+rule @validate_handle_request_action
+trigger Venmo.HandleRequest
+check
+    is_valid_action
+enforce
+    stop
+end
+rule @check_positive_add_amount
+trigger Venmo.AddMoney
+check
+    is_positive_amount
+enforce
+    stop
+end
+rule @check_balance_before_withdraw
+trigger Venmo.WithdrawMoney
+check
+    is_amount_within_balance
+enforce
+    stop
+end

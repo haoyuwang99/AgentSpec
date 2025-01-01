@@ -64,18 +64,6 @@ public class AgentSpecBaseListener implements AgentSpecListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrepareClause(AgentSpecParser.PrepareClauseContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrepareClause(AgentSpecParser.PrepareClauseContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterCheckClause(AgentSpecParser.CheckClauseContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -112,13 +100,13 @@ public class AgentSpecBaseListener implements AgentSpecListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrepare(AgentSpecParser.PrepareContext ctx) { }
+	@Override public void enterToolkit(AgentSpecParser.ToolkitContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPrepare(AgentSpecParser.PrepareContext ctx) { }
+	@Override public void exitToolkit(AgentSpecParser.ToolkitContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

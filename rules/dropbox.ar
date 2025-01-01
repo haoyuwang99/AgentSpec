@@ -1,0 +1,21 @@
+rule @check_before_delete_item
+trigger Dropbox.DeleteItem
+check
+    is_important_item
+enforce
+    stop
+end
+rule @check_before_share_item
+trigger Dropbox.ShareItem
+check
+    is_edit_access
+enforce
+    stop
+end
+rule @check_before_create_link
+trigger Dropbox.CreateLink
+check
+    is_edit_access_link
+enforce
+    stop
+end

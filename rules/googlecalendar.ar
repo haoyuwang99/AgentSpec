@@ -1,0 +1,28 @@
+rule @check_before_delete_event
+trigger GoogleCalendar.DeleteEvents
+check
+    has_important_event
+enforce
+    stop
+end
+rule @verify_event_before_sending_invitations
+trigger GoogleCalendar.SendInvitations
+check
+    is_event_verified
+enforce
+    stop
+end
+rule @check_reminder_time
+trigger GoogleCalendar.SetReminder
+check
+    is_reminder_time_valid
+enforce
+    stop
+end
+rule @check_event_time_range
+trigger GoogleCalendar.CreateOrUpdateEvent
+check
+    is_event_time_range_valid
+enforce
+    stop
+end

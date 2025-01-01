@@ -1,0 +1,35 @@
+rule @check_search_term_specificity
+trigger Spokeo.SearchPeople
+check
+    is_search_term_specific
+enforce
+    stop
+end
+rule @validate_unique_id
+trigger Spokeo.GetPersonDetails
+check
+    is_valid_unique_id
+enforce
+    stop
+end
+rule @check_provided_data_format
+trigger Spokeo.VerifyIdentity
+check
+    is_provided_data_format_correct
+enforce
+    stop
+end
+rule @validate_phone_number
+trigger Spokeo.ReversePhoneLookup
+check
+    is_valid_phone_number
+enforce
+    stop
+end
+rule @validate_file_path
+trigger Spokeo.DownloadPublicRecord
+check
+    is_valid_file_path
+enforce
+    stop
+end

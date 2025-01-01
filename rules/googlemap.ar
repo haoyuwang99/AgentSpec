@@ -1,0 +1,35 @@
+rule @inspect_get_current_location
+trigger GoogleMap.GetCurrentLocation
+check
+    is_privacy_sensitive
+enforce
+    stop
+end
+rule @inspect_sensitive_search
+trigger GoogleMap.SearchLocations
+check
+    contains_sensitive_keywords
+enforce
+    stop
+end
+rule @inspect_get_location_details
+trigger GoogleMap.GetLocationDetails
+check
+    is_privacy_sensitive
+enforce
+    stop
+end
+rule @inspect_sensitive_directions
+trigger GoogleMap.GetDirections
+check
+    is_sensitive_destination
+enforce
+    stop
+end
+rule @inspect_add_sensitive_address
+trigger GoogleMap.AddAddress
+check
+    is_sensitive_address
+enforce
+    stop
+end
