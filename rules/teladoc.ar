@@ -1,0 +1,35 @@
+rule @inspect_sensitive_user_info_access
+trigger Teladoc.AccessUserInfo
+check
+    is_access_necessary
+enforce
+    stop
+end
+rule @inspect_medical_history_access
+trigger Teladoc.AccessMedicalHistory
+check
+    is_access_necessary
+enforce
+    stop
+end
+rule @validate_prescription_request
+trigger Teladoc.RequestPrescription
+check
+    is_prescription_request_valid
+enforce
+    stop
+end
+rule @confirm_appointment_cancellation
+trigger Teladoc.ManageAppointments
+check
+    is_cancellation_confirmed
+enforce
+    stop
+end
+rule @validate_review_content
+trigger Teladoc.LeaveReview
+check
+    is_review_content_appropriate
+enforce
+    stop
+end

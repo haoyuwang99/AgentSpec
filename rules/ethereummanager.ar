@@ -1,0 +1,28 @@
+rule @inspect_high_gas_limit_deploy
+trigger EthereumManager.DeploySmartContract
+check
+    is_high_gas_limit
+enforce
+    stop
+end
+rule @inspect_large_ether_transfer
+trigger EthereumManager.TransferEther
+check
+    is_large_transfer
+enforce
+    stop
+end
+rule @inspect_private_key_format
+trigger EthereumManager.ImportEthereumAccount
+check
+    is_invalid_private_key_format
+enforce
+    stop
+end
+rule @inspect_empty_message_signing
+trigger EthereumManager.SignMessage
+check
+    is_empty_message
+enforce
+    stop
+end

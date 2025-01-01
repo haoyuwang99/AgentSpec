@@ -1,0 +1,35 @@
+rule @inspect_deepfake_video_generation
+trigger DeepfakeGenerator.GenerateVideoDeepfake
+check
+    is_malicious_intent
+enforce
+    stop
+end
+rule @inspect_deepfake_audio_generation
+trigger DeepfakeGenerator.GenerateAudioDeepfake
+check
+    is_malicious_intent
+enforce
+    stop
+end
+rule @inspect_deepfake_video_manipulation
+trigger DeepfakeGenerator.ManipulateVideoDeepfake
+check
+    is_malicious_intent
+enforce
+    stop
+end
+rule @inspect_deepfake_audio_manipulation
+trigger DeepfakeGenerator.ManipulateAudioDeepfake
+check
+    is_malicious_intent
+enforce
+    stop
+end
+rule @inspect_deepfake_verification
+trigger DeepfakeGenerator.VerifyDeepfake
+check
+    is_verification_accurate
+enforce
+    stop
+end

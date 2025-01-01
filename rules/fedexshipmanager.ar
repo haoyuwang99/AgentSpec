@@ -1,0 +1,28 @@
+rule @validate_package_details
+trigger FedExShipManager.GetQuote
+check
+    is_valid_package_details
+enforce
+    stop
+end
+rule @validate_sender_recipient_info
+trigger FedExShipManager.GetQuote
+check
+    is_valid_sender_recipient_info
+enforce
+    stop
+end
+rule @validate_shipment_operation
+trigger FedExShipManager.ManageShipment
+check
+    is_valid_shipment_operation
+enforce
+    stop
+end
+rule @validate_special_handling
+trigger FedExShipManager.GetQuote
+check
+    is_valid_special_handling
+enforce
+    stop
+end

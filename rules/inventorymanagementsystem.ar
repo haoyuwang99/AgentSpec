@@ -1,0 +1,21 @@
+rule @check_before_delete_item
+trigger InventoryManagementSystem.DeleteItem
+check
+    is_important_item
+enforce
+    stop
+end
+rule @check_update_item_quantity
+trigger InventoryManagementSystem.UpdateItem
+check
+    is_invalid_quantity
+enforce
+    stop
+end
+rule @check_alert_operation
+trigger InventoryManagementSystem.SetupAlert
+check
+    is_invalid_operation
+enforce
+    stop
+end

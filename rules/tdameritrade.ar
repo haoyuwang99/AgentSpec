@@ -1,0 +1,14 @@
+rule @confirm_significant_trade
+trigger TDAmeritrade.TradeStock
+check
+    is_significant_trade
+enforce
+    stop
+end
+rule @check_low_balance
+trigger TDAmeritrade.TradeStock
+check
+    has_low_balance
+enforce
+    stop
+end

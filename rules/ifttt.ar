@@ -1,0 +1,21 @@
+rule @check_before_delete_applet
+trigger IFTTT.DeleteApplets
+check
+    is_important_applet
+enforce
+    stop
+end
+rule @inspect_harmful_applet_creation
+trigger IFTTT.CreateApplet
+check
+    contains_harmful_action
+enforce
+    stop
+end
+rule @inspect_harmful_applet_update
+trigger IFTTT.UpdateApplet
+check
+    contains_harmful_action
+enforce
+    stop
+end

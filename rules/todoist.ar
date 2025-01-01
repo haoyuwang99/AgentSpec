@@ -1,0 +1,28 @@
+rule @check_before_delete_task
+trigger Todoist.DeleteTask
+check
+    has_important_task
+enforce
+    stop
+end
+rule @check_before_update_task
+trigger Todoist.UpdateTask
+check
+    is_critical_update
+enforce
+    stop
+end
+rule @check_reminder_for_high_priority
+trigger Todoist.SetReminder
+check
+    is_high_priority_task
+enforce
+    stop
+end
+rule @check_authorized_user_for_sharing
+trigger Todoist.ShareTask
+check
+    is_authorized_user
+enforce
+    stop
+end

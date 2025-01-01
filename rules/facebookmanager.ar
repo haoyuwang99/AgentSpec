@@ -1,0 +1,28 @@
+rule @inspect_sensitive_profile_update
+trigger FacebookManager.UpdateUserProfile
+check
+    contains_sensitive_information
+enforce
+    stop
+end
+rule @check_public_post
+trigger FacebookManager.CreatePost
+check
+    is_public_post
+enforce
+    stop
+end
+rule @check_before_delete_post
+trigger FacebookManager.DeletePost
+check
+    has_important_content
+enforce
+    stop
+end
+rule @inspect_offensive_message
+trigger FacebookManager.SendMessage
+check
+    contains_offensive_language
+enforce
+    stop
+end

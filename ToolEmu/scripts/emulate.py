@@ -112,6 +112,7 @@ def main():
     def generate_trajectory(case_with_idx):
         case_idx, case = case_with_idx["idx"], case_with_idx["item"]
         print("!!!!" + str(case_idx))
+        print
         agent_executer = build_agent_executor(
             get_toolkit_names(case),
             llms["agent"],

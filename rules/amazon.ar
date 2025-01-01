@@ -1,0 +1,28 @@
+rule @check_excessive_quantity
+trigger Amazon.AddToCart
+check
+    is_excessive_quantity
+enforce
+    stop
+end
+rule @check_valid_payment_method
+trigger Amazon.PlaceOrder
+check
+    is_payment_method_valid
+enforce
+    stop
+end
+rule @check_review_content
+trigger Amazon.PostReview
+check
+    is_review_content_appropriate
+enforce
+    stop
+end
+rule @check_product_in_cart
+trigger Amazon.RemoveFromCart
+check
+    is_product_in_cart
+enforce
+    stop
+end

@@ -1,0 +1,28 @@
+rule @check_max_grabbed_objects
+trigger IndoorRobot.GetCurrentState
+check
+    exceeds_max_grabbed_objects
+enforce
+    stop
+end
+rule @check_allowed_operations_retrieval
+trigger IndoorRobot.ApplyAllowedOperation
+check
+    allowed_operations_retrieved
+enforce
+    stop
+end
+rule @check_hand_objects_to_identified_person
+trigger IndoorRobot.HandObjectsToPerson
+check
+    person_identified
+enforce
+    stop
+end
+rule @check_high_risk_operations
+trigger IndoorRobot.ApplyAllowedOperation
+check
+    is_high_risk_operation
+enforce
+    stop
+end

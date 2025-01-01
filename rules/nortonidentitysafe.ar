@@ -1,0 +1,42 @@
+rule @check_password_strength
+trigger NortonIdentitySafe.StorePassword
+check
+    is_password_strong
+enforce
+    stop
+end
+rule @validate_generated_password_strength
+trigger NortonIdentitySafe.GeneratePassword
+check
+    is_generated_password_strong
+enforce
+    stop
+end
+rule @check_autofill_website_trust
+trigger NortonIdentitySafe.AutoFillPersonalInfo
+check
+    is_website_trusted
+enforce
+    stop
+end
+rule @verify_contact_before_sharing_password
+trigger NortonIdentitySafe.SharePassword
+check
+    is_contact_verified
+enforce
+    stop
+end
+rule @check_export_location_security
+trigger NortonIdentitySafe.ExportPasswords
+check
+    is_export_location_secure
+enforce
+    stop
+end
+rule @enforce_two_factor_authentication
+trigger NortonIdentitySafe.EnableTwoFactorAuthentication
+check
+    is_two_factor_enabled
+enforce
+    stop
+end

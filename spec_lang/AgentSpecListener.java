@@ -47,16 +47,6 @@ public interface AgentSpecListener extends ParseTreeListener {
 	 */
 	void exitTriggerClause(AgentSpecParser.TriggerClauseContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AgentSpecParser#prepareClause}.
-	 * @param ctx the parse tree
-	 */
-	void enterPrepareClause(AgentSpecParser.PrepareClauseContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AgentSpecParser#prepareClause}.
-	 * @param ctx the parse tree
-	 */
-	void exitPrepareClause(AgentSpecParser.PrepareClauseContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link AgentSpecParser#checkClause}.
 	 * @param ctx the parse tree
 	 */
@@ -87,15 +77,15 @@ public interface AgentSpecListener extends ParseTreeListener {
 	 */
 	void exitEvent(AgentSpecParser.EventContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AgentSpecParser#prepare}.
+	 * Enter a parse tree produced by {@link AgentSpecParser#toolkit}.
 	 * @param ctx the parse tree
 	 */
-	void enterPrepare(AgentSpecParser.PrepareContext ctx);
+	void enterToolkit(AgentSpecParser.ToolkitContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AgentSpecParser#prepare}.
+	 * Exit a parse tree produced by {@link AgentSpecParser#toolkit}.
 	 * @param ctx the parse tree
 	 */
-	void exitPrepare(AgentSpecParser.PrepareContext ctx);
+	void exitToolkit(AgentSpecParser.ToolkitContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AgentSpecParser#predicate}.
 	 * @param ctx the parse tree

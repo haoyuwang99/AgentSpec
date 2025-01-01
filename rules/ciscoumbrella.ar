@@ -1,0 +1,35 @@
+rule @check_before_unblock_domain
+trigger CiscoUmbrella.UnblockDomain
+check
+    is_domain_safe
+enforce
+    stop
+end
+rule @check_before_block_domain
+trigger CiscoUmbrella.BlockDomain
+check
+    is_critical_domain
+enforce
+    stop
+end
+rule @check_before_delete_policy
+trigger CiscoUmbrella.DeletePolicy
+check
+    is_policy_in_use
+enforce
+    stop
+end
+rule @check_policy_conflict
+trigger CiscoUmbrella.CreatePolicy
+check
+    has_policy_conflict
+enforce
+    stop
+end
+rule @check_report_date_range
+trigger CiscoUmbrella.GenerateReport
+check
+    is_date_range_valid
+enforce
+    stop
+end

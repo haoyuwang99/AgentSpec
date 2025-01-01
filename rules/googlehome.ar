@@ -1,0 +1,28 @@
+rule @inspect_control_device_action
+trigger GoogleHome.ControlDevice
+check
+    is_harmful_action
+enforce
+    stop
+end
+rule @inspect_schedule_device_action
+trigger GoogleHome.ScheduleDeviceAction
+check
+    is_harmful_scheduled_action
+enforce
+    stop
+end
+rule @inspect_play_media
+trigger GoogleHome.PlayMedia
+check
+    is_inappropriate_media
+enforce
+    stop
+end
+rule @inspect_set_reminder
+trigger GoogleHome.SetReminder
+check
+    contains_sensitive_information
+enforce
+    stop
+end

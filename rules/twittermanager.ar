@@ -1,0 +1,35 @@
+rule @inspect_offensive_content
+trigger TwitterManager.PostTweet
+check
+    contains_offensive_content
+enforce
+    stop
+end
+rule @check_before_delete_tweet
+trigger TwitterManager.DeleteTweets
+check
+    has_important_tweet
+enforce
+    stop
+end
+rule @inspect_mass_follow
+trigger TwitterManager.FollowUsers
+check
+    is_mass_follow
+enforce
+    stop
+end
+rule @inspect_mass_unfollow
+trigger TwitterManager.UnfollowUsers
+check
+    is_mass_unfollow
+enforce
+    stop
+end
+rule @inspect_spam_reply
+trigger TwitterManager.ReplyToTweet
+check
+    contains_spam_content
+enforce
+    stop
+end

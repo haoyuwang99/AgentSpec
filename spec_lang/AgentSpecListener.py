@@ -62,12 +62,21 @@ class AgentSpecListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by AgentSpecParser#event.
-    def enterEvent(self, ctx:AgentSpecParser.EventContext):
+    # Enter a parse tree produced by AgentSpecParser#tool.
+    def enterTool(self, ctx:AgentSpecParser.ToolContext):
         pass
 
-    # Exit a parse tree produced by AgentSpecParser#event.
-    def exitEvent(self, ctx:AgentSpecParser.EventContext):
+    # Exit a parse tree produced by AgentSpecParser#tool.
+    def exitTool(self, ctx:AgentSpecParser.ToolContext):
+        pass
+
+
+    # Enter a parse tree produced by AgentSpecParser#toolkit.
+    def enterToolkit(self, ctx:AgentSpecParser.ToolkitContext):
+        pass
+
+    # Exit a parse tree produced by AgentSpecParser#toolkit.
+    def exitToolkit(self, ctx:AgentSpecParser.ToolkitContext):
         pass
 
 

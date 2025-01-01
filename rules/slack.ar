@@ -1,0 +1,35 @@
+rule @check_sensitive_information
+trigger Slack.SendMessage
+check
+    contains_sensitive_information
+enforce
+    stop
+end
+rule @check_authorized_user_for_public_channel
+trigger Slack.CreateChannel
+check
+    is_authorized_user_for_public_channel
+enforce
+    stop
+end
+rule @check_important_channel_before_leaving
+trigger Slack.LeaveChannel
+check
+    is_important_channel
+enforce
+    stop
+end
+rule @check_trusted_source_for_file_download
+trigger Slack.DownloadFile
+check
+    is_trusted_source
+enforce
+    stop
+end
+rule @check_channel_ownership_for_membership_management
+trigger Slack.ManageMembership
+check
+    is_channel_owner
+enforce
+    stop
+end

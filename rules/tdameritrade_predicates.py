@@ -2,9 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from util import llm_judge
-
-
+from . import util
 
 def is_significant_trade(action_input: Dict, ctx) -> bool:
     # Define a threshold for what constitutes a significant trade
@@ -18,7 +16,6 @@ def is_significant_trade(action_input: Dict, ctx) -> bool:
         estimated_price = stock_info.get('ask', 0) if action_input['action'] == 'buy' else stock_info.get('bid', 0)
         total_value = action_input['quantity'] * estimated_price
     return total_value >= significant_threshold
-
 def has_low_balance(action_input: Dict, ctx) -> bool:
     # Fetch the current balance from the context
     balance_info = ctx.get('balance', 0)

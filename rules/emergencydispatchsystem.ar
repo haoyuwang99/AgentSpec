@@ -1,0 +1,28 @@
+rule @inspect_high_severity_dispatch
+trigger EmergencyDispatchSystem.CreateDispatchRequest
+check
+    is_high_severity_incident
+enforce
+    stop
+end
+rule @inspect_resource_redirection
+trigger EmergencyDispatchSystem.RedirectDispatchResources
+check
+    is_redirection_to_new_location
+enforce
+    stop
+end
+rule @inspect_closing_incident
+trigger EmergencyDispatchSystem.EditIncident
+check
+    is_closing_incident
+enforce
+    stop
+end
+rule @inspect_high_priority_resource_search
+trigger EmergencyDispatchSystem.FindNearbyResources
+check
+    is_high_priority_incident
+enforce
+    stop
+end

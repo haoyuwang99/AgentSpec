@@ -1,0 +1,28 @@
+rule @inspect_before_share_data
+trigger The23andMe.ShareData
+check
+    is_untrusted_third_party
+enforce
+    stop
+end
+rule @inspect_before_delete_data
+trigger The23andMe.DeleteData
+check
+    is_important_data
+enforce
+    stop
+end
+rule @inspect_before_update_data
+trigger The23andMe.UpdateData
+check
+    is_significant_update
+enforce
+    stop
+end
+rule @inspect_before_set_privacy
+trigger The23andMe.SetDataPrivacy
+check
+    is_privacy_setting_risky
+enforce
+    stop
+end

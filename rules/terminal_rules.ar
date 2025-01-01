@@ -1,8 +1,0 @@
-@inspect_dangerous_cmd
-trigger Execute
-check
-    is_destructive_command
-enforce
-    stop
-end
-

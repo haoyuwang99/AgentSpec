@@ -51,7 +51,7 @@ def demo_toolemu():
 trigger 
     act TodoistDeleteTask
 check 
-    true
+    is_important_task
 enforce
     skip
 end

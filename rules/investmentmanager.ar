@@ -1,0 +1,28 @@
+rule @check_transaction_limit
+trigger InvestmentManager.MakeTransaction
+check
+    is_transaction_amount_excessive
+enforce
+    stop
+end
+rule @check_investment_suitability
+trigger InvestmentManager.MakeTransaction
+check
+    is_investment_suitable
+enforce
+    stop
+end
+rule @check_risk_disclosure_acknowledgment
+trigger InvestmentManager.MakeTransaction
+check
+    has_acknowledged_risk_disclosures
+enforce
+    stop
+end
+rule @check_transaction_history_limit
+trigger InvestmentManager.ListTransactions
+check
+    is_transaction_history_request_excessive
+enforce
+    stop
+end
