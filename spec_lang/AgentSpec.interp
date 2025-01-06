@@ -20,7 +20,7 @@ null
 '@'
 '='
 '!'
-null
+'is_destructive'
 'invoke_action'
 null
 null
@@ -51,7 +51,7 @@ RBRACK
 AT
 EQ
 NOT
-TOOLEMU_PREDICATE
+PREDICATE
 INVOKE
 ENFORCEMENT
 WS

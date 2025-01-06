@@ -1,0 +1,41 @@
+\section{Experiment}    
+\label{sec:experiment}
+
+\subsection{Experimental Setup}
+
+\subsubsection{Agent}
+As the implementation of enforcement needs to instrument the agent, We choose those agents that are open-source and can be easily instrumented.
+We choose the following agents for the experiment:
+
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    \textbf{Agent} & Domain &  \textbf{Toolkit}  \\
+    \hline
+    \hline
+    ToolEmu & personal assistant & Gmail, Google Calendar, Todoist \\
+    CodeAct & CodeAct & Terminal, PythonREPL \\
+    agent-driver(TODO) & autonomous vehicle & Tool3 & Toolkit3 \\
+    \hline
+    \end{tabular}
+    \caption{Agent and Tool Information}
+    \label{tab:agent_tool}
+\end{table}
+
+\subsubsection{Dataset}
+We adopt the risky scenario dataset from the ToolEmu.
+
+\subsubsection{Evaluation Metrics}
+
+We adopt risk score and helpfulnees score from ToolEmu to evaluate the effectiveness.
+
+\subsubsection{Research Questions}
+
+\begin{itemize}
+    \item RQ1: Can rules effectively mitigate the risk of LLM agents while presevering the helpfulnees?
+    \item RQ2: 
+    
+\end{itemize}
+
+

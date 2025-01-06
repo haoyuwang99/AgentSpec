@@ -1,0 +1,20 @@
+
+\section{Introduction} 
+ 
+In recent years, LLMs are increasingly being deployed in real-world systems as agents capable of performing complex tasks. 
+OpenAI's GPT~\cite{} and Google's BERT~\cite{} are two prominent examples of LLMs that have been widely adopted in various applications, such as natural language processing, machine translation, and code generation. These models have demonstrated remarkable capabilities in understanding and generating human language, enabling them to perform a wide range of tasks with high accuracy and efficiency.
+
+Moreover, in addition to processing with the natural language, LLM agents has also been used to intereact with real-world systems. For instance, Apple intelligence enables users to intereact with their devices to perform tasks such as sending messages, setting reminders, and making phone calls. In the autonomous driving domain, LLM agents are used to control vehicles and make decisions based on the surrounding environment.
+
+However, despite their impressive performance, LLM agents are not without limitations. One of the main challenges is that LLM agents are often treated as black boxes, making it difficult to understand their decision-making processes and behaviors. This lack of transparency can be problematic, users may not trust the agent's decisions. Meanwhile, the lack of transparency also makes it difficult to ensure that the agent behaves in a safe and reliable manner, especially in safety-critical applications such as autonomous driving.
+
+To address this challenge, we propose a domain-specific language called \tool{} that allows users to specify the behaviors of LLM agents in a transparent and customizable manner. \tool{} provides a structured rule system that enables users to define rules that govern the agent's behavior in response to specific inputs or situations. Each rule consists of triggers, queries, conditions, and enforcement actions, which together specify when and how the agent should act. By using \tool{}, users can define rules that reflect their domain-specific requirements and preferences, enabling them to customize the agent's behavior to suit their needs. For instance, as shown in Figure~\ref{fig:example_rule_1}, a rule can be defined to inspect sensitive email messages and enforce user inspection if the message contains sensitive information and has an external receiver. 
+
+In this paper, we present the design and implementation of \tool{}, and demonstrate its effectiveness in enabling users to specify and manage the behaviors of LLM agents. 
+
+In summary, the contributions of this paper are as follows:
+\begin{itemize}
+    \item We propose a domain-specific language called \tool{} that allows users to specify the behaviors of LLM agents in a transparent and customizable manner.
+    % \item We present the design and implementation of \tool{}, 
+    \item We demonstrate the effectiveness of \tool{} in enabling users to specify and manage the behaviors of LLM agents.
+\end{itemize}

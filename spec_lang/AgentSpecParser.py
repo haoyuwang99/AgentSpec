@@ -1,4 +1,4 @@
-# Generated from AgentSpec.g4 by ANTLR 4.13.2
+# Generated from spec_lang/AgentSpec.g4 by ANTLR 4.13.2
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
@@ -62,14 +62,13 @@ class AgentSpecParser ( Parser ):
     literalNames = [ "<INVALID>", "'rule'", "'trigger'", "'check'", "'enforce'", 
                      "'any'", "'true'", "'false'", "'end'", "':'", "','", 
                      "'('", "')'", "'{'", "'}'", "'.'", "'['", "']'", "'@'", 
-                     "'='", "'!'", "<INVALID>", "'invoke_action'" ]
+                     "'='", "'!'", "'is_destructive'", "'invoke_action'" ]
 
     symbolicNames = [ "<INVALID>", "RULE", "TRIGGER", "CHECK", "ENFORCE", 
                       "ANY", "TRUE", "FALSE", "END", "COLON", "COMMA", "LPAREN", 
                       "RPAREN", "LBRACE", "RBRACE", "DOT", "LBRACK", "RBRACK", 
-                      "AT", "EQ", "NOT", "TOOLEMU_PREDICATE", "INVOKE", 
-                      "ENFORCEMENT", "WS", "IDENTIFIER", "STRING", "INTEGER", 
-                      "FLOAT" ]
+                      "AT", "EQ", "NOT", "PREDICATE", "INVOKE", "ENFORCEMENT", 
+                      "WS", "IDENTIFIER", "STRING", "INTEGER", "FLOAT" ]
 
     RULE_program = 0
     RULE_rule = 1
@@ -111,7 +110,7 @@ class AgentSpecParser ( Parser ):
     AT=18
     EQ=19
     NOT=20
-    TOOLEMU_PREDICATE=21
+    PREDICATE=21
     INVOKE=22
     ENFORCEMENT=23
     WS=24
@@ -604,8 +603,8 @@ class AgentSpecParser ( Parser ):
             return self.getTypedRuleContext(AgentSpecParser.PredicateContext,0)
 
 
-        def TOOLEMU_PREDICATE(self):
-            return self.getToken(AgentSpecParser.TOOLEMU_PREDICATE, 0)
+        def PREDICATE(self):
+            return self.getToken(AgentSpecParser.PREDICATE, 0)
 
         def getRuleIndex(self):
             return AgentSpecParser.RULE_predicate
@@ -649,7 +648,7 @@ class AgentSpecParser ( Parser ):
             elif token in [21]:
                 self.enterOuterAlt(localctx, 4)
                 self.state = 71
-                self.match(AgentSpecParser.TOOLEMU_PREDICATE)
+                self.match(AgentSpecParser.PREDICATE)
                 pass
             else:
                 raise NoViableAltException(self)

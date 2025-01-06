@@ -10,7 +10,7 @@ class RuleState(BaseModel):
     action: Optional[Action] = None
     agent: Optional[Union[BaseSingleActionAgent, BaseMultiActionAgent]] = None
     intermediate_steps: Any #todo: List[Tuple[AgentAction, str]]
-    user_input: Optional[Union[str, Dict[str, Any]]] = None
+    user_input: Optional[Union[str, Dict[str, Any]]] = None # task_prompt
     run_mannager: Optional[Any] = None
     merits: List[str] = []
     critiques: List[str] = [] 

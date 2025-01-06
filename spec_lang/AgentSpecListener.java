@@ -67,15 +67,15 @@ public interface AgentSpecListener extends ParseTreeListener {
 	 */
 	void exitEnforceClause(AgentSpecParser.EnforceClauseContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AgentSpecParser#event}.
+	 * Enter a parse tree produced by {@link AgentSpecParser#tool}.
 	 * @param ctx the parse tree
 	 */
-	void enterEvent(AgentSpecParser.EventContext ctx);
+	void enterTool(AgentSpecParser.ToolContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AgentSpecParser#event}.
+	 * Exit a parse tree produced by {@link AgentSpecParser#tool}.
 	 * @param ctx the parse tree
 	 */
-	void exitEvent(AgentSpecParser.EventContext ctx);
+	void exitTool(AgentSpecParser.ToolContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AgentSpecParser#toolkit}.
 	 * @param ctx the parse tree

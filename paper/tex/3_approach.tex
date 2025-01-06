@@ -1,0 +1,81 @@
+
+\section{AgentSpec}
+\subsection{Syntax}
+
+
+\begin{figure}[ht]
+    \centering
+    \begin{align*}  
+    \langle Program\rangle     & ::= \langle Rule\rangle + \\
+    \langle Rule\rangle        & ::= \texttt{rule}\ \langle Id\rangle  \\
+                 &\quad \quad \texttt{trigger}\ \langle Toolkit\rangle.\langle Tool\rangle  \\
+                 &\quad \quad \texttt{check}\ \langle Pred\rangle * \\
+                 &\quad \quad \texttt{enforce}\ \langle Enforce\rangle + \\
+                 &\quad \quad \texttt{end} \\
+    \langle Tool\rangle       & ::= \langle Id\rangle \ | \ \texttt{any} \\
+    \langle Toolkit\rangle       & ::= \langle Id\rangle \ | \ \texttt{any} \\
+    \langle Pred\rangle        & ::= \ \texttt{True} \ | \ \texttt{False} \ | \ !\langle Pred\rangle  \ | \ \langle CustomizedPred\rangle \\
+    \langle Enforce\rangle     & ::= \texttt{user\_inspection} \ | \ \texttt{llm\_self\_reflect} \ | \ invoke\_action(\langle Id\rangle,\{\langle KVPairs\rangle\})\ |\ stop  \\ 
+    \langle KVPair\rangle      & ::= \langle StrLit\rangle : \langle Value\rangle \\
+    \langle KVPairs\rangle     & ::= \langle KVPair\rangle | \langle KVPair\rangle[, \langle KVPairs\rangle] \\
+    \end{align*}
+    \caption{BNF form of abstract syntax for Domain Specific Language}
+    \label{fig:syntax}
+    \end{figure} 
+
+\textbf{AgentSpec} is a domain-specific language designed to define and manage the customizable behaviors of LLM-based agents. 
+The abstract syntax of \textbf{AgentSpec} is shown in Figure~\ref{fig:syntax}. 
+The language consists of a set of rules, each of which specifies a set of conditions and enforcement actions that govern the agent's behavior in response to specific inputs or situations. 
+Each rule is composed of the following components:
+\begin{itemize}
+    \item \texttt{rule}: The keyword that marks the beginning of a rule definition, followed by the rule's identifier.
+    \item \texttt{trigger}: The event that triggers the rule, specified as a toolkit and a tool.
+    \item \texttt{check}: The condition that must be satisfied for the rule to be triggered, expressed as conjunctions of predicates.
+    \item \texttt{enforce}: The action that should be taken when the rule is triggered, which could be user inspection, self-reflection, or invoking a specific action.
+    \item \texttt{end}: The keyword that marks the end of a rule definition.
+\end{itemize}
+
+\subsection{Runtime Enforcement Workflow}
+\label{alg:workflow}
+
+\begin{algorithm}
+\caption{Runtime enforcement algorithm $validate\_and\_enforce$}
+\begin{algorithmic}[1]
+\REQUIRE Input $action$, $rules$, $intermediate\_steps$, $prompt$
+\ENSURE Enforced $action$
+\FOR{$rule \in rules$}  
+    \STATE Initialize $states \gets \{a\mapsto action, traj\mapsto intermediate\_steps, p\mapsto prompt\}$
+    \IF{is_triggered($rule$, $states(a)$) } 
+        \STATE $check \gets True$
+        \FOR{each $pred \in rule.preds$}
+        \STATE $pred \gets pred \&\& eval\_pred(pred)$
+        \ENDFOR
+        \IF{$check$}
+            \STATE $action \gets apply(rule.enforce, state)$
+            \IF{$rule.enforce$ == $llm\_self\_reflect$ and not exceed max trial}
+                \RETURN $validate\_and\_enforce(action)$
+            \ENDIF
+        \ENDIF
+    \ENDIF
+\ENDFOR
+\STATE $observation \gets ground(action)$ 
+\RETURN $action, observation$
+
+\end{algorithmic}
+\end{algorithm}
+
+The workflow algorithm is illustrated in Alg~\ref{alg:workflow}. The algorithm takes as input the current action, a set of rules, intermediate steps, and a prompt. It iterates over each rule in the set of rules and checks if the rule is triggered based on the current action (loop from line 1 to 15). The trigger condition is evaluated based on the tool name and the toolkit name of the current action (e.g., "Terminal" and "Execute" for command line action).
+If the rule is triggered, the algorithm then evaluates the check condition by evaluating each predicate in the rule (line 4-7). 
+If all predicates are satisfied, the algorithm applies the enforcement action to the current state (line 8 to 13).
+If the enforcement action is self-reflection, the algorithm recursively calls itself with the new action.
+Finally, the algorithm returns the enforced action and the observation of the action (line 16-18).
+
+\subsection{Domain Specific Language for Rule}
+
+
+\subsubsection{Semantic}
+
+
+% \subsection{Example}
+
+
