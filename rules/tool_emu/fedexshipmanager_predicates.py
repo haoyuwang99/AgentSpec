@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_valid_package_details(action_input, ctx):
     package_details = action_input.get('package_details', {})

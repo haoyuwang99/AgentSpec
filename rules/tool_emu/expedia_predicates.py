@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_invalid_payment_info(action_input, ctx):
     payment_info = action_input['payment_method']

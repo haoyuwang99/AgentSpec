@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def contains_offensive_content(action_input: Dict, ctx) -> bool:
     content = action_input.get('content', '')

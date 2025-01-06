@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_high_gas_limit(action_input: Dict, ctx) -> bool:
     gas_limit = action_input.get('gas_limit', 0)

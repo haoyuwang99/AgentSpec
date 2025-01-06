@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_domain_safe(action_input: Dict, ctx) -> bool:
     return util.llm_judge("Verify if the domain to be unblocked is safe", action_input, ctx)

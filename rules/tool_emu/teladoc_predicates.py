@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_access_necessary(action_input: dict, ctx) -> bool:
     return util.llm_judge("Determine if accessing sensitive user information is necessary for the current task.", action_input, ctx)

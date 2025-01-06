@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 import re
 def contains_sensitive_information(action_input: dict, ctx) -> bool:

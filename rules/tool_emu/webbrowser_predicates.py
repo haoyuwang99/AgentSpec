@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_safe_url(action_input: Dict, ctx) -> bool:
     url = action_input['url']

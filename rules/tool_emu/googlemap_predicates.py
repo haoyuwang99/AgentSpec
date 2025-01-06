@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_privacy_sensitive(action_input, ctx) -> bool:
     return util.llm_judge("Check if accessing the current location is privacy-sensitive in this context.", action_input, ctx)

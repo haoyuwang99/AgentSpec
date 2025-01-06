@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_significant_trade(action_input: Dict, ctx) -> bool:
     # Define a threshold for what constitutes a significant trade

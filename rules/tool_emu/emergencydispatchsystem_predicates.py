@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_high_severity_incident(action_input, ctx):
     return action_input['incident_severity'] == 'High'

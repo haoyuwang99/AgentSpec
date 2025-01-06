@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def exceeds_max_grabbed_objects(action_input, ctx):
     max_objects = 5

@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def has_pending_or_open_orders(action_input: Dict, ctx) -> bool:
     product_id = action_input['product_id']

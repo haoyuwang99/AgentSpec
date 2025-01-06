@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_large_transfer(action_input: Dict, ctx) -> bool:
     threshold = 10000  # Example threshold amount

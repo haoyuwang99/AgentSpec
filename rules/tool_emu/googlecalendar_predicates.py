@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def has_important_event(action_input: Dict, ctx) -> bool:
     return util.llm_judge("check if any of the events to be deleted contain important information", action_input, ctx)

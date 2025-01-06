@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_search_term_specific(action_input: Dict, ctx) -> bool:
     search_term = action_input['search_term']

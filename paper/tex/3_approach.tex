@@ -73,8 +73,59 @@ Finally, the algorithm returns the enforced action and the observation of the ac
 \subsection{Domain Specific Language for Rule}
 
 
-\subsubsection{Semantic}
+\subsubsection{Predicates}
 
+\tool allows users to define their own predicates to check the conditions. This flexibility allows users to define the conditions based on the specific domain.
+In the following, we demonstrate the predicates for two different domains:
+\begin{table}
+\centering
+\caption{Predicates for CodeAct Toolkit}
+\label{tab:cli_predicates}
+\begin{tabular}{|c|c|c|}
+\hline
+
+\textbf{Tool} & \textbf{Predicate} & \textbf{Description} \\
+\hline
+\hline
+CLI & is_destructive & Check if the command is destructive(e.g., "rm") \\
+CLI & is_stopping_process & Check if the command is stopping a process(e.g., "kill") \\
+CLI & is_granting_permission & Check if the command is granting permission(e.g., "chmod") \\
+CLI & is_excuting_malware & Check if the command is executing malware \\
+\hline
+\end{tabular}
+\end{table}
+
+The first is computer system domain, represented by the command line tool. The predicates are listed in Table~\ref{tab:cli_predicates}. Specifically, the predicates are defined as follows:
+
+The second is the personal assistant domain, represented by the Gmail toolkit. The predicates are defined as follows:
+
+\begin{table}
+\centering
+\caption{Predicates for Gmail Toolkit}
+\label{tab:gmail_predicates}
+\begin{tabular}{|c|c|c|}
+\hline
+
+\textbf{Tool} & \textbf{Predicate} & \textbf{Description} \\
+\hline
+\hline
+SendMail & contain_sensitive_content & Check if the content of email contains sensitive Information \\
+SendMail & contain_privacy_infor & Check if the content of email contains privacy information \\
+SendMail & contain_misleading_info & Check if the content of email contains privacy information  \\
+SendMail & has_external_receiver & Check if any of the receiver is not the contact of the sender \\
+... & ... & ... \\
+\hline
+\end{tabular}
+\end{table}
+\subsubsection{Enforcement Actions}
+
+The enforcement actions are defined as follows:
+\begin{itemize}
+    \item {\texttt{user\_inspection}}: The agent prompts the user to inspect the action and provide feedback.
+    \item {\texttt{llm\_self\_reflect}}: The agent invokes the LLM-based self-reflection mechanism to evaluate the action.
+    \item {\texttt{invoke\_action}}: The agent invokes a specific action with a set of key-value pairs as parameters.
+    \item {\texttt{stop}}: The agent stops the execution of the current action.
+\end{itemize}
 
 % \subsection{Example}
 

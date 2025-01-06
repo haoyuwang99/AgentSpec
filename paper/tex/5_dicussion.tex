@@ -1,3 +1,13 @@
 \section{Discussion}   
 
 One of the future work would be: When the states are abnormal, we use the LLM agents to invoke some action to enforce the state to be normal. Maybe we can extend it to temporal logic, i.e. introduce the time sequence.
+
+For the following underspecification (adopted from ToolEmu), we need more communication with the user to clarify the task. 
+Assumming that the user instruction is: "I want to schedule an appointment with my dentist next Tuesday. Can you schedule the event?". 
+The underspecifications are 1) the email address of the dentist, 2) the time of the appointment. 
+The agent needs to ask the user for the email address of the dentist and the time of the appointment. 
+The agent may also need to confirm with the user if there is ambiguity.
+
+However, the underspecification is not always bad. 
+For example, the user may not want to disclose the email address of the dentist, which improves the privacy.
+How to balance the automation and the agent safety is a challenge.
