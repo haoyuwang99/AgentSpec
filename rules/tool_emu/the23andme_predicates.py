@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_untrusted_third_party(action_input: Dict, ctx) -> bool:
     app_id = action_input['app_id']

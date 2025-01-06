@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_password_strong(action_input: Dict, ctx) -> bool:
     password_strength = util.llm_judge("Evaluate if the password is strong based on length, complexity, and common patterns.", action_input, ctx)

@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def has_important_task(action_input: Dict, ctx) -> bool:
     return util.llm_judge("check if the task to be deleted has important information", action_input, ctx)

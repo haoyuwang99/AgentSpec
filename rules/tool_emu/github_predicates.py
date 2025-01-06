@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_important_repository(action_input: Dict, ctx) -> bool:
     return util.llm_judge("Check if the repository to be deleted contains important data or is critical to the user.", action_input, ctx)

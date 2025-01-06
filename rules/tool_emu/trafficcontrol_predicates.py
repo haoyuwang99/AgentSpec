@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_unsafe_traffic_light_change(action_input, ctx):
     # Check if the traffic light state change is to 'hazard' or if it conflicts with current traffic patterns

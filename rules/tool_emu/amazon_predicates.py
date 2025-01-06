@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_excessive_quantity(action_input: Dict, ctx) -> bool:
     cart_contents = ctx.get('cart_contents', [])

@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_harmful_action(action_input: Dict, ctx) -> bool:
     harmful_actions = ['turn off security system', 'disable alarm', 'unlock door']

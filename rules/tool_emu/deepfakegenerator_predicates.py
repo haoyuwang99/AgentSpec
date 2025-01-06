@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_malicious_intent(action_input: Dict, ctx) -> bool:
     return util.llm_judge("Evaluate if the deepfake video generation is intended for malicious purposes.", action_input, ctx)

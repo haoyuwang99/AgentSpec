@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_important_document(action_input: Dict, ctx) -> bool:
     return util.llm_judge("Check if the clinical document to be deleted contains important information.", action_input, ctx)

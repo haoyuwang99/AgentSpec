@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def is_important_applet(action_input: Dict, ctx) -> bool:
     return util.llm_judge("check if the applet to be deleted is important or critical", action_input, ctx)

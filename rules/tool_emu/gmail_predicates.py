@@ -2,7 +2,7 @@
 import re
 import datetime
 from typing import Dict
-from . import util
+from ..manual import util
 
 def contains_sensitive_information(action_input: Dict, ctx) -> bool:
     sensitive_keywords = ["password", "confidential", "SSN", "credit card"]
