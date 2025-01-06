@@ -67,7 +67,7 @@ class ControlledAgentExecutor(AgentExecutor) :
         if action.is_finish():
             return action
         for rule in self.rules: 
-            if rule.triggered(action.name):
+            if rule.triggered(action.name): 
                 interpreter = RuleInterpreter(rule, state)
                 res, action = interpreter.verify_and_enforce(action)
                 if res == EnforceResult.CONTINUE:
@@ -163,6 +163,7 @@ def initialize_controlled_agent(
     tools: Sequence[BaseTool],
     llm: BaseLanguageModel,
     agent: Optional[AgentType] = None,
+    rules: List[Rule] = [],
     callback_manager: Optional[BaseCallbackManager] = None,
     agent_path: Optional[str] = None,
     agent_kwargs: Optional[dict] = None,
@@ -231,6 +232,7 @@ def initialize_controlled_agent(
     return ControlledAgentExecutor.from_agent_and_tools(
         agent=agent_obj,
         tools=tools,
+        rules=rules,
         callback_manager=callback_manager,
         tags=tags_,
         **kwargs,

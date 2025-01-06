@@ -7,8 +7,8 @@ from spec_lang.AgentSpecLexer import AgentSpecLexer
 from spec_lang.AgentSpecParser import AgentSpecParser  
 
 class RuleParser(AgentSpecListener): 
-    tool:str
-    toolkit:str
+    tool : str
+    toolkit : str
     
     def enterToolkit(self, ctx: AgentSpecParser.ToolkitContext): 
         if ctx.IDENTIFIER()!=None:
@@ -35,10 +35,9 @@ class Rule(BaseModel):
     toolkit: str
     raw: str
     
-    # TODO- make it a tool
-    def triggered(self, action_name): 
-        print(action_name)
-        return self.tool == "any" or action_name == self.tool
+    # TODO- make it a tool 
+    def triggered(self, action_name):  
+        return (self.toolkit == "any") and (self.tool == "any" or action_name == self.tool)
     
     def from_text(rule_str):
         input_stream = InputStream(rule_str)

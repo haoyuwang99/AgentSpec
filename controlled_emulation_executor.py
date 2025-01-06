@@ -95,8 +95,7 @@ class ControlledVirtualAgentExecutor(StandardVirtualAgentExecutorWithToolkit):
                     intermediate_steps + result + [(agent_action, empty_observation)]
                 )
                 #TODO- add validate and enforce here.
-                
-                # print(inputs)
+                  
                 full_inputs = {
                     "simulator_scratchpad": simulator_scratchpad,
                     "current_tool": agent_action.tool,

@@ -1,33 +1,7 @@
+# this file is used to generate grammar/rules/predicates implementation from json file.
 import os
 import json 
 
-TOOLKIT_SOURCE = "ToolEmu/assets/all_toolkits.json"
-RULE_DIR = "rules/"
-RULE_SOURCE = "ToolEmu/assets/rules.jsonl"
-PREDICATE_MAPPING = RULE_DIR + "predicate_table.py"
-UTIL = "util"
-UTIL_PY = RULE_DIR +UTIL + ".py"
-LLM_JUDGE = "llm_judge"
-LLM_JUDGE_IMPL = f"""from langchain_openai import ChatOpenAI
-from langchain.schema import SystemMessage, HumanMessage
- 
-
-def {LLM_JUDGE}(requirements, action, ctx) -> True:
-    # Initialize LangChain's LLM with your preferred model (e.g., OpenAI GPT-4)
-    llm = ChatOpenAI(temperature=0.0, model_name="gpt-4")
-    
-    # Constructing the context messages
-    messages = [
-        SystemMessage(content="You are an assistant evaluating task importance for risk management."),
-        HumanMessage(content=f"Context of previous actions: {{ctx.intermediate_steps}}\\n"),
-        HumanMessage(content=f"Action being evaluated: {{action}}\\nNote: the output should ONLY be 'true' or 'false', indicating the requiement is satisfied"),
-        HumanMessage(content=requirements)
-    ]
-    
-    # Query the LLM and parse the response
-    response = llm.invoke(messages) 
-    return response.content.strip().lower() == "true"
-"""
 
 G4_PATH = "spec_lang/AgentSpec.g4"
 G4_TEMPLATE = """
@@ -54,7 +28,7 @@ RBRACK: ']';
 AT: '@';
 EQ: '=';
 NOT: '!';
-TOOLEMU_PREDICATE: {predicates};
+{predicates}
 INVOKE: 'invoke_action';
 ENFORCEMENT: 'user_inspection' | 'llm_self_reflect' | 'stop' | 'none' | 'skip'; //todo: customized enforcements
 WS: [ \\t\\r\\n]+ -> skip; // Ignore whitespace
@@ -84,7 +58,7 @@ tool: IDENTIFIER | ANY;
 
 toolkit: IDENTIFIER | ANY;
 
-predicate: TRUE | FALSE | NOT predicate | TOOLEMU_PREDICATE; 
+predicate: TRUE | FALSE | NOT predicate | {key}; 
 
 kvPair: STRING COLON value;
 
@@ -98,24 +72,70 @@ number: INTEGER | FLOAT;
 
 """
 
+key = "PREDICATE"
 def gen_grammar():
+    import rules.predicate_table as pt
+    predicates = set()
+    for tool in pt.predicate_table:
+        print(f"tool: {tool}")
+        for pred in pt.predicate_table[tool]:
+            predicates.add(f"'{pred}'")
+    predicates_str = ' | '.join(predicates)
+    predicates_str = f"{key}: {predicates_str};"
+    with open(G4_PATH, "w") as f:
+        f.write(G4_TEMPLATE.format(key = key,predicates=predicates_str))
 
-    with open(RULE_SOURCE, 'r') as f: 
-        predicates = set()
-        for l in f.readlines():
-            obj = json.loads(l)
-            for rule in obj["rules"]: 
-                for pred in rule["predicate_python_impl"]:
-                    predicates.add(f"'{pred}'")
-        predicates_str = ' | '.join(predicates)
-        grammar = G4_TEMPLATE.format(predicates=predicates_str)
-        with open(G4_PATH, "w") as f:
-            f.write(grammar)
+gen_grammar()
+#######
+# Below is the code to generate the grammar and rules from json file for toolemu
+#######
+# def gen_grammar():
+    # generate tool_emu grammar
+    # with open(RULE_SOURCE, 'r') as f: 
+    #     predicates = set()
+    #     for l in f.readlines():
+    #         obj = json.loads(l)
+    #         for rule in obj["rules"]: 
+    #             for pred in rule["predicate_python_impl"]:
+    #                 predicates.add(f"'{pred}'")
+    #     predicates_str = ' | '.join(predicates)
+    #     predicates_str = f"TOOLEMU_PREDICATE: {predicates_str};"
+    #     grammar = G4_TEMPLATE.format(predicates=predicates_str)
+    #     with open(G4_PATH, "w") as f:
+    #         f.write(grammar)
 
 
 # gen_grammar()
 
 from rule import Rule
+
+TOOLKIT_SOURCE = "ToolEmu/assets/all_toolkits.json"
+RULE_DIR = "rules/"
+RULE_SOURCE = "ToolEmu/assets/rules.jsonl"
+PREDICATE_MAPPING = RULE_DIR + "predicate_table.py"
+UTIL = "util"
+UTIL_PY = RULE_DIR +UTIL + ".py"
+LLM_JUDGE = "llm_judge"
+LLM_JUDGE_IMPL = f"""from langchain_openai import ChatOpenAI
+from langchain.schema import SystemMessage, HumanMessage
+ 
+
+def {LLM_JUDGE}(requirements, action, ctx) -> True:
+    # Initialize LangChain's LLM with your preferred model (e.g., OpenAI GPT-4)
+    llm = ChatOpenAI(temperature=0.0, model_name="gpt-4")
+    
+    # Constructing the context messages
+    messages = [
+        SystemMessage(content="You are an assistant evaluating task importance for risk management."),
+        HumanMessage(content=f"Context of previous actions: {{ctx.intermediate_steps}}\\n"),
+        HumanMessage(content=f"Action being evaluated: {{action}}\\nNote: the output should ONLY be 'true' or 'false', indicating the requiement is satisfied"),
+        HumanMessage(content=requirements)
+    ]
+    
+    # Query the LLM and parse the response
+    response = llm.invoke(messages) 
+    return response.content.strip().lower() == "true"
+"""
 
 def gen_rules():
     with open(UTIL_PY, 'w') as f:
@@ -188,58 +208,7 @@ def gen_predicate_table():
             f.write(py_text)
 
 # gen_rules()
-gen_predicate_table()
+# gen_predicate_table()
 
-# with open("ToolEmu/assets/rules.jsonl", 'r') as f:
-#     grammar = "toolkit_predicate: true"
-#     preds = set()
-    
-#     for l in f.readlines():
-#         obj = json.loads(l)
-#         name = obj["toolkits"]
-#         prefix = f"rules/"
-#         # os.system(f"mkdir {prefix}") 
-#         tookit_grammar = f"{name.upper()}_PREDICATE: false"
-        
-#         # grammar =f"{grammar} | {name.upper()}_PREDICATE"
-# #         with open(f"{prefix}{name.lower()}_predicates.py", 'a') as f:
-# #             f.write("""
-# # import re
-# # import datetime
-# # from typing import Dict
-# # from util import llm_judge
-
-# # """)
-
-#         # with open("rules/table.py", 'a') as f:
-#         #     f.write(f"import {name.lower()}_predicates")
-#         #     f.write("pred_table= {}")
-#         for rule in obj["rules"]: 
-#             # with open(f"{prefix}{name.lower()}_rules.ar", 'a') as f:
-#             #     f.write(rule["rule"])
-#             #     f.write("\n\n")
-#             # print(f"{rule}")
-#             print(rule["rule"])
-#             tool = Rule.from_text(rule["rule"]).tool
-#             predicates = set()
-#             for pred in rule["predicate_python_impl"]: 
-#                 if pred in predicates:
-#                     continue
-#                 predicates.add(pred)
-#                 append_file(PREDICATE_MAPPING , f"{name.lower()}_predicate_dict[\"{pred}\"] = {name.lower()}_predicates.{pred}\n")
-            
-#                 preds.add(pred)
-#                 # with open(f"{prefix}{name.lower()}_predicates.py", 'a') as f:
-#                 #     f.write("\n\n")
-#                 #     f.write(rule["predicate_python_impl"][pred])
-#         # map Tool name, predicate name -> predicate_function
-    
-#     append_file(PREDICATE_MAPPING, """#TOOL,predicate_name -> predicate_function
-# predicate_map = {}
-# """)
-            
-#         # print(tookit_grammar)
-#     preds = list(preds)
-#     print(" | ".join(preds) + ";") 
 
     

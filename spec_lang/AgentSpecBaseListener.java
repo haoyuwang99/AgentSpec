@@ -88,13 +88,13 @@ public class AgentSpecBaseListener implements AgentSpecListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEvent(AgentSpecParser.EventContext ctx) { }
+	@Override public void enterTool(AgentSpecParser.ToolContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitEvent(AgentSpecParser.EventContext ctx) { }
+	@Override public void exitTool(AgentSpecParser.ToolContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

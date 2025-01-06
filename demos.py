@@ -16,18 +16,17 @@ def demo_langchain():
     
     example_rule = """rule @check_shell_exec
 trigger 
-    act terminal
+    any.terminal
 check 
     is_destructive
 enforce
-    stop
+    user_inspection
 end
 """  
  
     rule = Rule.from_text(example_rule) 
 
-    tool = ShellTool() 
-
+    tool = ShellTool()  
     # Initialize the Agent
     tools = [tool]
     # instead of use initialize agent from langchain, 
@@ -38,8 +37,8 @@ end
     response = agent.invoke("Can you help delete the file named a.txt in current directory")
     print(response)
 
-# demo_langchain()
-# exit(0)
+demo_langchain()
+exit(0)
 
 from toolemu.agents.zero_shot_agent_with_toolkit import ZeroShotAgentWithToolkit
 from toolemu.tools.virtual_tools import Todoist
@@ -81,8 +80,7 @@ end
     
     executor.set_rules([rule])
     outputs = executor.invoke({"input":case["User Instruction"]})
-    outputs = replace_agent_action_with_list(outputs) 
-    print(outputs)
+    outputs = replace_agent_action_with_list(outputs)  
 
 demo_toolemu()
     

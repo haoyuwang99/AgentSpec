@@ -8,7 +8,7 @@ from state import RuleState
 from enforcement import *
 from rule import Rule
 from agent import Action
-from rules.predicate_table import *
+from rules.predicate_table import predicate_table
  
  
 class CustomErrorListener(ErrorListener): 
@@ -49,27 +49,29 @@ class RuleInterpreter(AgentSpecListener):
                 if res == False:
                     self.cond_eval_history[ctx.getText()] ={"val": res, "rationale": f"the following condition is not satisfied: {res[ctx.condition().getText()]}"}
             return res 
-        elif ctx.TOOLEMU_PREDICATE() !=None:
-            if self.rule.toolkit == "any":
-                raise ValueError("rule for toolemu must specify toolkit")
+        elif ctx.PREDICATE() !=None:
+            # if self.rule.toolkit == "any":
+            #     raise ValueError("rule for toolemu must specify toolkit")
             # todo: map the predicate to function execution  
-            print()
-            toolkit = self.rule.toolkit
-            predicate = ctx.TOOLEMU_PREDICATE().getText()
-            print(toolkit_table[toolkit])
-            
-            # link to 
-            exit(0)
-            return True
+            # print()
+            tool = self.rule.tool
+            predicate_str = ctx.PREDICATE().getText()
+            func = predicate_table[tool][predicate_str] 
+            # print(self.rule_state.user_input)
+            # print(self.rule_state.intermediate_steps)
+            # print(self.rule_state.action.input)
+            return func(self.rule_state.action.input, self.rule_state.intermediate_steps, self.rule_state.user_input)
         else:
-            values = []
-            for val_ctx in ctx.value() :
-                values.append(self.eval_value(val_ctx)) 
-            op = ctx.EVAL_OP().getText()
-            evaluator = EVALUATOR_TO_INSTANCE[op]
+            raise ValueError("unsupported type")
+        
+            # values = []
+            # for val_ctx in ctx.value() :
+            #     values.append(self.eval_value(val_ctx)) 
+            # op = ctx.EVAL_OP().getText()
+            # evaluator = EVALUATOR_TO_INSTANCE[op]
             
-            res =  evaluator.evaluate(cond_str,values)
-            self.cond_eval_history[cond_str] = res
+            # res =  evaluator.evaluate(cond_str,values)
+            # self.cond_eval_history[cond_str] = res
             return res
   
     def eval_action_invoke(self, ctx: AgentSpecParser.ActionInvokeContext):
@@ -91,29 +93,12 @@ class RuleInterpreter(AgentSpecListener):
     
     def eval_str(self, value: AgentSpecParser.ValueContext):
         return value.getText()[1:-1]
-
-    def eval_value(self, value: AgentSpecParser.ValueContext):  
-        if value.STRING() != None and value.value() == None: # distinguish from STRING and value [STRING]
-            return self.eval_str(value.STRING())
-        elif value.number() != None:
-            return self.eval_number(value.number()) 
-        elif value.IDENTIFIER() !=None :
-            return self.eval_val_id(str(value.IDENTIFIER()))
-        elif value.actionInvoke() !=None :
-            return self.eval_action_invoke(value.actionInvoke())
-        elif value.value() != None and value.STRING()!=None:
-            val = self.eval_value(value.value())
-            key = self.eval_str(value.STRING())
-            if not type(val) == dict:
-                raise ValueError(f"> {value.getText()}\n    error: {value.value().getText()} is not a dict")
-            if not key in val:
-                raise ValueError(f"> {value.getText()}\n    error: {key} is not a key in {value.value().getText()}")
-            return val[key] 
-        raise ValueError(f"unsupported value type {value.getText()}")
-
+    
     def enterCheckClause(self, ctx: AgentSpecParser.CheckClauseContext):
         for cond in ctx.predicate(): 
             self.check = self.check and self.eval_predicate(cond) 
+            if not self.check:
+                break
     
     def enterEnforcement(self, ctx: AgentSpecParser.EnforcementContext):
         if self.check: 
@@ -122,8 +107,7 @@ class RuleInterpreter(AgentSpecListener):
             self.enforce = "none" 
     
      
-    def verify_and_enforce(self, action: Action) -> Action:
-        
+    def verify_and_enforce(self, action: Action) -> Action: 
         input_stream = InputStream(self.rule.raw)
         lexer = AgentSpecLexer(input_stream)
         token_stream = CommonTokenStream(lexer)

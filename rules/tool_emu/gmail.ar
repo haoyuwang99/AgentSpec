@@ -13,7 +13,7 @@ enforce
     stop
 end
 rule @confirm_contact_deletion
-trigger Gmail.DeleteContact
+trigger     
 check
     is_critical_contact
 enforce

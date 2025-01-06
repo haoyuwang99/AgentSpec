@@ -18,7 +18,7 @@ RBRACK=17
 AT=18
 EQ=19
 NOT=20
-TOOLEMU_PREDICATE=21
+PREDICATE=21
 INVOKE=22
 ENFORCEMENT=23
 WS=24
@@ -46,4 +46,5 @@ FLOAT=28
 '@'=18
 '='=19
 '!'=20
+'is_destructive'=21
 'invoke_action'=22
