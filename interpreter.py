@@ -60,7 +60,7 @@ class RuleInterpreter(AgentSpecListener):
             # print(self.rule_state.user_input)
             # print(self.rule_state.intermediate_steps)
             # print(self.rule_state.action.input)
-            return func(self.rule_state.action.input, self.rule_state.intermediate_steps, self.rule_state.user_input)
+            return func(self.rule_state.user_input, self.rule_state.action.input, self.rule_state.intermediate_steps)
         else:
             raise ValueError("unsupported type")
         
