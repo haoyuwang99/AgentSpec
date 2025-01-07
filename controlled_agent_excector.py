@@ -27,6 +27,8 @@ from langchain_core.runnables import Runnable, RunnableConfig
 from typing import Dict
 
 
+NextStepOutput = List[Union[AgentFinish, AgentAction, AgentStep]]
+
 class ControlledAgentExecutor(AgentExecutor) : 
     rules: Optional[List[Rule]]
     user_input: Optional[Dict[str, Any]] = None
@@ -58,27 +60,42 @@ class ControlledAgentExecutor(AgentExecutor) :
            tools=tools,
            rules = rules,
            callbacks=callbacks,
+           handle_parsing_errors=True, # important: other wise, skip will raise parsing error.
            **kwargs,
         ) 
+
+
+    def _consume_next_step(
+        self, values: NextStepOutput
+    ) -> Union[AgentFinish, List[Tuple[AgentAction, str]]]: 
+        if isinstance(values[-1], AgentFinish):
+            assert len(values) == 1
+            return values[-1]
+        else:
+            return [
+                (a.action, a.observation) for a in values if isinstance(a, AgentStep)
+            ]
     
     def validate_and_enforce(self, action: Action, state: RuleState): 
         if self.rules==None:
             raise ValueError("rules should not be none")
         if action.is_finish():
-            return action
+            return None, action
         for rule in self.rules: 
             if rule.triggered(action.name): 
                 interpreter = RuleInterpreter(rule, state)
                 res, action = interpreter.verify_and_enforce(action)
                 if res == EnforceResult.CONTINUE:
-                    break
+                    continue
                 elif res == EnforceResult.SKIP:
-                    return action
+                    return rule, Action.get_skip()
+                elif res == EnforceResult.STOP:
+                    return rule, Action.get_finish()
                 elif res == EnforceResult.SELF_REFLECT: 
                     return self.validate_and_enforce(action, state)
                 else:
                     raise ValueError("Unreachable")
-        return action
+        return None, action
 
     def _iter_next_step(self, name_to_tool_map, color_mapping, inputs, intermediate_steps, run_manager = None):
         """Take a single step in the thought-action-observation loop. 
@@ -139,7 +156,11 @@ class ControlledAgentExecutor(AgentExecutor) :
             user_input=inputs
         )
         # todo: need an adapter here.
-        action = self.validate_and_enforce(action, state) 
+        rule, action = self.validate_and_enforce(action, state) 
+        if action.is_skip():
+            observation_text = f"after the enforcement of rule:\n{rule.raw}, the action is skipped by user" 
+            yield AgentStep(action=output, observation=observation_text)
+            return
         output = action.unwrap()
         # If the tool chosen is the finishing tool, then we end and return.
         if isinstance(output, AgentFinish):
@@ -147,10 +168,13 @@ class ControlledAgentExecutor(AgentExecutor) :
             return
  
         actions: List[AgentAction]
+
+        if output == None:
+            return
         if isinstance(output, AgentAction):
             actions = [output]
         else: 
-            actions = output
+            actions = output 
         for agent_action in actions:
             yield agent_action
         for agent_action in actions:
