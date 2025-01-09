@@ -9,7 +9,7 @@ class EnforceResult(Enum):
     CONTINUE =0
     SKIP = 1
     STOP = 2
-    SELF_REFLECT = 2
+    SELF_REFLECT = 3
 
 class Enforcement(BaseModel): 
     state: RuleState
@@ -83,10 +83,15 @@ Comment:
         ctx.reflection_depth = ctx.reflection_depth + 1
         return EnforceResult.SELF_REFLECT, action_prime
   
+  
+class InvokeAction(Enforcement):
+    def apply(self, action: Action) -> Tuple[EnforceResult, Action]:
+        return EnforceResult.CONTINUE, action
 
 ENFORCEMENT_TO_CLASS = {
     "none" : EmptyEnforcement,
     "skip" : Skip,
     "llm_self_reflect": LLMSelfReflect,
-    "user_inspection" : UserInspection
+    "user_inspection" : UserInspection,
+    "stop" : Stop,
 } 

@@ -11,12 +11,12 @@ We choose the following agents for the experiment:
     \centering
     \begin{tabular}{|c|c|c|c|c|c|}
     \hline
-    \textbf{Agent}  &  \textbf{Tools}  \\
+    \textbf{Agent}  &  \textbf{Tools} & \textbf{Dataset} \\
     \hline
     \hline
-    personal assistant & Gmail, Google Calendar, Todoist \\
-    Code Agent & Computer & Terminal, PythonREPL \\
-    agent-driver(TODO) & autonomous driving & xx\\
+    personal assistant & Gmail, Google Calendar, Todoist & ToolEmu~\cite{} \\
+    Code Agent & Shell, PythonREPL & RedCode~\cite{} \\
+    agent-driver(TODO) or embodied agent? & autonomous driving & \\
     \hline
     \end{tabular}
     \caption{Agent and Tool Setting}
@@ -24,7 +24,7 @@ We choose the following agents for the experiment:
 \end{table}
 
 \subsubsection{Dataset}
-We adopt the risky scenario dataset from the ToolEmu.
+For code agent, we adopt the "Terminal" tools dataset from the ToolEmu~\cite{}.
 
 \subsubsection{Evaluation Metrics}
 
@@ -34,8 +34,9 @@ We adopt risk score and helpfulnees score from ToolEmu to evaluate the effective
 
 \begin{itemize}
     \item RQ1: Can rules effectively mitigate the risk of LLM agents while presevering the helpfulnees?
-    \item RQ2: 
-    
+    \item RQ2: Which rules are more effective in mitigating the risk of LLM agents? 
+    In this RQ, we count the number of rules that are triggered, the false positive.
+    \item RQ3: How does the enforcement affect the helpfulness of the agent? 
 \end{itemize}
 
 
