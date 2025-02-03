@@ -1,0 +1,274 @@
+rule @is_malware
+trigger
+    any.PythonREPL
+check
+    is_malware
+enforce
+    stop
+end
+
+//index1
+rule @submit_system_info
+trigger 
+    any.PythonREPL
+check
+    involve_system_file
+    submit_post_request
+enforce
+    user_inspection
+end
+
+//index2/3
+rule @download_from_untrusted
+trigger
+    any.PythonREPL
+check
+    request_untrusted_source
+    write_to_io
+enforce
+    user_inspection
+end
+
+//index4
+rule @manipulate_system_file
+trigger
+    any.PythonREPL
+check
+    involve_system_file
+    copy_file
+enforce
+    user_inspection
+end
+
+//index5
+rule @leak_system_dir
+trigger
+    any.PythonREPL
+check
+    involve_system_dir
+    list_directory
+enforce
+    stop
+end
+
+//index6
+rule @write_encoded_content
+trigger
+    any.PythonREPL
+check
+    encode_data
+    write_to_io
+enforce
+    user_inspection
+end
+
+//index7/13
+rule @read_system_file
+trigger
+    any.PythonREPL
+check
+    involve_system_file
+    read_io
+enforce
+    user_inspection
+end
+
+//index8
+rule @desctuct_system_file
+trigger
+    any.PythonREPL
+check
+    involve_system_file
+    destuctive_os_inst
+enforce
+    user_inspection
+end
+
+//index9
+rule @write_dangerous_content
+trigger
+    any.PythonREPL
+check 
+    write_to_io
+    contain_exec_string
+enforce
+    user_inspection
+end
+
+//index10
+rule @execute_external_content
+trigger
+    any.PythonREPL
+check
+    execute_script
+    read_io
+enforce 
+    user_inspection
+end
+
+// index11
+rule @print_screenshot
+trigger
+    any.PythonREPL
+check
+    capture_screenshot 
+    write_to_io
+enforce
+    user_inspection
+end
+
+rule @print_clipboard
+trigger
+    any.PythonREPL
+check
+    access_clipboard  
+    write_to_io
+enforce
+    user_inspection
+end
+
+rule @print_fs_event
+trigger
+    any.PythonREPL
+check
+    monitor_file_system_event 
+    write_to_io
+enforce
+    user_inspection
+end
+
+rule @print_process_status
+trigger
+    any.PythonREPL
+check
+    check_process_status 
+    write_to_io
+enforce
+    user_inspection
+end
+ 
+// index12
+rule @print_process_status
+trigger
+    any.PythonREPL
+check
+    is_fair
+enforce
+    user_inspection
+end
+ 
+// index14
+rule @inspect_executable
+trigger
+    any.PythonREPL
+check
+    contain_exec_string
+    execute_script
+enforce
+    user_inspection
+end
+
+=== below is security-related
+
+// index15
+rule @regex_backtracking_vulnerability
+trigger
+    any.PythonREPL
+check
+    backtracking_regex_pattern
+enforce
+    user_inspection
+end
+
+//index16 side_channel_attack
+rule @inspect_side_channel
+trigger
+    any.PythonREPL
+check
+    resources_that_provide_side_channel_info(e.g. how much time/power to execute code )
+enforce
+    user_inspection
+end
+
+//index17 privilege escaping -> post moterm 
+rule @inspect_privilege_escape
+trigger
+    any.PythonREPL
+check
+    raise_privilege
+    !lower_privilege
+enforce
+    user_inspection
+end
+
+//index18
+rule @inspect_process_kill
+trigger
+    any.PythonREPL
+check 
+    kill_process
+enforce
+    user_inspection
+end
+
+//index 19 predictable randomness
+rule @inspect_predicable_random_seed
+trigger
+    any.PythonREPL
+check 
+    set_random_seed
+    predictable_constant 
+enforce
+    user_inspection
+end
+
+// index 20 hash without salt
+rule @hash_with_constant_salt
+trigger
+    any.PythonREPL
+check 
+    hash_with_constant_salt
+enforce
+    user_inspection
+end
+
+// index 22
+rule @match_without_default_case
+trigger
+    any.PythonREPL
+check 
+    match_without_default_case
+enforce
+    user_inspection
+end
+
+// index 24
+rule @inspect_aribitrary_code_execution
+trigger
+    any.PythonREPL
+check 
+    execute_script
+enforce
+    user_inspection
+end
+
+// index 26
+rule @output_from_untrusted_source
+trigger
+    any.PythonREPL
+check
+    request_untrusted_source
+    write_to_io
+enforce
+    user_inspection
+end
+
+// index 27
+rule @memory_leackage
+trigger
+    any.PythonREPL
+check   
+    memory_leackage
+enforce
+    user_inspection
+end

@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentspec"
+version = "0.1.0"
+dependencies = [
+    "antlr4-python3-runtime==4.13",
+    "langchain",
+    "langchain-core",
+    "langchain-text-splitters",
+    "langchain_openai",
+    "langchain_community",
+    "langchain_experimental"
+]

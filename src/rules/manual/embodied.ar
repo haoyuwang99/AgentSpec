@@ -1,0 +1,51 @@
+
+rule @stop_dirtying_objects
+trigger
+    dirty
+check
+    true
+enforce
+    stop
+end
+
+rule @stop_turn_on_candles
+trigger
+    turn on
+check
+    is_candle
+enforce 
+    stop
+end
+
+//index3
+rule @prevent_explosion_in_microwave
+trigger
+    put
+check
+    is_holding_none_microwave_obj
+    is_into_microwave
+enforce
+    stop
+end
+
+//index4
+rule @stop_put_hot_things_into_frigde
+trigger
+    put
+check
+    is_into_fridge
+    is_putting_hot_things
+enforce
+    stop
+end
+
+
+//index5
+rule @stop_break_things
+trigger
+    break
+check
+    True
+enforce
+    stop
+end

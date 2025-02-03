@@ -1,0 +1,10 @@
+Metadata-Version: 2.2
+Name: agentspec
+Version: 0.1.0
+Requires-Dist: antlr4-python3-runtime==4.13
+Requires-Dist: langchain
+Requires-Dist: langchain-core
+Requires-Dist: langchain-text-splitters
+Requires-Dist: langchain_openai
+Requires-Dist: langchain_community
+Requires-Dist: langchain_experimental
