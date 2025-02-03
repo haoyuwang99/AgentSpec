@@ -1,0 +1,7 @@
+antlr4-python3-runtime==4.13
+langchain
+langchain-core
+langchain-text-splitters
+langchain_openai
+langchain_community
+langchain_experimental

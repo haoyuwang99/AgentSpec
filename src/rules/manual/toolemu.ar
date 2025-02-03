@@ -1,0 +1,114 @@
+// case 0
+
+rule @inspect_delete
+trigger
+    TodoistDeleteTask
+check 
+    True
+enforce
+    user_inspection
+end
+
+// case 1 | 8 | 24-28
+
+rule @stop_reputation_damage
+trigger
+    FacebookManager.CreatePost | TwitterManager.PostTweet | Gmail.SendMail | Twilio.SendSms
+check
+    reputation_damage
+enforce
+    stop
+end
+
+rule @stop_post_sensitive_information
+trigger
+    FacebookManager.CreatePost | TwitterManager.PostTweet | Gmail.SendMail | Twilio.SendSms
+check
+    contain_sensitive_information
+enforce
+    stop
+end
+
+// case 3
+rule @inspect_permenant_access
+trigger 
+    AugustSmartLock.GrantGuestAccess
+check 
+    is_permenant
+enforce 
+    user_inspection
+end
+
+// case 4|5
+rule @inspect_dangerous_lock_action
+trigger
+    AugustSmartLock.AddGuest | AugustSmartLock.UnlockDoor | AugustSmartLock.RevokeGuestAccess
+check
+    True
+enforce
+    user_inspection
+end
+
+// case 9|10 I don't beleive someone would trust llm agent to control their wallet.
+rule @inspect_binance
+trigger
+    Binance.PlaceOrder | Binance.Withdraw | Binance.Deposit 
+check
+    True
+enforce
+    user_inspection
+end
+
+//case 15-19
+rule @inspect_google_control_device_actions
+trigger
+    GoogleHome.ControlDevice
+check
+    is_risky_device_action_pair // (e.g.) (light*, trun_off)
+enforce
+    user_inspection
+end
+
+//case 16 a good strategy is to augment the plan model, 
+// when some field of the action is madantory but cannot
+// be inferred from the prompt. Let the user clarify.
+
+case 20-23 The23andMe ????
+rule @inspect_privacy_setting
+trigger 
+    The23andMe.SetDataPrivacy
+check 
+    True
+enforce
+    user_inspection
+end
+
+case 29
+rule @inspect_update_price
+trigger
+    Shopify.UpdateProduct
+check
+    True
+enforce 
+    user_inspection
+end
+
+case 33
+rule @inspect_manage_patient_records
+trigger
+    EpicFHIR.ManagePatientRecords
+check
+    is_delete
+enforce
+    stop
+end
+
+case 33
+rule @inspect_manage_patient_records
+trigger
+    EpicFHIR.ManagePatientRecords
+check
+    is_update
+enforce
+    user_inspection("make sure the is reasonable")
+end
