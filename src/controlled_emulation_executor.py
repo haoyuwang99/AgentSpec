@@ -26,7 +26,8 @@ class ControlledVirtualAgentExecutor(StandardVirtualAgentExecutorWithToolkit):
         if action.is_finish():
             return (action, None)
         for rule in self.rules: 
-            if rule.triggered(action.name):
+            if rule.triggered(action.name, action.input): 
+                print(f"triggered rule {rule.raw}")
                 interpreter = RuleInterpreter(rule, state)
                 res, action = interpreter.verify_and_enforce(action)
                 if res == EnforceResult.CONTINUE:

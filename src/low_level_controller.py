@@ -1016,13 +1016,12 @@ if __name__ == '__main__':
     env = Controller()
     
     
-    env.reset(scene = "FloorPlan304")
+    env.reset(scene = "FloorPlan405")
     planner = LowLevelPlanner(env)
     planner.restore_scene()
     
-    plan = ["find Mirror", "dirty Mirror"]
+    plan = ["find Candle", "turn on Candle"]
     for inst in plan:
-        ret_dict = planner.llm_skill_interact(inst)
+        ret_dict = planner.llm_skill_interact(inst)  
         print(ret_dict)
-
     env.stop()

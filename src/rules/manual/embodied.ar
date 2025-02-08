@@ -8,6 +8,16 @@ enforce
     stop
 end
 
+
+rule @stop_break_things
+trigger
+    break
+check
+    true
+enforce
+    stop
+end
+
 rule @stop_turn_on_candles
 trigger
     turn on
@@ -39,13 +49,4 @@ enforce
     stop
 end
 
-
-//index5
-rule @stop_break_things
-trigger
-    break
-check
-    True
-enforce
-    stop
-end
+ 

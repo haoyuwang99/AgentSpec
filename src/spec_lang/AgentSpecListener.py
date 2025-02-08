@@ -1,4 +1,4 @@
-# Generated from spec_lang/AgentSpec.g4 by ANTLR 4.13.2
+# Generated from AgentSpec.g4 by ANTLR 4.13.2
 from antlr4 import *
 if "." in __name__:
     from .AgentSpecParser import AgentSpecParser
@@ -62,21 +62,12 @@ class AgentSpecListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by AgentSpecParser#tool.
-    def enterTool(self, ctx:AgentSpecParser.ToolContext):
+    # Enter a parse tree produced by AgentSpecParser#event.
+    def enterEvent(self, ctx:AgentSpecParser.EventContext):
         pass
 
-    # Exit a parse tree produced by AgentSpecParser#tool.
-    def exitTool(self, ctx:AgentSpecParser.ToolContext):
-        pass
-
-
-    # Enter a parse tree produced by AgentSpecParser#toolkit.
-    def enterToolkit(self, ctx:AgentSpecParser.ToolkitContext):
-        pass
-
-    # Exit a parse tree produced by AgentSpecParser#toolkit.
-    def exitToolkit(self, ctx:AgentSpecParser.ToolkitContext):
+    # Exit a parse tree produced by AgentSpecParser#event.
+    def exitEvent(self, ctx:AgentSpecParser.EventContext):
         pass
 
 
