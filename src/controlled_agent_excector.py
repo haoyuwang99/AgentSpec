@@ -82,9 +82,8 @@ class ControlledAgentExecutor(AgentExecutor) :
         if self.rules==None:
             raise ValueError("rules should not be none")
         if action.is_finish():
-            return None, action
-        print(self.rules)
-        for rule in self.rules: 
+            return None, action 
+        for rule in self.rules:  
             if rule.triggered(action.name, action.input): 
                 interpreter = RuleInterpreter(rule, state)
                 res, action = interpreter.verify_and_enforce(action)
@@ -114,8 +113,7 @@ class ControlledAgentExecutor(AgentExecutor) :
             # with open("code_agent_exec", 'a') as f:
             #     o = { "prompt": inputs, "code": str(output)}
             #     f.write(json.dumps(o))
-            print(output)
-            print(self.rules)
+
            
         except OutputParserException as e:
             if isinstance(self.handle_parsing_errors, bool):

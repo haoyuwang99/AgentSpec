@@ -1,8 +1,8 @@
 import unittest
 import os
 from antlr4 import *
-from AgentSpecLexer import AgentSpecLexer
-from AgentSpecParser import AgentSpecParser
+from .AgentSpecLexer import AgentSpecLexer
+from .AgentSpecParser import AgentSpecParser
 from antlr4.error.ErrorListener import ErrorListener
 
 class CustomErrorListener(ErrorListener): 

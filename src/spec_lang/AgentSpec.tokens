@@ -26,6 +26,7 @@ IDENTIFIER=25
 STRING=26
 INTEGER=27
 FLOAT=28
+FINISH=29
 'rule'=1
 'trigger'=2
 'check'=3
@@ -46,5 +47,5 @@ FLOAT=28
 '@'=18
 '='=19
 '!'=20
-'is_destructive'=21
 'invoke_action'=22
+'finish'=29

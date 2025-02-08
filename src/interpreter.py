@@ -8,6 +8,7 @@ from state import RuleState
 from enforcement import *
 from rule import Rule
 from agent import Action
+from rules.manual.table import predicate_table
 # from rules.predicate_table import predicate_table
  
  
@@ -46,24 +47,25 @@ class RuleInterpreter(AgentSpecListener):
                 res = self.eval_predicate(ctx.predicate())
             else :
                 res = not self.eval_predicate(ctx.predicate())
-                if res == False:
-                    self.cond_eval_history[ctx.getText()] ={"val": res, "rationale": f"the following condition is not satisfied: {res[ctx.condition().getText()]}"}
+                # if res == False:
+                #     self.cond_eval_history[ctx.getText()] ={"val": res, "rationale": f"the following condition is not satisfied: {res[ctx.condition().getText()]}"}
             return res 
         elif ctx.PREDICATE() !=None:
             # if self.rule.toolkit == "any":
             #     raise ValueError("rule for toolemu must specify toolkit")
             # todo: map the predicate to function execution  
             # print()
-            tool = self.rule.tool
+            # tool = self.rule.tool
+            print(self.rule.event)
             predicate_str = ctx.PREDICATE().getText()
-            func = predicate_table[tool][predicate_str] 
+            print(predicate_str)
+            func = predicate_table[predicate_str] 
             # print(self.rule_state.user_input)
             # print(self.rule_state.intermediate_steps)
             # print(self.rule_state.action.input)
             return func(self.rule_state.user_input, self.rule_state.action.input, self.rule_state.intermediate_steps)
         else:
-            raise ValueError("unsupported type")
-        
+            raise ValueError("unsupported type") 
             # values = []
             # for val_ctx in ctx.value() :
             #     values.append(self.eval_value(val_ctx)) 
