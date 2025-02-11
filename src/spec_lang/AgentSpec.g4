@@ -30,6 +30,9 @@ IDENTIFIER: [a-zA-Z_][a-zA-Z0-9_]*; // Identifier rule
 STRING: '"' .*? '"'; // String literal
 INTEGER: [0-9]+;                         // Whole numbers
 FLOAT: [0-9]+ '.' [0-9]* | '.' [0-9]+;   // Decimal numbers
+STATE_CHANGE: 'state_change';
+BEFORE_ACTION: 'before_action';
+AFTER_ACTION: 'after_action';
 FINISH: 'finish'; 
 
 // Parser Rules
@@ -49,17 +52,23 @@ checkClause: CHECK predicate+;
 
 enforceClause: ENFORCE enforcement+; 
 
-event: IDENTIFIER | ANY;
-
-predicate: TRUE | FALSE | NOT predicate | PREDICATE; 
+event: IDENTIFIER | STATE_CHANGE | BEFORE_ACTION | AFTER_ACTION | FINISH;
 
 kvPair: STRING COLON value;
 
 value: STRING | number | IDENTIFIER | value LBRACK STRING RBRACK | actionInvoke;
 
-enforcement: ENFORCEMENT | actionInvoke;
+enforcement: ENFORCEMENT | actionInvoke | config;
 
 actionInvoke: INVOKE LPAREN IDENTIFIER COMMA LBRACE kvPair (COMMA kvPair)* RBRACE RPAREN;
   
-number: INTEGER | FLOAT;
+number: INTEGER | FLOAT; 
 
+predicate: TRUE | FALSE | NOT predicate | PREDICATE | predicate_func; 
+
+// for mudrive 
+predicate_func: IDENTIFIER LPAREN number RPAREN;
+
+namespace: IDENTIFIER COLON;
+
+config: namespace+ IDENTIFIER EQ number;

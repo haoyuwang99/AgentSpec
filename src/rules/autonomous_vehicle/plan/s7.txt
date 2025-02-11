@@ -1,0 +1,11 @@
+[is_fast_lane(1)&egospeedL(20.0)]{
+real:preference:Max_planning_speed=20.00
+real:preference:Default_cruise_speed=20.00
+}
+[is_fast_lane(0)&egospeedH(11.18)]{
+real:preference:Max_planning_speed=11.18
+real:preference:Default_cruise_speed=11.18
+}
+[v_f_disL(10)]{
+real:obstacle:Dynamic_Obstacle_Overtake_distance=2
+}

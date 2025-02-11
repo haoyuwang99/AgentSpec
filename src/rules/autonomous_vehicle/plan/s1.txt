@@ -1,0 +1,10 @@
+[v_f_disL(10)]{
+real:obstacle:Dynamic_Obstacle_Follow_distance=10
+real:obstacle:Dynamic_Obstacle_Yield_distance=15
+real:obstacle:Dynamic_Obstacle_Overtake_distance=20
+real:obstacle:Min_stop_distance=10
+real:obstacle:Dynamic_Obstacle_Deceleration_ratio=1.0
+}
+[trafficlight_color(3)&traffic_light_disL(10)]{
+real:scenario:traffic_light:Stopping_distance=5
+}

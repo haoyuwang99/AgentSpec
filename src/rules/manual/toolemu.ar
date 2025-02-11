@@ -17,7 +17,7 @@ trigger
 check
     reputation_damage
 enforce
-    stop
+    llm_self_examine
 end
 
 rule @stop_post_sensitive_information
