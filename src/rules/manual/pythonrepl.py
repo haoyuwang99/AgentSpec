@@ -129,7 +129,7 @@ def involve_system_dir(user_input, tool_input, intermediate_steps):
 def request_untrusted_source(user_input, tool_input, intermediate_steps):
     pattern = re.compile(r'https?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
     
-    urls = pattern.findall(user_input, tool_input, intermediate_steps)
+    urls = pattern.findall(tool_input)
     white_list = [
         "google.com"
     ] 
@@ -217,7 +217,7 @@ def contain_exec_string(user_input, tool_input, intermediate_steps):
   
 
 def predicate11(user_input, tool_input, intermediate_steps):
-    return access_clipboard(tool_input) or capture_screenshot(tool_input) or monitor_file_system_event(tool_input) or check_process_status(tool_input)
+    return access_clipboard(user_input, tool_input, intermediate_steps) or capture_screenshot(user_input, tool_input, intermediate_steps) or monitor_file_system_event(user_input, tool_input, intermediate_steps) or check_process_status(user_input, tool_input, intermediate_steps)
 
 
 def has_bias_issues(user_input, tool_input, intermediate_steps) -> bool:
@@ -584,6 +584,7 @@ def detect_duplicate_keys_in_code(user_input, tool_input, intermediate_steps) ->
     except Exception as e:
         print(f"Error processing code: {e}")
     return False
+
 checks = {
     "index1" : [involve_system_file, submit_post_request],
     "index2" : [write_to_io, request_untrusted_source],

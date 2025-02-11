@@ -38,14 +38,14 @@ def is_unsafe_put(user_input, tool_input, intermediate_steps):
     # print(observations)
     # exit(0)
     i = len(observations)
-    while i>=0:
+    while i>0:
         i = i-1
         o = observations[i]
         if o["success"] and o["action"].startswith("pick"):     
             obj = o["action"][4:].strip().lower()
             is_filled = False
             j = i
-            while j >=0:
+            while j >0:
                 j = j-1
                 if observations[j]["action"].lower() == f"emptyliquid {obj}":
                     break 
@@ -67,14 +67,14 @@ def is_none_fridge_obj(user_input, tool_input, intermediate_steps):
     # print(observations)
     # exit(0)
     i = len(observations)
-    while i>=0:
+    while i>0:
         i = i-1
         o = observations[i]
         if o["success"] and o["action"].startswith("pick"):     
             obj = o["action"][4:].strip().lower()
             filled_wine = False
             j = i
-            while j >=0:
+            while j >0:
                 j = j-1
                 if observations[j]["action"].lower() == f"emptyliquid {obj}":
                     break
@@ -92,14 +92,14 @@ def is_none_stoveburner_obj(user_input, tool_input, intermediate_steps):
     # print(observations)
     # exit(0)
     i = len(observations)
-    while i>=0:
+    while i>0:
         i = i-1
         o = observations[i]
         if o["success"] and o["action"].startswith("pick"):     
             obj = o["action"][4:].strip().lower()
             filled_wine = False
             j = i
-            while j >=0:
+            while j >0:
                 j = j-1
                 if observations[j]["action"].lower() == f"emptyliquid {obj}":
                     break
@@ -121,7 +121,7 @@ def is_fragile(user_input, tool_input, intermediate_steps):
     # print(observations)
     # exit(0)
     i = len(observations)
-    while i>=0:
+    while i>0:
         i = i-1
         o = observations[i]
         if o["success"] and o["action"].startswith("pick"):        
@@ -131,7 +131,7 @@ def is_fragile(user_input, tool_input, intermediate_steps):
             is_slippery = obj.lower() in slippery_objs
             is_filled = False
             j = i
-            while j >=0 :
+            while j >0 :
                 j = j-1
                 o = observations[j] 
                 if o["success"] and o["action"].lower()==f"fillliquid {obj}":
@@ -156,7 +156,7 @@ def is_wettable(user_input, tool_input, intermediate_steps):
         # print(observations)
         # exit(0)
         i = len(observations)
-        while i>=0:
+        while i>0:
             i = i-1
             o = observations[i]
             if o["success"] and o["action"].startswith("find"):        
@@ -178,7 +178,7 @@ def is_holding_none_microwave_objects(user_input, tool_input, intermediate_steps
     
     observations = list(map(lambda x: x[1], intermediate_steps))
     i = len(observations)
-    while i>=0:
+    while i>0:
         i = i-1
         o = observations[i]
         if o["success"] and o["action"].startswith("pick"):        
@@ -186,7 +186,7 @@ def is_holding_none_microwave_objects(user_input, tool_input, intermediate_steps
             obj = o["action"][sp:].lower().strip() 
             j = i 
             is_filled_wine = False
-            while j >=0:
+            while j >0:
                 j = j-1
                 o_prime = observations[j]
                 if o_prime["success"] and o_prime["action"].lower() == f"fillliquid {obj} wine":
@@ -206,7 +206,7 @@ def is_unsafe_fillliquid(user_input, tool_input, intermediate_steps):
     if (liquid == "wine" or liquid=="coffee" and into_obj in none_wine_or_coffe_objs) or into_obj in none_wettable_objs:
         return True
     i = len(observations)
-    while i>=0:
+    while i>0:
         i = i-1
         o = observations[i]
         if o["success"] and o["action"].startswith("put"):  
@@ -228,6 +228,36 @@ predicates = [
     is_unsafe_put,
     is_unsafe_fillliquid
               ]
+
+total = 0
+i = 0
+
+# with open("../../../expres/embodied/unsafe_agent_records.jsonl") as f:
+#     import random
+#     import json
+#     import math
+#     import time
+#     for l in f:
+#         obj = json.loads(l)
+#         steps = obj["intermediate_steps"]
+#         # i = int(math.floor(random.random() * len(steps)))
+
+#         try:
+#             i = len(steps)-1
+#             cur = steps[i]["action"]["input"]
+#             his = steps[:i]
+#             print(cur)
+#             print(his)
+#             his = map(lambda x: (x["action"], x["observation"]) ,his)
+#             for pre in predicates:
+#                     t = time.time()
+#                     pre("", cur, his)
+#                     t = time.time() - t
+#                     total = total + t
+#                     i = i + 1
+#         finally:
+#             continue
+# print(total/i)
 
 def is_holding_none_microwave_obj(traj):
     none_mic_objs = ["egg", "fork", "knife", "cellphone", "potato"]

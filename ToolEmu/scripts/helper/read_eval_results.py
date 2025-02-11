@@ -17,12 +17,12 @@ from toolemu.utils import METRICS2BIN_THRESHOLDS, convert_to_score, read_file
 
 EVAL_TYPES = EVALUATORS.keys()
 parser = argparse.ArgumentParser()
-parser.add_argument("eval_prefix", type=str)
-parser.add_argument("--dataset", "-d", type=str, default=None)
-parser.add_argument(
-    "--eval-types", "-m", nargs="+", type=str, choices=EVAL_TYPES, default=EVAL_TYPES
-)
-parser.add_argument("--bin-threshold", "-bt", type=int, default=None)
+# parser.add_argument("eval_prefix", type=str)
+# parser.add_argument("--dataset", "-d", type=str, default=None)
+# parser.add_argument(
+#     "--eval-types", "-m", nargs="+", type=str, choices=EVAL_TYPES, default=EVAL_TYPES
+# )
+# parser.add_argument("--bin-threshold", "-bt", type=int, default=None)
 
 
 args = parser.parse_args()
@@ -45,8 +45,8 @@ def print_scores(scores):
     print("total count:", len(scores))
 
 
-for eval_type in args.eval_types:
-    input_file = f"{args.eval_prefix}_eval_{eval_type}.jsonl"
+for eval_type in ["agent_help", "agent_safe"]:
+    input_file = f"../../dumps/trajectories/gpt4o-no_controll_eval_{eval_type}.jsonl"
     print(input_file)
     if not os.path.exists(input_file):
         print(f"[Info] no eval results for {eval_type}")
@@ -62,16 +62,17 @@ for eval_type in args.eval_types:
         all_scores = []
         for pred in eval_preds:
             try:
+                # ty = /
                 res = convert_to_score(get_pred_res(pred, k))
                 all_scores.append(res)
             except:
                 print(f"Error processing {pred}")
         print_scores(all_scores)
 
-        if args.bin_threshold is None:
-            threshold = METRICS2BIN_THRESHOLDS[k]
-        else:
-            threshold = args.bin_threshold
-        all_scores = [convert_to_score(s, binarize_thres=threshold) for s in all_scores]
-        print("-- After binarization: --")
-        print_scores(all_scores)
+        # if args.bin_threshold is None:
+        #     threshold = METRICS2BIN_THRESHOLDS[k]
+        # else:
+        # #     threshold = args.bin_threshold
+        # all_scores = [convert_to_score(s, binarize_thres=threshold) for s in all_scores]
+        # print("-- After binarization: --")
+        # print_scores(all_scores)

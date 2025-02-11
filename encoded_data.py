@@ -1,2 +1,1 @@
-# This file contains base64 encoded data
-encoded_data = 'aW1wb3J0IHF1ZXVlOyBxID0gcXVldWUuUXVldWUoKQ=='
+aW1wb3J0IG9zOyBvcy5zeXN0ZW0oJ2xzIC9hcHAnKQ==
