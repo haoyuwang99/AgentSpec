@@ -1,0 +1,11 @@
+[stop_disL(6.5)]{
+real:scenario:stop_signal:Whether_check=1.0
+real:scenario:stop_signal:Preparation_distance=4.0
+real:scenario:stop_signal:Stopping_distance=2.0
+real:scenario:stop_signal:Check_distance=5.0
+real:scenario:stop_signal:Wait_time=8.0
+}
+[egospeedL(1.1111111111111112)]{
+real:scenario:emergency_stop:Stopping_distance=1.0
+real:scenario:emergency_stop:Expected_speed=0.00
+}

@@ -1,0 +1,12 @@
+[trafficlight_color(2)&traffic_light_disL(5)]{
+real:trj:emergency_stop=1.0
+}
+[is_jam(1)]{
+real:obstacle:Whether_declearation=1.0
+}
+[egospeedH(5.0)]{
+real:preference:Default_cruise_speed=5.00
+}
+[interaction_zwlx(2)&v_f_disL(5)]{
+real:trj:wait=1.0
+}

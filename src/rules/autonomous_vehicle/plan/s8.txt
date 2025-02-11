@@ -1,0 +1,4 @@
+[snow(1)]{
+real:preference:Max_planning_speed=8.33
+real:preference:Default_cruise_speed=8.33
+}

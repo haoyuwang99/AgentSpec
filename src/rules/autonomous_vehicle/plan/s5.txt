@@ -1,0 +1,10 @@
+[trafficlight_color(3)&traffic_light_disL(2.0)]{
+real:trj:emergency_stop=1.0
+}
+[trafficlight_color(1)&traffic_light_disL(1.0)]{
+real:preference:Max_planning_speed=20.00
+real:preference:Default_cruise_speed=11.18
+}
+[trafficlight_color(1)&is_e_stop(1)]{
+real:trj:vehicle_launch=1.0
+}

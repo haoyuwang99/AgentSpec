@@ -71,15 +71,6 @@ class AgentSpecListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by AgentSpecParser#predicate.
-    def enterPredicate(self, ctx:AgentSpecParser.PredicateContext):
-        pass
-
-    # Exit a parse tree produced by AgentSpecParser#predicate.
-    def exitPredicate(self, ctx:AgentSpecParser.PredicateContext):
-        pass
-
-
     # Enter a parse tree produced by AgentSpecParser#kvPair.
     def enterKvPair(self, ctx:AgentSpecParser.KvPairContext):
         pass
@@ -122,6 +113,42 @@ class AgentSpecListener(ParseTreeListener):
 
     # Exit a parse tree produced by AgentSpecParser#number.
     def exitNumber(self, ctx:AgentSpecParser.NumberContext):
+        pass
+
+
+    # Enter a parse tree produced by AgentSpecParser#predicate.
+    def enterPredicate(self, ctx:AgentSpecParser.PredicateContext):
+        pass
+
+    # Exit a parse tree produced by AgentSpecParser#predicate.
+    def exitPredicate(self, ctx:AgentSpecParser.PredicateContext):
+        pass
+
+
+    # Enter a parse tree produced by AgentSpecParser#predicate_func.
+    def enterPredicate_func(self, ctx:AgentSpecParser.Predicate_funcContext):
+        pass
+
+    # Exit a parse tree produced by AgentSpecParser#predicate_func.
+    def exitPredicate_func(self, ctx:AgentSpecParser.Predicate_funcContext):
+        pass
+
+
+    # Enter a parse tree produced by AgentSpecParser#namespace.
+    def enterNamespace(self, ctx:AgentSpecParser.NamespaceContext):
+        pass
+
+    # Exit a parse tree produced by AgentSpecParser#namespace.
+    def exitNamespace(self, ctx:AgentSpecParser.NamespaceContext):
+        pass
+
+
+    # Enter a parse tree produced by AgentSpecParser#config.
+    def enterConfig(self, ctx:AgentSpecParser.ConfigContext):
+        pass
+
+    # Exit a parse tree produced by AgentSpecParser#config.
+    def exitConfig(self, ctx:AgentSpecParser.ConfigContext):
         pass
 
 
