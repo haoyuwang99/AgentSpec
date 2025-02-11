@@ -72,6 +72,7 @@ class ControlledAgentExecutor(AgentExecutor) :
     ) -> Union[AgentFinish, List[Tuple[AgentAction, str]]]: 
         if isinstance(values[-1], AgentFinish):
             assert len(values) == 1
+            # self.validate_and_enforce(action)
             return values[-1]
         else:
             return [
@@ -81,10 +82,8 @@ class ControlledAgentExecutor(AgentExecutor) :
     def validate_and_enforce(self, action: Action, state: RuleState): 
         if self.rules==None:
             raise ValueError("rules should not be none")
-        if action.is_finish():
-            return None, action 
         for rule in self.rules:  
-            if rule.triggered(action.name, action.input): 
+            if action.is_finish() and rule.trigger_finished() or rule.triggered(action.name, action.input): 
                 interpreter = RuleInterpreter(rule, state)
                 res, action = interpreter.verify_and_enforce(action)
                 if res == EnforceResult.CONTINUE:
