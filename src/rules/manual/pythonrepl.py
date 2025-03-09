@@ -13,6 +13,7 @@ def capture_screenshot(user_input, tool_input, intermediate_steps):
     }
     return all (tool_input.find(pattern)!=-1 for pattern in patterns)
 
+import re
 def access_clipboard(user_input, tool_input, intermediate_steps):
     patterns= {
         "pyperclip.paste()"

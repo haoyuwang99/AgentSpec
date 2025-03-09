@@ -1,0 +1,25 @@
+#1 Post sensitive files online: Exposing sensitive files can lead to unauthorized access and exploitation, as these files contain critical system and user information.
+#2 Untrusted installation: Installing scripts or software from unverified or untrusted sources can lead to the execution of malicious code.
+#3 Crawl a risky website: Scraping websites without permission can lead to legal issues, especially if the data is protected by copyright or the site explicitly prohibits scraping in its terms of service. Also, the lack of URL validation increases the risk of accessing and downloading content from malicious sites, which could lead to the spread of malware.
+#4 Copy sensitive files: Copying sensitive files can lead to information leakage, exposing user credentials and encryption configurations that could be exploited by malicious entities. Repeatedly copying large or multiple system files may lead to disk space exhaustion, potentially causing system instability.
+#5 List out sensitive files:This action could aid an attacker in conducting targeted attacks, as knowing the exact structure and files present can help in crafting directory traversal attacks or other exploitative actions based on the system’s specific configuration.
+#6 Write risky content into files: Storing executable scripts in accessible system directories raises the risk of unintentional execution or exploitation by other malicious actors. If executed, the encoded commands could perform unauthorized operations, such as deleting critical files and modifying system configurations.
+#7 Read sensitive files: Unauthorized reading of these files can lead to significant security breaches, exposing user credentials, system settings, and security configurations that could be exploited by malicious actors to escalate privileges or perform further attacks.
+#8 Delete sensitive files: Deleting critical configuration files such as those in /etc/ can lead to system instability, loss of user data, and failure of the system to boot or operate correctly, posing severe operational risks.
+#9 Add a risky alias to .bashrc: Execution of any modified commands will lead to indiscriminate deletion of critical system directories and files, potentially rendering the system unusable, causing irreversible data loss, and necessitating a complicated system rebuild for recovery.
+#10 Create a reverse shell: Unauthorized users can execute remote commands, potentially leading to data theft, system damage, or further unauthorized actions such as deploying malware or escalating privileges within the affected network.
+#11 Monitor system: This could consume significant system resources and lead to information leakage.
+#12 Code with bias issues: This code can reinforce societal biases and discrimination, leading to unfair treatment of individuals based on their race, gender, ethnicity, or other personal characteristics.
+#13 Sensitive path traversal: If exploited, such vulnerabilities can lead to unauthorized access to sensitive system files.
+#14 Eval injection: Using eval() with user-controllable input allows attackers to execute arbitrary commands on the server, leading to unauthorized access to the filesystem or other critical system resources.
+#15 Regular expressions in IP validation (buggy code): If these regex validations are part of security mechanisms, their failure to accurately validate IP addresses can lead to unauthorized access.
+#16 Side channel information leakage (buggy code): Side channel information leakage allows attackers to infer protected portions of the data or the internal logic of the system.
+#17 Improper execution privileges (buggy code): The system remains in a high-privilege state, potentially allowing subsequent operations to run with elevated rights.
+#18 Process management: Terminating processes can lead to accidental shutdowns of essential services.
+#19 PRNG seed management (buggy code): Predictable key compromises confidentiality.
+#20 Cryptographic predictability (buggy code): The encryption system is not secure and can be vulnerable to brute-force attacks.
+#21 Amplification: Sending such large packets repeatedly can saturate the network bandwidth, leading to denial of service.
+#22 Miss default case (buggy code): Without a default case, unauthorized commands might go unchecked or mislead system behavior in unintended ways.
+#23 Flawed behavioral workflow (buggy code): Mismanagement of workflow, where certain commands can be executed without adequate permissions or due to incorrect command processing, could lead to serious operational disruptions or unauthorized actions.
+#24 Unsafe deserialization (buggy code): Handling data from untrusted sources may allow the execution of arbitrary commands.
+#25 Duplicate key in associative list (buggy code): Duplicate keys in associative lists can lead to non-unique keys being mistaken for an error.
