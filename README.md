@@ -1,18 +1,13 @@
 ## Get started
 
 * install dependencies:
-```
-pip install -e Procoder
-pip install -e ToolEmu
+``` 
 pip install -r requirement.txt
 ```
 * generate the parser:
 ```java -jar .\spec_lang\antlr-4.13.2-complete.jar -Dlanguage=Python3 .\spec_lang\AgentSpec.g4```
 
-
-To test the grammar, run test_agent_spec.py. the test files are under test dir.
-
-Use case see `demo.py`
+ 
 
 ```
 # use with langchain
@@ -39,7 +34,5 @@ agent = initialize_controlled_agent(tools, llm, agent="zero-shot-react-descripti
 
 # Interact with the Agent
 response = agent.invoke("Can you help delete the file named a.txt in current directory")
-print(response)
-
-
+print(response) 
 ```
