@@ -15,9 +15,9 @@ state_keys = [
 "isMoving"
 ]    
 
+# def encode_obj_type(ty):
 
-def encode_obj_type(ty):
-    
+
 
 def encode_state(obj):
     bit_str = 0
