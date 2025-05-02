@@ -18,6 +18,7 @@ def extract_function_names(source_code: str):
 def embodied():
     with open("generated_rules-o1.jsonl") as f:
         i = 0
+        
         preds = []
         for l in f:
             i = i + 1 
@@ -66,7 +67,8 @@ def embodied():
         print(f"rule{i}")
         print(length)
         print(detect) 
-
+        
+embodied()
             
 def code():
     with open("code-rules-o1") as f:
@@ -139,4 +141,4 @@ def code():
             # break
         # for FPs
 
-code()
+# code()
