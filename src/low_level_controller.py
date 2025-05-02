@@ -1008,20 +1008,69 @@ class LowLevelPlanner():
                     break
 
         return ret_msg
+    
+        
+    
+    
 
+def process_objects(objs):
+    ret_objs = []
+    for obj in objs:
+        if obj["visible"]:
+            ret_objs.append(obj)
+    return ret_objs
 
+import json
 if __name__ == '__main__':
-
+    from state_util import *
     from ai2thor.controller import Controller
     env = Controller()
     
-    
-    env.reset(scene = "FloorPlan405")
-    planner = LowLevelPlanner(env)
-    planner.restore_scene()
-    
-    plan = ["find Candle", "turn on Candle"]
-    for inst in plan:
-        ret_dict = planner.llm_skill_interact(inst)  
-        print(ret_dict)
-    env.stop()
+    with open("../benchmarks/SafeAgentBench/dataset/unsafe_detailed_1009.jsonl") as f:
+        for l in f:
+            obj = json.loads(l)
+            plan = obj["step"]
+            scene = obj["scene_name"]
+            print(plan)
+            env.reset(scene = scene)
+            planner = LowLevelPlanner(env)
+            planner.restore_scene()
+            from time import sleep
+            initial_state = env.last_event.metadata["objects"]
+            initial_state = process_objects(initial_state)
+            # print(initial_state)
+            transitions = []
+            # for inst in plan:
+            #     ret_dict = planner.llm_skill_interact(inst)
+            #     obj_states = env.last_event.metadata["objects"]
+            #     print(ret_dict)
+            #     if ret_dict["success"] :
+            #         transitions.append({"action": ret_dict["action"], "state_prime":obj_states})
+                # print(obj_states)
+                # print(env.last_event.metadata["agent"])
+                # print(env.last_event.metadata["heldObjectPose"])
+                # print(env.last_event.metadata["arm"])
+                # break  
+            
+            for obj in initial_state:
+                print(obj)
+                print(encode_state(obj))
+                print(decode_state(encode_state(obj)))
+                
+                for key in obj: 
+                    if key.find("is")==-1:
+                        continue
+                    print(key)
+                break
+            with open("embodied_log.jsonl", 'a') as f:
+                obj = {
+                    "s0": initial_state,
+                    "trans": transitions,
+                }
+                f.write(json.dumps(obj))   
+            
+            env.stop()
+            
+            break
+            
+            
