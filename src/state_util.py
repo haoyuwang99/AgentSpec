@@ -157,6 +157,13 @@ with open("embodied_log_raw.jsonl") as f:
     df_P = pd.DataFrame(P_hat, index=[f's{i}' for i in range(K)],
                         columns=[f's{j}' for j in range(K)])
 
+    with pd.ExcelWriter("dtmc_transition_data.xlsx", engine="xlsxwriter") as writer:
+    # Write counts to the first sheet
+        df_counts.to_excel(writer, sheet_name="Raw Counts")
+        
+        # Write smoothed probabilities to the second sheet
+        df_P.to_excel(writer, sheet_name="Smoothed Probabilities")
+
     # limit = 10
     # df_counts_subset = df_counts.iloc[:limit, :limit]
     # df_P_subset = df_P.iloc[:limit, :limit]
@@ -166,32 +173,32 @@ with open("embodied_log_raw.jsonl") as f:
     # print("\nSmoothed transition probabilities (α = 1):")
     # print(df_P_subset.round(3).to_string())
     # # print(len(transitions)) 
-    block_size = 10
-    num_blocks = (min(K, 30) + block_size - 1) // block_size  # adjust to show first 30 states only
+    # block_size = 10
+    # num_blocks = (min(K, 30) + block_size - 1) // block_size  # adjust to show first 30 states only
 
-    for i in range(num_blocks):
-        for j in range(num_blocks):
-            row_start = i * block_size
-            col_start = j * block_size
-            row_end = min((i + 1) * block_size, 30)
-            col_end = min((j + 1) * block_size, 30)
+    # for i in range(num_blocks):
+    #     for j in range(num_blocks):
+    #         row_start = i * block_size
+    #         col_start = j * block_size
+    #         row_end = min((i + 1) * block_size, 30)
+    #         col_end = min((j + 1) * block_size, 30)
 
-            print(f"\nTransition counts block: rows s{row_start}-s{row_end-1}, cols s{col_start}-s{col_end-1}")
-            print(df_counts.iloc[row_start:row_end, col_start:col_end].to_string())
+    #         print(f"\nTransition counts block: rows s{row_start}-s{row_end-1}, cols s{col_start}-s{col_end-1}")
+    #         print(df_counts.iloc[row_start:row_end, col_start:col_end].to_string())
 
-            print(f"\nSmoothed probabilities block: rows s{row_start}-s{row_end-1}, cols s{col_start}-s{col_end-1}")
-            print(df_P.iloc[row_start:row_end, col_start:col_end].round(3).to_string())
+    #         print(f"\nSmoothed probabilities block: rows s{row_start}-s{row_end-1}, cols s{col_start}-s{col_end-1}")
+    #         print(df_P.iloc[row_start:row_end, col_start:col_end].round(3).to_string())
             
-    off_diag_transitions = []
+    # off_diag_transitions = []
 
-    for i in range(K):
-        for j in range(K):
-            if i != j and counts[i][j] > 0:
-                off_diag_transitions.append((f's{i}', f's{j}', counts[i][j], P_hat[i][j]))
+    # for i in range(K):
+    #     for j in range(K):
+    #         if i != j and counts[i][j] > 0:
+    #             off_diag_transitions.append((f's{i}', f's{j}', counts[i][j], P_hat[i][j]))
 
-    # Convert to DataFrame for display
-    import pandas as pd
-    df_off_diag = pd.DataFrame(off_diag_transitions, columns=['from', 'to', 'count', 'smoothed_prob'])
-    print(df_off_diag.head(100).to_string(index=False))
+    # # Convert to DataFrame for display
+    # import pandas as pd
+    # df_off_diag = pd.DataFrame(off_diag_transitions, columns=['from', 'to', 'count', 'smoothed_prob'])
+    # print(df_off_diag.head(100).to_string(index=False))
 
 
