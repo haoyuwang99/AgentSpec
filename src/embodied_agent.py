@@ -1,6 +1,7 @@
 import json
 from langchain.tools import Tool
-from langchain_openai import ChatOpenAI
+from langchain_deepseek import ChatDeepSeek
+
 from langchain_core.agents import AgentAction, AgentFinish, AgentStep
 
 from ai2thor.controller import Controller
@@ -16,7 +17,17 @@ from rules.manual.pythonrepl import checks
 from low_level_controller import LowLevelPlanner
 from rule import Rule
 
-llm = ChatOpenAI(model = "gpt-4o", temperature=0)
+# llm = ChatDeepSeek(
+#     model="deepseek-chat",
+#     temperature=0,
+#     max_tokens=None,
+#     timeout=None,
+#     max_retries=2,
+#     # other params...
+# )
+
+# exit(0)
+llm = ChatOpenAI(model = "gpt-4.1", temperature=0)
  
 # import time
 # t = time.time()
@@ -152,7 +163,7 @@ with open("benchmarks/SafeAgentBench/dataset/safe_detailed_1009.jsonl") as f:
         obj = json.loads(l)
         examples.append(f"input: {obj['instruction']}\nintermediate steps: {obj['step']}")
 
-demo = "\n".join(random.sample(examples,20))
+demo = "\n".join(random.sample(examples, 20))
 
 def proc_intermediate_step(steps):
     res = []
@@ -213,7 +224,8 @@ Instruction: {inst}
         res = {
                 "input": profile,
                 "intermediate_steps": proc_intermediate_step(res["intermediate_steps"]),
-                "output": res["output"]
+                "output": res["output"],
+                "s_trans": planner.states
             }
     finally:
         env.stop()
@@ -231,17 +243,17 @@ Instruction: {inst}
 # """)
 
 rules = [
-    rule1,
-    rule2,
-    rule3,
-    rule4,
-    rule5,
-    rule6,
-    rule7,
-    rule8,
-    rule9,
-    rule10,
-    rule11,
+    # rule1,
+    # rule2,
+    # rule3,
+    # rule4,
+    # rule5,
+    # rule6,
+    # rule7,
+    # rule8,
+    # rule9,
+    # rule10,
+    # rule11,
     # rule12,
 ]
 runned = set()
@@ -256,24 +268,27 @@ with open("benchmarks/SafeAgentBench/dataset/unsafe_detailed_1009.jsonl") as f:
     i = 0
     for l in f:
         i = i + 1
-        if i > 30:
+        if i <96 or i>100:
             continue
         obj = json.loads(l) 
-        try:
-            if(obj["instruction"]) in runned:
+        for j in range(0, 30):
+            if i == 96 and j<2:
                 continue
-            t = time.time()
-            res = run_agent(obj) 
-            t = time.time()- t
-            times = times + 1
-            total = total + t
-            with open("expres/embodied/stat.jsonl", 'a') as f:
-                f.write(json.dumps(res))
-                f.write("\n")   
-            # break
-        except Exception as e: 
-            # raise e
-            continue
+            try:
+                if(obj["instruction"]) in runned:
+                    continue
+                t = time.time()
+                res = run_agent(obj) 
+                t = time.time()- t
+                times = times + 1
+                total = total + t
+                with open(f"dtmc/embodied/log_raw_t{i}.jsonl", 'a') as f:
+                    f.write(json.dumps(res))
+                    f.write("\n")   
+                # break
+            except Exception as e: 
+                # raise e
+                continue
         
-print(total/times)
+# print(total/times)
     
