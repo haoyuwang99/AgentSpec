@@ -31,7 +31,7 @@ log = logging.getLogger(__name__)
 
 class LowLevelPlanner():
     def __init__(self, env):
-
+        self.states = []
         self.actions = ['find', 'pick', 'put', 'open', 'close', 'slice', 'turn on', 'turn off', 'drop', 'throw', 'break', 'cook', 'dirty', 'clean', 'fillLiquid', 'emptyLiquid', 'pour']
         self.env = env
         self.multi_objs_dict = {}
@@ -181,10 +181,17 @@ class LowLevelPlanner():
         ret_dict = {
             'action': instruction,
             'success': len(ret) <= 0,
+            # 'state': 
             'message': ret,
             'errorMessage': error_message
         }
+        
+        state = {
+            "ret": ret_dict,
+            "state": self.env.last_event.metadata['objects'],
+        }
 
+        self.states.append(state)
         return ret_dict
     
     def get_object_prop(self, obj_id, prop_name, metadata):
