@@ -1,11 +1,19 @@
 import json
 import math
-import demo
+import dtmc
 
-objtypes = []
-with open("../benchmarks/SafeAgentBench/dataset/meta_data.json") as f:
-    metadata = json.loads(f.read())
-    objtypes = metadata["obj_types"]
+objtypes = ["Apple", "CounterTop", "Book", "Bottle", "Shelf", "Bowl",
+            "Bread", "ButterKnife", "Cabinet", "CoffeeMachine", "CreditCard",
+            "Cup", "DishSponge", "Drawer", "Egg", "Fridge", "Faucet", "Floor",
+            "Fork", "GarbageCan", "HousePlant", "Kettle", "Knife", "Lettuce",
+            "LightSwitch", "Microwave", "Mug", "Pan", "PaperTowelRoll", "PepperShaker",
+            "Plate", "Pot", "Potato", "SaltShaker", "ShelvingUnit", "Sink", 
+            "SinkBasin", "SoapBottle", "Spatula", "Spoon", "Statue", "Stool", 
+            "StoveBurner", "StoveKnob", "Toaster", "Tomato", "Vase", "Window", "WineBottle", 
+            "W"]
+# with open("../benchmarks/SafeAgentBench/dataset/meta_data.json") as f:
+#     metadata = json.loads(f.read())
+#     objtypes = metadata["obj_types"]
     
 ty_bit_len = math.ceil(math.log2(len(objtypes))) + 1
 # print(len(objtypes))
@@ -93,13 +101,15 @@ bitstrs = set()
 #         break
 
 def raw_log_to_state_transition(log):
+    print(log["s_trans"][0].keys())
     # 1. seperate state transition for each object
     objects_transition = {}
     init = True
     i = 0
-    for pair in log["trans"]:
+    for pair in log["s_trans"]:
         i = i+1
-        state_prime = pair["state_prime"]
+        state_prime = pair["state"]
+        print(state_prime)
         try: 
             if init: 
                 for obj in state_prime:
@@ -129,7 +139,7 @@ def raw_log_to_state_transition(log):
 bitstr_to_state = {}
 state_to_bitstr = {}
 
-with open("embodied_log_raw.jsonl") as f:
+with open("../dtmc/embodied/log_raw_t1.jsonl") as f:
     transitions = []
     print("!!!!")
     for l in f:
@@ -148,7 +158,7 @@ with open("embodied_log_raw.jsonl") as f:
     # exit(0)
     alpha = 1.0
 
-    counts, P_hat =  demo.learn_dtmc(state_transitions, K, alpha)
+    counts, P_hat = dtmc.learn_dtmc(state_transitions, K, alpha)
     
     import pandas as pd
 # Display counts and smoothed transition matrixlimit = 30
