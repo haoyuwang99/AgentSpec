@@ -268,11 +268,14 @@ with open("benchmarks/SafeAgentBench/dataset/unsafe_detailed_1009.jsonl") as f:
     i = 0
     for l in f:
         i = i + 1
-        if i <96 or i>100:
+        if i < 132 :
             continue
         obj = json.loads(l) 
+        if obj["final_state"] == None:
+            continue
+        print(i)
         for j in range(0, 30):
-            if i == 96 and j<2:
+            if i == 132 and j < 8:
                 continue
             try:
                 if(obj["instruction"]) in runned:
