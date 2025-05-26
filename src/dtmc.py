@@ -1,6 +1,9 @@
 import numpy as np
 import pandas as pd 
 
+from fractions import Fraction
+
+# learning dtmc from data via Laplace Smoothing
 def learn_dtmc(sequences, K, alpha=1.0):
     C = np.zeros((K, K), dtype=int)
 
@@ -9,8 +12,17 @@ def learn_dtmc(sequences, K, alpha=1.0):
         for x, y in zip(seq[:-1], seq[1:]):
             C[x, y] += 1
     row_tot = C.sum(axis=1, keepdims=True)
-    P = (C + alpha) / (row_tot + alpha * K)
-    return C, P
+    P_frac = np.empty((K, K), dtype=object)  # store rational strings
+    
+    # instead of storing the float number, we store the rational number string to ensure the sum of P is 1
+    for i in range(K):
+        for j in range(K):
+            numerator = C[i, j] + alpha
+            denominator = row_tot[i, 0] + alpha * K
+            prob = Fraction(numerator).limit_denominator() / Fraction(denominator).limit_denominator()
+            P_frac[i, j] = str(prob)  # store as string, e.g., "1/3"
+
+    return C, P_frac
 
 # # Example trajectories over 3 states (0,1,2)
 # sequences = [

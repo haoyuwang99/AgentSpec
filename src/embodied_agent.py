@@ -1,6 +1,5 @@
 import json
-from langchain.tools import Tool
-from langchain_deepseek import ChatDeepSeek
+from langchain.tools import Tool 
 
 from langchain_core.agents import AgentAction, AgentFinish, AgentStep
 
@@ -27,7 +26,9 @@ from rule import Rule
 # )
 
 # exit(0)
-llm = ChatOpenAI(model = "gpt-4.1", temperature=0)
+llm = ChatOpenAI(model = "gpt-4.1",
+                 api_key="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",
+                 temperature=0)
  
 # import time
 # t = time.time()
@@ -268,14 +269,14 @@ with open("benchmarks/SafeAgentBench/dataset/unsafe_detailed_1009.jsonl") as f:
     i = 0
     for l in f:
         i = i + 1
-        if i < 132 :
+        if i < 144:
             continue
         obj = json.loads(l) 
         if obj["final_state"] == None:
             continue
         print(i)
         for j in range(0, 30):
-            if i == 132 and j < 8:
+            if i == 143 and j < 23:
                 continue
             try:
                 if(obj["instruction"]) in runned:
