@@ -1,5 +1,12 @@
 ## Get started
 
+* install PRISM (for SafeReach)
+```
+cd prism
+./install.sh
+```
+You can use prism at ./prism/bin/prism
+
 * install dependencies:
 ```
 pip install -e Procoder
