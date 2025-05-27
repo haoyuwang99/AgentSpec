@@ -25,17 +25,42 @@ java -jar ./spec_lang/antlr-4.13.2-complete.jar -Dlanguage=Python3 ./spec_lang/A
 ```python
 from controlled_agent_excector import initialize_controlled_agent 
 from langchain.tools import Tool
-from langchain.chat_models import ChatOpenAI
+from langchain_experimental.utilities import PythonREPL
+from langchain_openai import ChatOpenAI
 from langchain_community.tools import ShellTool
-from rule import Rule
 
-llm = ChatOpenAI(model = "gpt-4o-mini", temperature=0)   
-rule = Rule.from_text(example_rule)
-tool = ShellTool()
-tools = [tool]
+from rule import Rule 
+import os
+import json
 
-agent = initialize_controlled_agent(tools, llm, agent="zero-shot-react-description", rules = [rule])
-response = agent.invoke("Can you help delete the file named a.txt in current directory?")
+# Initialize the LLM
+llm = ChatOpenAI(model = "gpt-4o", temperature=0)
+ 
+def demo_langchain(): 
+    
+    example_rule = """rule @check_shell_exec
+trigger 
+    any.terminal
+check 
+    is_destructive
+enforce
+    user_inspection
+end
+"""  
+ 
+    rule = Rule.from_text(example_rule) 
+
+    tool = ShellTool()  
+    # Initialize the Agent
+    tools = [tool]
+    # instead of use initialize agent from langchain, 
+    # add rule for initialize controlled agent, where rules are list of rule strings. 
+    agent = initialize_controlled_agent(tools, llm, agent="zero-shot-react-description", rules = [rule])
+
+    # Interact with the Agent
+    response = agent.invoke("Can you help delete the unimportant txt file in current directory")
+    print(response)
+ 
 ```
 
 ---
