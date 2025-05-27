@@ -1,8 +1,5 @@
 # AgentSpec
-
-**AgentSpec: Customizable Runtime Enforcement for Safe and Reliable LLM Agents**  
-📄 [Read the Paper](https://arxiv.org/abs/2503.18666)
-
+ 
 AgentSpec is a framework for enforcing safety in Large Language Model (LLM) agents via user-defined rules. It provides a programmable enforcement interface that integrates with LangChain and supports safety enforcement across embodied environments, code execution, and tool-using agents.
 
 ---
