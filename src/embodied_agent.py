@@ -5,7 +5,7 @@ from langchain_core.agents import AgentAction, AgentFinish, AgentStep
 
 from ai2thor.controller import Controller
 from typing import Optional
-from controlled_agent_excector import initialize_controlled_agent
+from runtime_enforcement.controlled_agent_excector import initialize_controlled_agent
 from langchain_experimental.utilities import PythonREPL
 from langchain.tools import Tool
 from langchain_openai import ChatOpenAI
@@ -14,7 +14,7 @@ import json
 import random
 from rules.manual.pythonrepl import checks
 from low_level_controller import LowLevelPlanner
-from rule import Rule
+from runtime_enforcement.rule import Rule
 
 # llm = ChatDeepSeek(
 #     model="deepseek-chat",
