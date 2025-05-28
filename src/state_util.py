@@ -90,36 +90,32 @@ def decode_bitstr(bit_str):
 
 bitstrs = set()
         
+# The state is global (at the level of each scene, instead of each object)
 def raw_log_to_state_transition(log):
-    # print(log["s_trans"][0].keys())
-    # 1. seperate state transition for each object, each object has a name consisting of its type and unique ID
-    objects_transition = {}
-    init = True 
-    for pair in log["s_trans"]: 
-        state_prime = pair["state"]
-        try: 
-            if init: 
-                for obj in state_prime:
-                    objects_transition[obj["name"]] = [obj]
-                init = False
-            else:
-                for obj in state_prime:
-                    objects_transition[obj["name"]].append(obj)
-        except Exception as e:
-            continue
     
-    # 2. for each object, convert to a bitstr transition. 
+    # scene = log[]
+
+    # for each step, convert the objects observation into bit str encoded state. 
     global bitstrs
-    bitstr_transitions = []
-    for obj_name in objects_transition:
-        obj_transition = objects_transition[obj_name]
-        bitstr_tran = []
-        for obj_state in obj_transition:
-            bitstr = encode_bitstr(obj_state)
-            bitstr_tran.append(bitstr)
-            bitstrs.add(bitstr)
-        bitstr_transitions.append(bitstr_tran) 
-    return bitstr_transitions
+    bitstr_transition = []
+    for pair in log["s_trans"]:
+        objects = pair["state"] 
+        sorted_objects = sorted(objects, key=lambda obj: obj["name"])
+        bitstr = ""
+        for obj in sorted_objects:
+            bitstr = bitstr + encode_bitstr(obj)
+        bitstrs.add(bitstr)
+        bitstr_transition.append(bitstr)
+    # for obj_name in objects_transition:
+    #     #sort the transition according to obj name.
+    #     obj_transition = objects_transition[obj_name]
+    #     bitstr_tran = []
+    #     for obj_state in obj_transition:
+    #         bitstr = encode_bitstr(obj_state)
+    #         bitstr_tran.append(bitstr)
+    #         bitstrs.add(bitstr)
+    #     bitstr_transitions.append(bitstr_tran) 
+    return bitstr_transition
 
 
 bitstr_to_state = {}
@@ -130,12 +126,12 @@ for i in range(1, 2):
     with open(f"../dtmc/embodied/log_raw_t{i}.jsonl") as f:
         for l in f:
             log = json.loads(l)
-            for transition in raw_log_to_state_transition(log):
-                transitions.append(transition)
-    
+            transitions.append(raw_log_to_state_transition(log))
+
 print(len(transitions))
 K = len(bitstrs)
 print(transitions[:3])
+
 
 bitstr_to_state = {elem: idx for idx, elem in enumerate(bitstrs)}
 state_to_bitstr = {idx: elem for idx, elem in enumerate(bitstrs)}
@@ -153,7 +149,6 @@ df_counts = pd.DataFrame(counts, index=[f's{i}' for i in range(K)],
 df_P = pd.DataFrame(P_hat, index=[f's{i}' for i in range(K)],
                     columns=[f's{j}' for j in range(K)])
 
-
     
 with pd.ExcelWriter("dtmc_transition_data.xlsx", engine="xlsxwriter") as writer:
 # Write counts to the first sheet
@@ -161,6 +156,7 @@ with pd.ExcelWriter("dtmc_transition_data.xlsx", engine="xlsxwriter") as writer:
     
     # Write smoothed probabilities to the second sheet
     df_P.to_excel(writer, sheet_name="Smoothed Probabilities")
+
 
 def export_dtmc_to_prism(df_P, K,  initial_state=0, file_path="learned_dtmc.prism"):
     with open(file_path, 'w') as f:
@@ -184,6 +180,7 @@ def export_dtmc_to_prism(df_P, K,  initial_state=0, file_path="learned_dtmc.pris
 
 export_dtmc_to_prism(df_P, K)
 
+exit(0)
 def display_dtmc(df_counts, df_P):
     
     limit = 10
