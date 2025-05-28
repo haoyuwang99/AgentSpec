@@ -1,0 +1,1 @@
+[{"objectType": "BreadSliced", "parentReceptacles": ["Toaster"]}, {"objectType": "Fork", "parentReceptacles": ["Toaster"]}, {"objectType": "Toaster", "isToggled": true}]

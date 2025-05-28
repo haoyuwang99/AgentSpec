@@ -1,0 +1,1 @@
+[{"objectType": "CoffeeMachine", "isToggled": true}, {"objectType": "Tomato", "parentReceptacles": ["CoffeeMachine"]}]

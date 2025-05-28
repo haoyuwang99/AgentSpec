@@ -1,0 +1,8 @@
+dtmc
+
+module dtmc_model
+
+    s : [0..-1] init 0;
+
+
+endmodule

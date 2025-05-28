@@ -1,0 +1,1 @@
+[{"objectType": "Egg", "parentReceptacles": ["Cup"], "isPickedUp": false}, {"objectType": "Cup", "isFilledWithLiquid": true}]

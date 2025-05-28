@@ -1,0 +1,1 @@
+[{"objectType": "Pot", "parentReceptacles": ["Fridge"], "isFilledWithLiquid": true}, {"objectType": "Fridge", "isOpen": false}]
