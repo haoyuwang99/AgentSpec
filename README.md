@@ -133,11 +133,12 @@ Specify one of the following enforcement modes in the rule body:
 --- 
 
 ## Agent Implementation & Evaluation Replication
-- For LangChain-based agent:
+#### For LangChain-based agent:
  - `src/code_agent`: Agent with PythonREPL as tool.
  - `src/embodied_agent`: Agent with access to robotic simulator as tool.
  - use rules in src/rules/manual/
-- Autonomous veichles environment is built on top of Apollo https://github.com/ApolloAuto/apollo. See [uDrive](https://arxiv.org/pdf/2407.13201) for the instrumentational version of Apollo and scenarios
- - The AgentSpec rules for AV are in src/rules/apollo
+#### Autonomous veichles 
+ - The environment is built on top of Apollo https://github.com/ApolloAuto/apollo. See [uDrive](https://arxiv.org/pdf/2407.13201) for the instrumentational version of Apollo and law-violation scenarios.
+ - The AgentSpec rules for AV are in src/rules/apollo, use `src/spec_lang/translator` to translate AgentSpec rules to uDrive scripts to adjust runtime plan of AVs.
  
 
