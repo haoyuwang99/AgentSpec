@@ -138,5 +138,12 @@ Specify one of the following enforcement modes in the rule body:
 - `src/`: Core logic including rule parsing, enforcement, and agent wrappers
 - `src/spec_lang/`: ANTLR grammar and parser for the AgentSpec DSL
 - `src/rules/`: Rule library across domains 
-- `benchmarks/`: Evaluation data from ToolEmu, RedCode, SafeAgentBench
+- `benchmarks/`: Evaluation data from RedCode, SafeAgentBench
 - `expres/`: Experimental logs and evaluation scripts
+
+## Agent Implementation
+- `src/code_agent`: Agent with PythonREPL as tool.
+- `src/embodied_agent`: Agent with access to robotic simulator as tool.
+- For Autonomous veichles, please refer to Apollo https://github.com/ApolloAuto/apollo.
+  
+
