@@ -7,8 +7,7 @@ from fractions import Fraction
 def learn_dtmc(sequences, K, alpha=1.0):
     C = np.zeros((K, K), dtype=int)
 
-    for seq in sequences:
-        print(seq)
+    for seq in sequences: 
         for x, y in zip(seq[:-1], seq[1:]):
             C[x, y] += 1
     row_tot = C.sum(axis=1, keepdims=True)

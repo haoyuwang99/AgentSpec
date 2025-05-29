@@ -2,9 +2,9 @@ from antlr4 import *
 import unittest
 from enum import Enum
 from pydantic import BaseModel 
-from spec_lang.AgentSpecListener import AgentSpecListener 
-from spec_lang.AgentSpecLexer import AgentSpecLexer
-from spec_lang.AgentSpecParser import AgentSpecParser  
+from .spec_lang.AgentSpecListener import AgentSpecListener 
+from .spec_lang.AgentSpecLexer import AgentSpecLexer
+from .spec_lang.AgentSpecParser import AgentSpecParser  
 
 class RuleParser(AgentSpecListener): 
    

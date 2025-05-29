@@ -123,25 +123,26 @@ def export_dtmc_to_prism(df_P, K,  initial_state=0, file_path="learned_dtmc.pris
     
 def filter(unsafe_spec, bitstrs):
     unsafe_states_bitstr = set()
-    for bit_str in bitstrs:
-        for obj_bitstr in  [bit_str[i:i+object_str_len] for i in range(0, len(bit_str), object_str_len)]:
+    for bit_str in bitstrs: 
+        for obj_bitstr in [bit_str[i:i+object_str_len] for i in range(0, len(bit_str), object_str_len)]:
             obj = embodied_decoding(obj_bitstr)
-            is_safe = True
+            # states.append(obj)
+            is_unsafe = True
             for key in unsafe_spec:
-                if unsafe_spec[key] == obj[key]:
-                    is_safe = False
-                    break
-            if not is_safe: 
-                # print(obj)
+                is_unsafe = is_unsafe and unsafe_spec[key] == obj[key] 
+            if is_unsafe:   
                 break
-        unsafe_states_bitstr.add(bit_str)
+        if is_unsafe:
+            unsafe_states_bitstr.add(bit_str)
+        # print(states)
     return unsafe_states_bitstr
 
+# filter[]
     # 1. encode the unsafe state 
     
 def abstract_from_samples(dir): 
     # print(dir)
-    
+    # dir = "samples/embodied/log_raw_t2"
     bitstrs = set()
     bitstr_transitions = []
     for file in [f for f in os.listdir(dir) if f.endswith('json')]:
@@ -177,13 +178,25 @@ def abstract_from_samples(dir):
         return
     with open(dir + "/spec") as f:
         specs = json.loads(f.read()) 
-    print(specs)
-    unsafe_states = set()
-    for spec in specs:
-        unsafe_states = unsafe_states & set(map(lambda bitstr : bitstr_to_state[bitstr] , filter(spec, bitstrs)))
+    # print(specs)
+    # unsafe_states = set()
+    init = True
+    for spec in specs: 
+        unsafe_bitstrs = filter(spec, bitstrs)
+        states = map(lambda bitstr : bitstr_to_state[bitstr] ,unsafe_bitstrs)
+        # print(spec)
+        # print(len(unsafe_bitstrs))
+        # print(spec)
+        # print(set(states)) 
+        if init: 
+            unsafe_states = set(states)
+            init = False
+        else:
+            unsafe_states = unsafe_states & set(states)
 
     state_meta = {
         "bitstr_to_state_idx" : bitstr_to_state,
+        "specs": specs,
         "unsafe_states": list(unsafe_states)
     }
     print(unsafe_states)
@@ -196,7 +209,6 @@ log_dir = [f for f in os.listdir('samples/embodied/') if f.startswith('log_raw_t
 for d in log_dir:
     abstract_from_samples('samples/embodied/' + d)
     # break
-
 
 exit(0)
 # def display_dtmc(df_counts, df_P, K):

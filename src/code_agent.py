@@ -1,11 +1,11 @@
 from typing import Optional
-from runtime_enforcement.controlled_agent_excector import initialize_controlled_agent
+from agentspec.controlled_agent_excector import initialize_controlled_agent
 from langchain_experimental.utilities import PythonREPL
 from langchain.tools import Tool
 from langchain_openai import ChatOpenAI
 from langchain_core.agents import AgentAction, AgentFinish, AgentStep
 import json
-from rules.manual.pythonrepl import checks
+from agentspec.rules.manual.pythonrepl import checks
 
 llm = ChatOpenAI(model = "gpt-4o", temperature=0)
 

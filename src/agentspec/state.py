@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from runtime_enforcement.agent import Action
+from .agent import Action
 from langchain.agents.agent import BaseMultiActionAgent, BaseSingleActionAgent
 from typing import Union, Optional, Any, List, Dict, Tuple
 from langchain_core.callbacks.base import Callbacks
