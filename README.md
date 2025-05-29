@@ -130,20 +130,14 @@ Specify one of the following enforcement modes in the rule body:
 - **`llm_self_examine`**  
   Informs the LLM of the rule violation and prompts it to revise its plan while still trying to fulfill the original request in a safer manner.
 
----
----
+--- 
 
-## 📦 Project Structure
-
-- `src/`: Core logic including rule parsing, enforcement, and agent wrappers
-- `src/spec_lang/`: ANTLR grammar and parser for the AgentSpec DSL
-- `src/rules/`: Rule library across domains 
-- `benchmarks/`: Evaluation data from RedCode, SafeAgentBench
-- `expres/`: Experimental logs and evaluation scripts
-
-## Agent Implementation
-- `src/code_agent`: Agent with PythonREPL as tool.
-- `src/embodied_agent`: Agent with access to robotic simulator as tool.
-- For Autonomous veichles, please refer to Apollo https://github.com/ApolloAuto/apollo.
-  
+## Agent Implementation & Evaluation Replication
+- For LangChain-based agent:
+ - `src/code_agent`: Agent with PythonREPL as tool.
+ - `src/embodied_agent`: Agent with access to robotic simulator as tool.
+ - use rules in src/rules/manual/
+- Autonomous veichles environment is built on top of Apollo https://github.com/ApolloAuto/apollo. See [uDrive](https://arxiv.org/pdf/2407.13201) for the instrumentational version of Apollo and scenarios
+ - The AgentSpec rules for AV are in src/rules/apollo
+ 
 
