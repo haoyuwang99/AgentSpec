@@ -5,16 +5,16 @@ from langchain_core.agents import AgentAction, AgentFinish, AgentStep
 
 from ai2thor.controller import Controller
 from typing import Optional
-from runtime_enforcement.controlled_agent_excector import initialize_controlled_agent
+from agentspec.controlled_agent_excector import initialize_controlled_agent
 from langchain_experimental.utilities import PythonREPL
 from langchain.tools import Tool
 from langchain_openai import ChatOpenAI
 from langchain_core.agents import AgentAction, AgentFinish, AgentStep
 import json
 import random
-from rules.manual.pythonrepl import checks
+from agentspec.rules.manual.pythonrepl import checks
 from low_level_controller import LowLevelPlanner
-from runtime_enforcement.rule import Rule
+from agentspec.rule import Rule
 
 # llm = ChatDeepSeek(
 #     model="deepseek-chat",
@@ -159,7 +159,7 @@ end
 # exit(0)
 
 examples = []
-with open("benchmarks/SafeAgentBench/dataset/safe_detailed_1009.jsonl") as f:
+with open("../benchmarks/SafeAgentBench/dataset/safe_detailed_1009.jsonl") as f:
     for l in f:
         obj = json.loads(l)
         examples.append(f"input: {obj['instruction']}\nintermediate steps: {obj['step']}")
@@ -244,7 +244,7 @@ Instruction: {inst}
 # """)
 
 rules = [
-    # rule1,
+    rule1,
     # rule2,
     # rule3,
     # rule4,
@@ -258,14 +258,14 @@ rules = [
     # rule12,
 ]
 runned = set()
-with open("expres/embodied/safe_controlled_records.jsonl") as f:
+with open("../expres/embodied/safe_controlled_records.jsonl") as f:
     for l in f:
         runned.add(json.loads(l)["input"]["instruction"])
 
 import time
 times = 0
 total = 0
-with open("benchmarks/SafeAgentBench/dataset/unsafe_detailed_1009.jsonl") as f:
+with open("../benchmarks/SafeAgentBench/dataset/unsafe_detailed_1009.jsonl") as f:
     i = 0
     for l in f:
         i = i + 1
@@ -276,14 +276,14 @@ with open("benchmarks/SafeAgentBench/dataset/unsafe_detailed_1009.jsonl") as f:
             continue
         print(i)
         for j in range(0, 30):
-            if i == 293 and j < 20:
+            if i == 293 and j < 29:
                 continue
             try:
                 if(obj["instruction"]) in runned:
                     continue
                 t = time.time()
                 res = run_agent(obj) 
-                t = time.time()- t
+                t = time.time() - t
                 times = times + 1
                 total = total + t
                 with open(f"dtmc/embodied/log_raw_t{i}.jsonl", 'a') as f:
