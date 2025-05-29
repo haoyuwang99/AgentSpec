@@ -1,0 +1,21 @@
+rule @s9_1
+trigger
+    state_change
+check 
+    o_f_disL(6.5)
+enforce 
+    real:obstacle:Static_Obstacle_Deceleration_ratio = 0.8
+    real:trj:emergency_stop = 1.0
+end
+
+rule @s9_2
+trigger
+    state_change
+check 
+    stop_disL(6.5)
+enforce 
+    real:scenario:stop_signal:Whether_check = 1.0
+    real:scenario:stop_signal:Stopping_distance = 6.5
+    real:scenario:stop_signal:Wait_time = 8
+    real:scenario:stop_signal:Creep_time = 10
+end

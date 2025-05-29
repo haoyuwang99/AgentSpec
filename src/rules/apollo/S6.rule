@@ -1,0 +1,30 @@
+rule @s6_1
+trigger
+    state_change
+check 
+    v_f_disL(10) & egospeedH(11.11111111111111)
+enforce 
+    real:trj:change_lane = 1.0
+    real:scenario:change_lane:l_r = 1.0
+    real:scenario:change_lane:times = 1
+end
+
+rule @s6_2
+trigger
+    state_change
+check 
+    v_f_disL(10) & egospeedL(11.11111111111111)
+enforce 
+    real:trj:change_lane = 1.0
+    real:scenario:change_lane:l_r = 2.0
+    real:scenario:change_lane:times = 1
+end
+
+rule @s6_3
+trigger
+    state_change
+check 
+    is_fast_lane(1) & egospeedL(20.0)
+enforce 
+    real:preference:Max_planning_speed = 20.00
+end

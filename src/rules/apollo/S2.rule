@@ -1,0 +1,17 @@
+rule @s2_1
+trigger
+    state_change
+check 
+    trafficlight_color(2) & traffic_light_disL(5)
+enforce 
+    real:trj:emergency_stop = 1.0
+end
+
+rule @s2_2
+trigger
+    state_change
+check 
+    trafficlight_color(3) & traffic_light_disL(5)
+enforce 
+    real:trj:emergency_stop = 1.0
+end

@@ -1,0 +1,9 @@
+rule @s8_1
+trigger
+    state_change
+check 
+    snow(1)
+enforce 
+    real:preference:Max_planning_speed = 8.33
+    real:preference:Default_cruise_speed = 8.33
+end

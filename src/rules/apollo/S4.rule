@@ -1,0 +1,11 @@
+rule @s4_1
+trigger
+    state_change
+check 
+    true
+enforce 
+    real:scenarios:traffic_light_signal:Whether_check = 1.0
+    real:scenarios:traffic_light_signal:Stopping_distance = 1.0
+    real:scenarios:traffic_light_signal:Whether_red_light_turn_right = 1.0
+    real:scenarios:lane_follow:Expected_speed = 7.22
+end

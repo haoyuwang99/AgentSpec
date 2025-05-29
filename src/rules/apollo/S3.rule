@@ -1,0 +1,38 @@
+rule @s3_1
+trigger
+    state_change
+check 
+    trafficlight_color(2) & traffic_light_disL(5)
+enforce 
+    real:preference:Max_planning_speed = 0.28
+    real:preference:Default_cruise_speed = 0.28
+    real:preference:Near_stop_speed = 0.14
+    real:scenario:traffic_light:Whether_check = 1.0
+    real:scenario:traffic_light:Stopping_distance = 1
+end
+
+rule @s3_2
+trigger
+    state_change
+check 
+    trafficlight_color(3) & traffic_light_disL(5)
+enforce 
+    real:preference:Max_planning_speed = 0.00
+    real:preference:Default_cruise_speed = 0.00
+    real:preference:Near_stop_speed = 0.00
+    real:scenario:traffic_light:Whether_check = 1.0
+    real:scenario:traffic_light:Stopping_distance = 0
+end
+
+rule @s3_3
+trigger
+    state_change
+check 
+    trafficlight_color(1) & traffic_light_disL(5)
+enforce 
+    real:preference:Max_planning_speed = 20.00
+    real:preference:Default_cruise_speed = 11.18
+    real:preference:Near_stop_speed = 0.50
+    real:scenario:traffic_light:Whether_check = 1.0
+    real:scenario:traffic_light:Stopping_distance = 1
+end

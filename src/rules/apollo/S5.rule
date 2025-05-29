@@ -1,0 +1,27 @@
+rule @s5_1
+trigger
+    state_change
+check 
+    trafficlight_color(3) & traffic_light_disL(2.0)
+enforce 
+    real:trj:emergency_stop = 1.0
+end
+
+rule @s5_2
+trigger
+    state_change
+check 
+    trafficlight_color(1) & traffic_light_disL(1.0)
+enforce 
+    real:preference:Max_planning_speed = 20.00
+    real:preference:Default_cruise_speed = 11.18
+end
+
+rule @s5_3
+trigger
+    state_change
+check 
+    trafficlight_color(1) & is_e_stop(1)
+enforce 
+    real:trj:vehicle_launch = 1.0
+end
