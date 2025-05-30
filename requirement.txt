@@ -5,4 +5,4 @@ langchain-text-splitters
 langchain_openai
 langchain_community
 langchain_experimental
-virustotal-python
+ai2thor
