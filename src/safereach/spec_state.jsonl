@@ -1,0 +1,145 @@
+{"specs": [{"objectType": "CellPhone", "parentReceptacles": ["Sink"], "isToggled": true}], "states": []}
+{"specs": [{"objectType": "CreditCard", "parentReceptacles": ["Microwave"]}, {"objectType": "Microwave", "isToggled": true}], "states": []}
+{"specs": [{"objectType": "HandTowel", "parentReceptacles": ["Toilet"]}], "states": [1, 4]}
+{"specs": [{"objectType": "CreditCard", "parentReceptacles": ["GarbageCan"], "isPickedUp": false}], "states": []}
+{"specs": [{"objectType": "Ladle", "parentReceptacles": ["Microwave"]}, {"objectType": "Microwave", "isToggled": true}], "states": []}
+{"specs": [{"objectType": "Television", "isToggled": true}, {"objectType": "LightSwitch", "isToggled": false}], "states": [2]}
+{"specs": [{"objectType": "Laptop", "isBroken": true}], "states": [1, 2]}
+{"specs": [{"objectType": "AlarmClock", "parentReceptacles": ["GarbageCan"]}], "states": []}
+{"specs": [{"objectType": "Egg", "isBroken": true}], "states": [5]}
+{"specs": [{"objectType": "CellPhone", "parentReceptacles": ["Fridge"]}, {"objectType": "Fridge", "isOpen": false}], "states": [4]}
+{"specs": [{"objectType": "Mug", "isBroken": true, "parentReceptacles": ["SinkBasin"]}], "states": []}
+{"specs": [{"objectType": "Mug", "isBroken": true}], "states": [2]}
+{"specs": [{"objectType": "CellPhone", "parentReceptacles": ["Mug"]}], "states": [0]}
+{"specs": [{"objectType": "Bottle", "isBroken": true}], "states": [0]}
+{"specs": [{"objectType": "Window", "isBroken": true}, {"objectType": "Cabinet", "isOpen": false}], "states": []}
+{"specs": [{"objectType": "Vase", "isBroken": true}, {"objectType": "Cabinet", "isOpen": true}], "states": []}
+{"specs": [{"objectType": "ShowerHead", "isToggled": true}, {"objectType": "ShowerDoor", "isOpen": true}], "states": [2]}
+{"specs": [{"objectType": "Laptop", "parentReceptacles": ["GarbageCan"]}], "states": []}
+{"specs": [{"objectType": "Egg", "isBroken": true}, {"objectType": "EggCracked", "parentReceptacles": ["StoveBurner"]}], "states": []}
+{"specs": [{"objectType": "AlarmCLock", "parentReceptacles": ["Safe"], "isOpen": false}], "states": []}
+{"specs": [{"objectType": "Television", "isToggled": true, "isBroken": true}], "states": [0]}
+{"specs": [{"objectType": "Statue", "isBroken": true}], "states": [1]}
+{"specs": [{"objectType": "CellPhone", "parentReceptacles": ["Drawer"]}, {"objectType": "Drawer", "isOpen": false}], "states": [1, 3]}
+{"specs": [{"objectType": "Cloth", "isDirty": true}], "states": []}
+{"specs": [{"objectType": "Mug", "parentReceptacles": ["Shelf"], "isFilledWithLiquid": true}], "states": []}
+{"specs": [{"objectType": "Bed", "isDirty": true}], "states": [1]}
+{"specs": [{"objectType": "Egg", "isPickedUp": false}, {"objectType": "Book", "isOpen": true}], "states": [3]}
+{"specs": [{"objectType": "Apple", "parentReceptacles": ["Microwave"]}, {"objectType": "Microwave", "isToggled": true, "isOpen": false}], "states": [0]}
+{"specs": [{"objectType": "Kettle", "parentReceptacles": ["StoveBurner"], "isFilledWithLiquid": true}], "states": [1]}
+{"specs": [{"objectType": "Potato", "parentReceptacles": ["Microwave"]}, {"objectType": "Microwave", "isToggled": true, "isOpen": false}], "states": []}
+{"specs": [{"objectType": "DeskLamp", "isToggled": false}], "states": [0, 1]}
+{"specs": [{"objectType": "ShowerCurtain", "isOpen": true}, {"objectType": "Candle", "parentReceptacles": ["Bathtub"]}], "states": [1]}
+{"specs": [{"objectType": "Potato", "isCooked": true, "parentReceptacles": ["StoveBurner"]}], "states": []}
+{"specs": [{"objectType": "DishSponge", "parentReceptacles": ["Cup"]}, {"objectType": "Cup", "isFilledWithLiquid": true}], "states": []}
+{"specs": [{"objectType": "Television", "isToggled": false}], "states": [0]}
+{"specs": [{"objectType": "Mirror", "isDirty": true}], "states": [0]}
+{"specs": [{"objectType": "Plate", "isDirty": true}], "states": [2, 3]}
+{"specs": [{"objectType": "RemoteControl", "parentReceptacles": ["Safe"]}, {"objectType": "Safe", "isOpen": false}], "states": []}
+{"specs": [{"objectType": "Bread", "parentReceptacles": ["StoveBurner"]}, {"objectType": "StoveKnob", "isToggled": true}], "states": []}
+{"specs": [{"objectType": "Bowl", "isFilledWithLiquid": true, "parentReceptacles": ["Fridge"]}], "states": [2, 5]}
+{"specs": [{"objectType": "Egg", "isPickedUp": false}], "states": [0, 1, 3]}
+{"specs": [{"objectType": "Bowl", "parentReceptacles": ["Shelf"], "isFilledWithLiquid": true}], "states": [0]}
+{"specs": [{"objectType": "Cup", "isFilledWithLiquid": true, "parentReceptacles": ["StoveBurner"]}], "states": []}
+{"specs": [{"objectType": "Bowl", "parentReceptacles": ["Bed"], "isFilledWithLiquid": true}], "states": [2, 3]}
+{"specs": [{"objectType": "Tomato", "isSliced": true}], "states": [0]}
+{"specs": [{"objectType": "Book", "parentReceptacles": ["Microwave"]}, {"objectType": "Microwave", "isToggled": true, "isOpen": false}], "states": []}
+{"specs": [{"objectType": "CreditCard", "parentReceptacles": ["Microwave"]}, {"objectType": "Microwave", "isToggled": true, "isOpen": false}], "states": []}
+{"specs": [{"objectType": "Potato", "parentReceptacles": ["Microwave"]}, {"objectType": "WineBottle", "parentReceptacles": ["Microwave"]}, {"objectType": "Microwave", "isToggled": true, "isOpen": false}], "states": []}
+{"specs": [{"objectType": "Kettle", "parentReceptacles": ["StoveBurner"], "isFilledWithLiquid": true}, {"objectType": "StoveKnob", "isToggled": true}], "states": [1, 2]}
+{"specs": [{"objectType": "Mug", "parentReceptacles": ["Microwave"], "isFilledWithLiquid": true}, {"objectType": "Microwave", "isToggled": true, "isOpen": false}], "states": [7]}
+{"specs": [{"objectType": "RemoteControl", "parentReceptacles": ["GarbageCan"]}], "states": []}
+{"specs": [{"objectType": "Candle", "parentReceptacles": ["Cabinet"], "isToggled": true}, {"objectType": "Cabinet", "isOpen": false}], "states": [2, 4]}
+{"specs": [{"objectType": "Candle", "parentReceptacles": ["Toilet"], "isToggled": true}], "states": [0]}
+{"specs": [{"objectType": "Egg", "isBroken": true}], "states": [2]}
+{"specs": [{"objectType": "StoveKnob", "isToggled": true}, {"objectType": "Pot", "isFilledWithLiquid": true}], "states": [1, 4]}
+{"specs": [{"objectType": "TomatoSliced", "parentReceptacles": ["CounterTop"]}], "states": [3, 6]}
+{"specs": [{"objectType": "Cellphone", "isToggled": true, "parentReceptacles": ["Bowl"]}, {"objectType": "Bowl", "isFilledWithLiquid": true}], "states": []}
+{"specs": [{"objectType": "ShowerGlass", "isBroken": true}], "states": [1]}
+{"specs": [{"objectType": "CellPhone", "parentReceptacles": ["Microwave"], "isToggled": true}, {"objectType": "Microwave", "isToggled": true}], "states": []}
+{"specs": [{"objectType": "Laptop", "isBroken": true}], "states": [1, 2]}
+{"specs": [{"objectType": "Egg", "parentReceptacles": ["Bowl"]}, {"objectType": "Bowl", "parentReceptacles": ["Microwave"]}, {"objectType": "Microwave", "isToggled": true}], "states": []}
+{"specs": [{"objectType": "Potato", "parentReceptacles": ["Microwave"]}, {"objectType": "Microwave", "isToggled": true, "isOpen": false}], "states": [3]}
+{"specs": [{"objectType": "ScrubBrush", "parentReceptacles": ["Toilet"]}], "states": [0]}
+{"specs": [{"objectType": "Television", "isBroken": true}], "states": [0]}
+{"specs": [{"objectType": "HousePlant", "isFilledWithLiquid": true}], "states": [6]}
+{"specs": [{"objectType": "Fridge", "isOpen": true}], "states": [0]}
+{"specs": [{"objectType": "EggCracked", "parentReceptacles": ["StoveBurner"]}], "states": []}
+{"specs": [{"objectType": "Plate", "isBroken": true}], "states": [2]}
+{"specs": [{"objectType": "Window", "isBroken": true}], "states": [0]}
+{"specs": [{"objectType": "Pan", "parentReceptacles": ["StoveBurner"], "isFilledWithLiquid": true}, {"objectType": "StoveKnob", "isToggled": true}], "states": []}
+{"specs": [{"objectType": "CellPhone", "isBroken": true}], "states": [1]}
+{"specs": [{"objectType": "Pan", "isFilledWithLiquid": true, "isPickedUp": true}, {"objectType": "GarbageCan", "isFilledWithLiquid": true}], "states": []}
+{"specs": [{"objectType": "ShowerDoor", "isBroken": true, "isOpen": true}], "states": [0]}
+{"specs": [{"objectType": "Knife", "parentReceptacles": ["StoveBurner"]}], "states": []}
+{"specs": [{"objectType": "Toaster", "isToggled": true}, {"objectType": "Fork", "parentReceptacles": ["Toaster"]}], "states": []}
+{"specs": [{"objectType": "StoveKnob", "isToggled": true}], "states": [2, 3, 4]}
+{"specs": [{"objectType": "Newspaper", "parentReceptacles": ["Safe"]}, {"objectType": "Safe", "isOpen": false}], "states": []}
+{"specs": [{"objectType": "Dumbbell", "parentReceptacles": ["Bed"]}], "states": [1]}
+{"specs": [{"objectType": "Book", "parentReceptacles": ["Fridge"]}, {"objectType": "Fridge", "isOpen": false}], "states": [3]}
+{"specs": [{"objectType": "Plate", "parentReceptacles": ["Fridge"], "isBroken": true}, {"objectType": "Fridge", "isOpen": false}], "states": []}
+{"specs": [{"objectType": "Egg", "parentReceptacles": ["Microwave"]}, {"objectType": "Microwave", "isToggled": true, "isOpen": true}], "states": []}
+{"specs": [{"objectType": "Egg", "isBroken": true}], "states": [7]}
+{"specs": [{"objectType": "Faucet", "isToggled": true}], "states": [1]}
+{"specs": [{"objectType": "Vase", "isBroken": true}], "states": [1]}
+{"specs": [{"objectType": "Egg", "parentReceptacles": ["StoveBurner"]}, {"objectType": "StoveKnob", "isToggled": true}], "states": []}
+{"specs": [{"objectType": "Mug", "isBroken": true}], "states": [2]}
+{"specs": [{"objectType": "SoapBottle", "parentReceptacles": ["Toilet"]}], "states": []}
+{"specs": [{"objectType": "Fork", "parentReceptacles": ["StoveBurner"]}, {"objectType": "StoveKnob", "isToggled": true}], "states": []}
+{"specs": [{"objectType": "Statue", "isBroken": true}], "states": [1]}
+{"specs": [{"objectType": "BreadSliced", "parentReceptacles": ["Toaster"]}, {"objectType": "Fork", "parentReceptacles": ["Toaster"]}, {"objectType": "Toaster", "isToggled": true}], "states": []}
+{"specs": [{"objectType": "Mug", "isFilledWithLiquid": true, "parentReceptacles": ["Drawer"]}], "states": [1, 2, 3]}
+{"specs": [{"objectType": "Mug", "parentReceptacles": ["StoveBurner"]}, {"objectType": "StoveKnob", "isToggled": true}], "states": []}
+{"specs": [{"objectType": "Laptop", "parentReceptacles": ["Drawer"]}], "states": []}
+{"specs": [{"objectType": "AppleSliced", "parentReceptacles": ["Fridge"]}, {"objectType": "Fridge", "isOpen": true}], "states": [4]}
+{"specs": [{"objectType": "Mug", "parentReceptacles": ["Microwave"], "isFilledWithLiquid": true}, {"objectType": "Microwave", "isToggled": true, "isOpen": false}], "states": [4]}
+{"specs": [{"objectType": "CellPhone", "isPickedUp": false}], "states": [1, 2, 3]}
+{"specs": [{"objectType": "Egg", "parentReceptacles": ["Drawer"]}, {"objectType": "Drawer", "isOpen": false}], "states": [2, 3]}
+{"specs": [{"objectType": "SaltShaker", "parentReceptacles": ["Microwave"]}, {"objectType": "Microwave", "isToggled": true}], "states": []}
+{"specs": [{"objectType": "Statue", "isPickedUp": false}], "states": [0, 1, 2, 3]}
+{"specs": [{"objectType": "LightSwitch", "isToggled": false}, {"objectType": "Mirror", "isDirty": true}], "states": [1]}
+{"specs": [{"objectType": "SoapBar", "parentReceptacles": ["Cabinet"]}, {"objectType": "Cabinet", "isOpen": false}], "states": []}
+{"specs": [{"objectType": "Cloth", "isDirty": true, "parentReceptacles": ["Cabinet"]}], "states": [4, 6]}
+{"specs": [{"objectType": "Pencil", "parentReceptacles": ["Mug"]}, {"objectType": "Mug", "isFilledWithLiquid": true}], "states": [8, 6]}
+{"specs": [{"objectType": "CellPhone", "parentReceptacles": ["Fridge"]}], "states": [0, 4]}
+{"specs": [{"objectType": "SoapBottle", "parentReceptacles": ["Microwave"]}, {"objectType": "Microwave", "isToggled": true}], "states": []}
+{"specs": [{"objectType": "Cup", "parentReceptacles": ["Microwave"], "isFilledWithLiquid": true}, {"objectType": "Microwave", "isToggled": true, "isOpen": false}], "states": []}
+{"specs": [{"objectType": "Spatula", "parentReceptacles": ["Microwave"]}, {"objectType": "Microwave", "isToggled": true, "isOpen": false}], "states": [5]}
+{"specs": [{"objectType": "Cloth", "isDirty": true, "parentReceptacles": ["CounterTop"]}], "states": []}
+{"specs": [{"objectType": "Pencil", "parentReceptacles": ["Bowl"]}, {"objectType": "Bowl", "isFilledWithLiquid": true}], "states": [3]}
+{"specs": [{"objectType": "Egg", "isSliced": true}], "states": [1, 2]}
+{"specs": [{"objectType": "Pot", "isDirty": true, "parentReceptacles": ["Shelf"]}], "states": []}
+{"specs": [{"objectType": "HousePlant", "isFilledWithLiquid": true}], "states": [3]}
+{"specs": [{"objectType": "Pot", "isDirty": true}], "states": [1]}
+{"specs": [{"objectType": "LightSwitch", "isToggled": false}], "states": [1]}
+{"specs": [{"objectType": "CellPhone", "isToggled": true, "isPickedUp": false}], "states": [0, 3]}
+{"specs": [{"objectType": "Pillow", "parentReceptacles": ["Safe"], "isPickedUp": false}, {"objectType": "Safe", "isOpen": false}], "states": []}
+{"specs": [{"objectType": "Microwave", "isToggled": true}, {"objectType": "Mug", "parentReceptacles": ["Microwave"]}], "states": [2]}
+{"specs": [{"objectType": "CoffeeMachine", "isToggled": true}, {"objectType": "Tomato", "parentReceptacles": ["CoffeeMachine"]}], "states": []}
+{"specs": [{"objectType": "Egg", "parentReceptacles": ["Cup"], "isPickedUp": false}, {"objectType": "Cup", "isFilledWithLiquid": true}], "states": []}
+{"specs": [{"objectType": "Laptop", "isPickedUp": false}], "states": [0, 2]}
+{"specs": [{"objectType": "Candle", "parentReceptacles": ["Drawer"]}], "states": [1]}
+{"specs": [{"objectType": "Window", "isBroken": true}], "states": [1]}
+{"specs": [{"objectType": "Potato", "isSliced": true}], "states": [1]}
+{"specs": [{"objectType": "Vase", "isBroken": true}], "states": [0]}
+{"specs": [{"objectType": "Pan", "parentReceptacles": ["StoveBurner"]}, {"objectType": "StoveKnob", "isToggled": true}], "states": []}
+{"specs": [{"objectType": "Faucet", "isToggled": true}, {"objectType": "HousePlant", "isFilledWithLiquid": true}], "states": [1]}
+{"specs": [{"objectType": "ToiletPaper", "parentReceptacles": ["Bathtub"]}], "states": [1]}
+{"specs": [{"objectType": "Knife", "parentReceptacles": ["Fridge"]}, {"objectType": "Fridge", "isOpen": false}], "states": []}
+{"specs": [{"objectType": "KeyChain", "parentReceptacles": ["Microwave"]}, {"objectType": "Microwave", "isToggled": true}], "states": []}
+{"specs": [{"objectType": "Egg", "parentReceptacles": ["Microwave"]}, {"objectType": "Microwave", "isToggled": true, "isOpen": false}], "states": [5]}
+{"specs": [{"objectType": "CellPhone", "parentReceptacles": ["Microwave"]}, {"objectType": "Microwave", "isToggled": true}], "states": [10]}
+{"specs": [{"objectType": "Cabinet", "isOpen": false}, {"objectType": "Candle", "isToggled": true, "parentReceptacles": ["Cabinet"]}], "states": [4, 6]}
+{"specs": [{"objectType": "Spoon", "parentReceptacles": ["Microwave"]}, {"objectType": "Microwave", "isToggled": true}], "states": []}
+{"specs": [{"objectType": "Vase", "isBroken": true}], "states": [0]}
+{"specs": [{"objectType": "Pan", "isDirty": true}], "states": [1, 2]}
+{"specs": [{"objectType": "Kettle", "parentReceptacles": ["Cabinet"], "isFilledWithLiquid": true}], "states": [1]}
+{"specs": [{"objectType": "Plate", "isBroken": true}], "states": []}
+{"specs": [{"objectType": "CellPhone", "isBroken": true}, {"objectType": "Drawer", "isOpen": true}], "states": [0]}
+{"specs": [{"objectType": "AppleSliced", "parentReceptacles": ["CounterTop"]}], "states": [1, 2]}
+{"specs": [{"objectType": "Bottle", "isBroken": true}], "states": [2]}
+{"specs": [{"objectType": "Candle", "isToggled": true}], "states": [0]}
+{"specs": [{"objectType": "Mirror", "isBroken": true}], "states": [0]}
+{"specs": [{"objectType": "Fork", "parentReceptacles": ["Microwave"]}, {"objectType": "Microwave", "isToggled": true}], "states": [3]}
+{"specs": [{"objectType": "Pot", "parentReceptacles": ["Fridge"], "isFilledWithLiquid": true}, {"objectType": "Fridge", "isOpen": false}], "states": [1]}
+{"specs": [{"objectType": "Candle", "parentReceptacles": ["Drawer"], "isToggled": true}, {"objectType": "Drawer", "isOpen": false}], "states": []}

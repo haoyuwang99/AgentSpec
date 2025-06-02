@@ -136,13 +136,18 @@ def filter(unsafe_spec, bitstrs):
             unsafe_states_bitstr.add(bit_str)
         # print(states)
     return unsafe_states_bitstr
-
-# filter[]
-    # 1. encode the unsafe state 
+ 
     
 def abstract_from_samples(dir): 
-    # print(dir)
-    # dir = "samples/embodied/log_raw_t2"
+    # process input: spec to filter unsafe states 
+    if not os.path.exists(dir + "/spec"):
+        # os.system(f"mv {dir} samples/embodied_no_final_state")
+        return
+    specs = []
+    with open(dir + "/spec") as f:
+        specs = json.loads(f.read()) 
+        
+    #abstract state transition from logs
     bitstrs = set()
     bitstr_transitions = []
     for file in [f for f in os.listdir(dir) if f.endswith('json')]:
@@ -157,9 +162,33 @@ def abstract_from_samples(dir):
     bitstr_to_state = {elem: idx for idx, elem in enumerate(bitstrs)}
     state_to_bitstr = {idx: elem for idx, elem in enumerate(bitstrs)}
     state_transitions = [ [bitstr_to_state[bitstr] for bitstr in transition] for transition in bitstr_transitions ]
-
+        
+    # filter unsafe state by spec
+    unsafe_bitstrs = set()
+    init = True
+    for spec in specs: 
+        unsafe_bitstrs = filter(spec, bitstrs)
+        states = map(lambda bitstr : bitstr_to_state[bitstr] ,unsafe_bitstrs) 
+        if init: 
+            unsafe_states = set(states)
+            init = False
+        else:
+            unsafe_states = unsafe_states & set(states)
+    spec_state = {
+        "specs": specs,
+        "states" : list(unsafe_states) 
+    }
+    # with open("spec_state.jsonl",'a') as f:
+    #     f.write(json.dumps(spec_state )+"\n") 
+    
+    # when the sample do not reach state, 
+    # assume an unsafe state = K, 
+    # and assign prob to reach that state.
+    if len(unsafe_states)==0:
+        unsafe_states.add(K)
+        K = K + 1
+        
     alpha = 1.0
-
     counts, P_hat = learn_dtmc(state_transitions, K, alpha)
      
     df_counts = pd.DataFrame(counts, index=[f's{i}' for i in range(K)],
@@ -167,33 +196,12 @@ def abstract_from_samples(dir):
     df_P = pd.DataFrame(P_hat, index=[f's{i}' for i in range(K)],
                         columns=[f's{j}' for j in range(K)])
 
-    output_dir = "dtmcs/" + dir[dir.rfind("/"):] + "/"
+    output_dir = "dtmcs/embodied/" + dir[dir.rfind("/"):] + "/"
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
         
     export_dtmc_to_prism(df_P, K, file_path=output_dir + "/dmtc.prism")
     
-    specs = []
-    if not os.path.exists(dir + "/spec"):
-        return
-    with open(dir + "/spec") as f:
-        specs = json.loads(f.read()) 
-    # print(specs)
-    # unsafe_states = set()
-    init = True
-    for spec in specs: 
-        unsafe_bitstrs = filter(spec, bitstrs)
-        states = map(lambda bitstr : bitstr_to_state[bitstr] ,unsafe_bitstrs)
-        # print(spec)
-        # print(len(unsafe_bitstrs))
-        # print(spec)
-        # print(set(states)) 
-        if init: 
-            unsafe_states = set(states)
-            init = False
-        else:
-            unsafe_states = unsafe_states & set(states)
-
     state_meta = {
         "bitstr_to_state_idx" : bitstr_to_state,
         "specs": specs,
@@ -207,8 +215,7 @@ def abstract_from_samples(dir):
 
 log_dir = [f for f in os.listdir('samples/embodied/') if f.startswith('log_raw_t')]
 for d in log_dir:
-    abstract_from_samples('samples/embodied/' + d)
-    # break
+    abstract_from_samples('samples/embodied/' + d) 
 
 exit(0)
 # def display_dtmc(df_counts, df_P, K):
