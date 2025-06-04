@@ -17,29 +17,61 @@ with open("../../benchmarks/SafeAgentBench/dataset/meta_data.json") as f:
     metadata = json.loads(f.read())
     objtypes = metadata["obj_types"]
     
+print(len(objtypes))
 ty_bit_len = math.ceil(math.log2(len(objtypes))) + 1 
 
 # 0 for null
 elem_to_index = {elem: idx+1 for idx, elem in enumerate(objtypes)}
 index_to_elem = {idx+1: elem for idx, elem in enumerate(objtypes)}
 
+
 state_keys = [ 
 "isToggled",
-"isBroken",
 "isFilledWithLiquid",
 "isDirty",
-# "isUsedUp",
-"isCooked",
-# "isHeatSource",
-# "isColdSource",
-"isSliced",
 "isOpen",
 "isPickedUp",
+"isSliced",
+"isBroken",
+"isCooked", 
+# "isUsedUp",
+# "isHeatSource",
+# "isColdSource",
 # "isMoving"
 ]
+# the last three is unrecoverable
  
 object_str_len = 2* ty_bit_len + len(state_keys)
 
+#RQ4 - different levels of abstraction:
+# Option-1 we abstract one model for each scene, 
+# Option-2 we abstract one model for all scenes. 
+
+# we should make this be part of the framework.
+# Abstraction strategy determines 
+# (1) number of  encoding/decoding process of states.
+# (2) possible transitions between states.
+# the abstraction should be expressive enough for the spec
+def embodied_state_abstraction(scene):
+    
+    # The state space is the set of all possible objects in the scene.
+    # (1) the object types in the scene.
+    # (2) the property defined by object type (e.g., Togglable = True -> isToggle = 0/1)
+    def encoding(observation):
+        pass
+
+    # The impossible state transition includes those state which can
+    # not be achieve by single action.
+    # e.g. s1 -- fillLiquild bottle wine --> s2 -- pickup bottle --> s3
+    # s1 --> s3 is not possible
+    # Or some change which is not recoverable(i.e., isBroken/isCooked/isSliced from F to T)
+    def decoding(observation):
+        pass       
+    
+    pass
+
+# This is scene-agnostic abstraction, which suffer from state exploision
+# even if only the possible state are considered.
 def embodied_encoding(obj):
     #object type
     bit_str = format(elem_to_index[obj["objectType"]], f'0{ty_bit_len}b')
@@ -188,14 +220,21 @@ def abstract_from_samples(dir):
         unsafe_states.add(K)
         K = K + 1
         
+        
+    # before smoothing, we need to filter out impossible transitions between states.
+    
+    
     alpha = 1.0
     counts, P_hat = learn_dtmc(state_transitions, K, alpha)
+        
+    
+
      
     df_counts = pd.DataFrame(counts, index=[f's{i}' for i in range(K)],
                             columns=[f's{j}' for j in range(K)])
     df_P = pd.DataFrame(P_hat, index=[f's{i}' for i in range(K)],
                         columns=[f's{j}' for j in range(K)])
-
+  
     output_dir = "dtmcs/embodied/" + dir[dir.rfind("/"):] + "/"
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
@@ -210,7 +249,6 @@ def abstract_from_samples(dir):
     print(unsafe_states)
     with open(output_dir + "state_meta.json", 'w') as f:
         f.write(json.dumps(state_meta)) 
-    
 
 
 log_dir = [f for f in os.listdir('samples/embodied/') if f.startswith('log_raw_t')]

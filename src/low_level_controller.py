@@ -1029,9 +1029,40 @@ def process_objects(objs):
 
 import json
 if __name__ == '__main__':
-    from state_util import *
+    # from state_util import *
     from ai2thor.controller import Controller
-    
+    obj = {}
+    scene_objs = {}
+    with open("../benchmarks/SafeAgentbench/dataset/meta_data.json") as f:
+        obj = json.loads(f.read())
+        for sce in obj["scenes"]:
+         #  from ai2thor.controller import Controller
+            env = Controller()
+            env.reset(scene = sce)
+            planner = LowLevelPlanner(env)
+            planner.restore_scene()
+            
+            objects = env.last_event.metadata["objects"]
+            # objects = [ o["name"] for o in objects ]
+            print(objects[0])
+ 
+            ret_dict = planner.llm_skill_interact("find egg")
+            objects = env.last_event.metadata["objects"] 
+            # exit(1)
+            objects = [ o["name"] for o in objects]
+            objects = [ o[:o.rfind("_")] for o in objects]
+            
+            scene_objs[sce] = list(set(objects)) 
+            print(set(objects))
+
+            break
+            env.stop()
+        obj["scenes"] = scene_objs
+        
+    with open("../benchmarks/SafeAgentbench/dataset/meta_data1.json", 'w') as f:
+        f.write(json.dumps(obj))
+
+
     # this found that one scenario could have multiple object with same type.   
     # with open("../benchmarks/SafeAgentBench/dataset/meta_data.json") as f:
     #     metadata = json.load(f)
@@ -1042,7 +1073,7 @@ if __name__ == '__main__':
     #         initial_state = env.last_event.metadata["objects"]
     #         initial_state = process_objects(initial_state) 
     #         names = set()
-    #         for obj in initial_state:
+    #         for obj in initial_statepri:
     #             abstracted_objs = decode_bitstr(encode_bitstr(obj))
     #             if abstracted_objs["objectType"] in names:
     #                 print("!!!!!")
@@ -1055,64 +1086,64 @@ if __name__ == '__main__':
             
             
             
-    # exit(0)
-    import time
-    with open("../benchmarks/SafeAgentBench/dataset/unsafe_detailed_1009.jsonl") as f:
-        i = 0
-        for l in f:
-            # i = i+1
-            # if i < 261:
-            #     continue
-            env = Controller()
-            obj = json.loads(l)
-            plan = obj["step"]
-            scene = obj["scene_name"]
-            print(plan)
-            env.reset(scene = scene)
-            planner = LowLevelPlanner(env)
-            planner.restore_scene()
-            from time import sleep
+    # # exit(0)
+    # import time
+    # with open("../benchmarks/SafeAgentBench/dataset/unsafe_detailed_1009.jsonl") as f:
+    #     i = 0
+    #     for l in f:
+    #         # i = i+1
+    #         # if i < 261:
+    #         #     continue
+    #         env = Controller()
+    #         obj = json.loads(l)
+    #         plan = obj["step"]
+    #         scene = obj["scene_name"]
+    #         print(plan)
+    #         env.reset(scene = scene)
+    #         planner = LowLevelPlanner(env)
+    #         planner.restore_scene()
+    #         from time import sleep
             
-            ret_dict = planner.llm_skill_interact("find Pot")
-            initial_state = env.last_event.metadata["objects"]
+    #         ret_dict = planner.llm_skill_interact("find Pot")
+    #         initial_state = env.last_event.metadata["objects"]
             
-            # initial_state = [obj for obj in initial_state if obj.get("visible") is True]
-            print([decode_bitstr(encode_bitstr(obj)) for obj in initial_state if obj.get("visible") is True])
-            transitions = []
-            for inst in plan:
-                ret_dict = planner.llm_skill_interact(inst)
-                print(ret_dict)
-                print(env._get_cache_commit_history)
-                obj_states = env.last_event.metadata["objects"] 
-                time.sleep(5)
-                if ret_dict["success"] :
-                    states_prime = [obj for obj in obj_states if obj.get("visible") is True]
-                    print([decode_bitstr(encode_bitstr(obj)) for obj in obj_states  if obj.get("visible") is True])
-                    transitions.append({"action": ret_dict["action"], "state_prime":[obj for obj in obj_states if obj.get("visible") is True]})
+    #         # initial_state = [obj for obj in initial_state if obj.get("visible") is True]
+    #         print([decode_bitstr(encode_bitstr(obj)) for obj in initial_state if obj.get("visible") is True])
+    #         transitions = []
+    #         for inst in plan:
+    #             ret_dict = planner.llm_skill_interact(inst)
+    #             print(ret_dict)
+    #             print(env._get_cache_commit_history)
+    #             obj_states = env.last_event.metadata["objects"] 
+    #             time.sleep(5)
+    #             if ret_dict["success"] :
+    #                 states_prime = [obj for obj in obj_states if obj.get("visible") is True]
+    #                 print([decode_bitstr(encode_bitstr(obj)) for obj in obj_states  if obj.get("visible") is True])
+    #                 transitions.append({"action": ret_dict["action"], "state_prime":[obj for obj in obj_states if obj.get("visible") is True]})
                 
-                # print(obj_states)
-                # print(env.last_event.metadata["agent"])
-                # print(env.last_event.metadata["heldObjectPose"])
-                # print(env.last_event.metadata["arm"])
-                # break  
+    #             # print(obj_states)
+    #             # print(env.last_event.metadata["agent"])
+    #             # print(env.last_event.metadata["heldObjectPose"])
+    #             # print(env.last_event.metadata["arm"])
+    #             # break  
             
-            # for obj in initial_state: 
-            #     # print(encode_bitstr(obj))
-            #     # print(decode_bitstr(encode_bitstr(obj))) 
-            #     for key in obj: 
-            #         if key.find("is")==-1:
-            #             continue
-            #         print(key)
-            #     break
-            # with open("embodied_log.jsonl", 'a') as f:
-            #     obj = {
-            #         "s0": initial_state,
-            #         "trans": transitions,
-            #     }
-            #     f.write(json.dumps(obj) + "\n")   
+    #         # for obj in initial_state: 
+    #         #     # print(encode_bitstr(obj))
+    #         #     # print(decode_bitstr(encode_bitstr(obj))) 
+    #         #     for key in obj: 
+    #         #         if key.find("is")==-1:
+    #         #             continue
+    #         #         print(key)
+    #         #     break
+    #         # with open("embodied_log.jsonl", 'a') as f:
+    #         #     obj = {
+    #         #         "s0": initial_state,
+    #         #         "trans": transitions,
+    #         #     }
+    #         #     f.write(json.dumps(obj) + "\n")   
             
-            env.stop()
-            break
+    #         env.stop()
+    #         break
             
             
             
