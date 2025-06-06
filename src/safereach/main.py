@@ -1,5 +1,6 @@
 import json
 import math
+from .embodied import embodied_abstract
 from safereach.learn_dtmc import learn_dtmc
 import pandas as pd 
 import os
@@ -13,35 +14,35 @@ import os
 #             "SinkBasin", "SoapBottle", "Spatula", "Spoon", "Statue", "Stool", 
 #             "StoveBurner", "StoveKnob", "Toaster", "Tomato", "Vase", "Window", "WineBottle", 
 #             "W"]
-with open("../../benchmarks/SafeAgentBench/dataset/meta_data.json") as f:
-    metadata = json.loads(f.read())
-    objtypes = metadata["obj_types"]
+# with open("../../benchmarks/SafeAgentBench/dataset/meta_data.json") as f:
+#     metadata = json.loads(f.read())
+#     objtypes = metadata["obj_types"]
     
-print(len(objtypes))
-ty_bit_len = math.ceil(math.log2(len(objtypes))) + 1 
+# print(len(objtypes))
+# ty_bit_len = math.ceil(math.log2(len(objtypes))) + 1 
 
-# 0 for null
-elem_to_index = {elem: idx+1 for idx, elem in enumerate(objtypes)}
-index_to_elem = {idx+1: elem for idx, elem in enumerate(objtypes)}
+# # 0 for null
+# elem_to_index = {elem: idx+1 for idx, elem in enumerate(objtypes)}
+# index_to_elem = {idx+1: elem for idx, elem in enumerate(objtypes)}
 
 
-state_keys = [ 
-"isToggled",
-"isFilledWithLiquid",
-"isDirty",
-"isOpen",
-"isPickedUp",
-"isSliced",
-"isBroken",
-"isCooked", 
-# "isUsedUp",
-# "isHeatSource",
-# "isColdSource",
-# "isMoving"
-]
-# the last three is unrecoverable
+# state_keys = [ 
+# "isToggled",
+# "isFilledWithLiquid",
+# "isDirty",
+# "isOpen",
+# "isPickedUp",
+# "isSliced",
+# "isBroken",
+# "isCooked", 
+# # "isUsedUp",
+# # "isHeatSource",
+# # "isColdSource",
+# # "isMoving"
+# ]
+# # the last three is unrecoverable
  
-object_str_len = 2* ty_bit_len + len(state_keys)
+# object_str_len = 2* ty_bit_len + len(state_keys)
 
 #RQ4 - different levels of abstraction:
 # Option-1 we abstract one model for each scene, 
@@ -52,69 +53,69 @@ object_str_len = 2* ty_bit_len + len(state_keys)
 # (1) number of  encoding/decoding process of states.
 # (2) possible transitions between states.
 # the abstraction should be expressive enough for the spec
-def embodied_state_abstraction(scene):
+# def embodied_state_abstraction(scene):
     
-    # The state space is the set of all possible objects in the scene.
-    # (1) the object types in the scene.
-    # (2) the property defined by object type (e.g., Togglable = True -> isToggle = 0/1)
-    def encoding(observation):
-        pass
+#     # The state space is the set of all possible objects in the scene.
+#     # (1) the object types in the scene.
+#     # (2) the property defined by object type (e.g., Togglable = True -> isToggle = 0/1)
+#     def encoding(observation):
+#         pass
 
-    # The impossible state transition includes those state which can
-    # not be achieve by single action.
-    # e.g. s1 -- fillLiquild bottle wine --> s2 -- pickup bottle --> s3
-    # s1 --> s3 is not possible
-    # Or some change which is not recoverable(i.e., isBroken/isCooked/isSliced from F to T)
-    def decoding(observation):
-        pass       
+#     # The impossible state transition includes those state which can
+#     # not be achieve by single action.
+#     # e.g. s1 -- fillLiquild bottle wine --> s2 -- pickup bottle --> s3
+#     # s1 --> s3 is not possible
+#     # Or some change which is not recoverable(i.e., isBroken/isCooked/isSliced from F to T)
+#     def decoding(observation):
+#         pass       
     
-    pass
+#     pass
 
-# This is scene-agnostic abstraction, which suffer from state exploision
-# even if only the possible state are considered.
-def embodied_encoding(obj):
-    #object type
-    bit_str = format(elem_to_index[obj["objectType"]], f'0{ty_bit_len}b')
-    #parent receptacle
-    parent = 0
-    #assume one object only have one parent receptacle  
-    if obj["parentReceptacles"] !=None :
-        parent = obj["parentReceptacles"][0]
-        parent = elem_to_index[parent[:parent.find("|")]] 
-    bit_str = bit_str + format(parent, f'0{ty_bit_len}b')
-    #boolean attributes
-    for key in state_keys:
-        if obj[key]: 
-            bit_str = bit_str + "1" 
-        else:
-            bit_str = bit_str + "0" 
-    return bit_str
+# # This is scene-agnostic abstraction, which suffer from state exploision
+# # even if only the possible state are considered.
+# def embodied_encoding(obj):
+#     #object type
+#     bit_str = format(elem_to_index[obj["objectType"]], f'0{ty_bit_len}b')
+#     #parent receptacle
+#     parent = 0
+#     #assume one object only have one parent receptacle  
+#     if obj["parentReceptacles"] !=None :
+#         parent = obj["parentReceptacles"][0]
+#         parent = elem_to_index[parent[:parent.find("|")]] 
+#     bit_str = bit_str + format(parent, f'0{ty_bit_len}b')
+#     #boolean attributes
+#     for key in state_keys:
+#         if obj[key]: 
+#             bit_str = bit_str + "1" 
+#         else:
+#             bit_str = bit_str + "0" 
+#     return bit_str
 
-def embodied_decoding(bit_str):
-    obj_state = {}
-    # Object type
-    type_bits = bit_str[:ty_bit_len]
-    type_id = int(type_bits, 2)
-    ty = index_to_elem[type_id]
-    obj_state["objectType"] = ty
-    bit_str = bit_str[ty_bit_len:]
-    # Parent Receptacles 
-    type_bits = bit_str[:ty_bit_len]
-    type_id = int(type_bits, 2)
-    if type_id == 0:
-        obj_state["parentReceptacles"] = None
-    else :
-        obj_state["parentReceptacles"] = [index_to_elem[type_id]]
+# def embodied_decoding(bit_str):
+    # obj_state = {}
+    # # Object type
+    # type_bits = bit_str[:ty_bit_len]
+    # type_id = int(type_bits, 2)
+    # ty = index_to_elem[type_id]
+    # obj_state["objectType"] = ty
+    # bit_str = bit_str[ty_bit_len:]
+    # # Parent Receptacles 
+    # type_bits = bit_str[:ty_bit_len]
+    # type_id = int(type_bits, 2)
+    # if type_id == 0:
+    #     obj_state["parentReceptacles"] = None
+    # else :
+    #     obj_state["parentReceptacles"] = [index_to_elem[type_id]]
     
-    bit_str = bit_str[ty_bit_len:]
-    #boolean attributes
-    for i in range(0, len(state_keys)):
-        bit = bit_str[0]
-        bit_str = bit_str[1:]
-        key = state_keys[i]
-        value = False if bit == '0' else True
-        obj_state[key] = value 
-    return obj_state
+    # bit_str = bit_str[ty_bit_len:]
+    # #boolean attributes
+    # for i in range(0, len(state_keys)):
+    #     bit = bit_str[0]
+    #     bit_str = bit_str[1:]
+    #     key = state_keys[i]
+    #     value = False if bit == '0' else True
+    #     obj_state[key] = value 
+    # return obj_state
         
 # The state is global (at the level of each scene, instead of each object)
 def raw_log_to_state_transition(log, bitstrs):
@@ -124,9 +125,8 @@ def raw_log_to_state_transition(log, bitstrs):
     for pair in log["s_trans"]:
         objects = pair["state"] 
         sorted_objects = sorted(objects, key=lambda obj: obj["name"])
-        bitstr = ""
-        for obj in sorted_objects:
-            bitstr = bitstr + embodied_encoding(obj)
+        bitstr = embodied_abstract.encode()
+            
         bitstrs.add(bitstr)
         bitstr_transition.append(bitstr) 
     return bitstr_transition, bitstrs
