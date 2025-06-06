@@ -1,0 +1,2248 @@
+{
+    "scenes": {
+        "FloorPlan1": {
+            "objectTypes": [
+                "Fridge",
+                "Pot",
+                "WineBottle",
+                "Egg",
+                "Potato",
+                "Microwave",
+                "Bottle",
+                "Vase",
+                "CreditCard",
+                "Book"
+            ],
+            "keys": [
+                "isDirty",
+                "isOpen",
+                "isPickedUp",
+                "isToggled",
+                "isBroken"
+            ],
+            "parentReceptacles": [
+                "Fridge",
+                "Microwave"
+            ]
+        },
+        "FloorPlan304": {
+            "objectTypes": [
+                "Mug",
+                "Mirror"
+            ],
+            "keys": [
+                "isDirty",
+                "isBroken"
+            ],
+            "parentReceptacles": []
+        },
+        "FloorPlan302": {
+            "objectTypes": [
+                "CreditCard",
+                "Bed",
+                "Safe",
+                "Pillow"
+            ],
+            "keys": [
+                "isDirty",
+                "isPickedUp",
+                "isOpen"
+            ],
+            "parentReceptacles": [
+                "GarbageCan",
+                "Safe"
+            ]
+        },
+        "FloorPlan404": {
+            "objectTypes": [
+                "ShowerCurtain",
+                "Candle",
+                "Cloth"
+            ],
+            "keys": [
+                "isToggled",
+                "isDirty",
+                "isOpen"
+            ],
+            "parentReceptacles": [
+                "Toilet",
+                "Bathtub"
+            ]
+        },
+        "FloorPlan3": {
+            "objectTypes": [
+                "BreadSliced",
+                "StoveKnob",
+                "AppleSliced",
+                "Bread",
+                "Egg",
+                "Fork",
+                "Microwave",
+                "Toaster",
+                "Kettle",
+                "Fridge",
+                "Plate",
+                "Mug"
+            ],
+            "keys": [
+                "isToggled",
+                "isDirty",
+                "isOpen",
+                "isFilledWithLiquid"
+            ],
+            "parentReceptacles": [
+                "StoveBurner",
+                "Microwave",
+                "CounterTop",
+                "Toaster",
+                "Fridge"
+            ]
+        },
+        "FloorPlan5": {
+            "objectTypes": [
+                "Spoon",
+                "Pot",
+                "Pan",
+                "StoveKnob",
+                "HousePlant",
+                "Tomato",
+                "Microwave",
+                "Vase",
+                "Kettle",
+                "Fridge",
+                "Faucet"
+            ],
+            "keys": [
+                "isSliced",
+                "isDirty",
+                "isOpen",
+                "isFilledWithLiquid",
+                "isToggled",
+                "isBroken"
+            ],
+            "parentReceptacles": [
+                "Fridge",
+                "StoveBurner",
+                "Shelf",
+                "Microwave"
+            ]
+        },
+        "FloorPlan328": {
+            "objectTypes": [
+                "Mirror",
+                "LightSwitch"
+            ],
+            "keys": [
+                "isToggled",
+                "isDirty"
+            ],
+            "parentReceptacles": []
+        },
+        "FloorPlan410": {
+            "objectTypes": [
+                "Drawer",
+                "Candle",
+                "Cloth",
+                "ToiletPaper"
+            ],
+            "keys": [
+                "isToggled",
+                "isDirty",
+                "isOpen"
+            ],
+            "parentReceptacles": [
+                "Drawer",
+                "Bathtub",
+                "CounterTop"
+            ]
+        },
+        "FloorPlan424": {
+            "objectTypes": [
+                "Cloth"
+            ],
+            "keys": [
+                "isDirty"
+            ],
+            "parentReceptacles": [
+                "Cabinet"
+            ]
+        },
+        "FloorPlan28": {
+            "objectTypes": [
+                "Pan"
+            ],
+            "keys": [
+                "isDirty"
+            ],
+            "parentReceptacles": []
+        },
+        "FloorPlan401": {
+            "objectTypes": [],
+            "keys": [],
+            "parentReceptacles": []
+        },
+        "FloorPlan402": {
+            "objectTypes": [
+                "Cabinet",
+                "ShowerHead",
+                "Faucet",
+                "SoapBar",
+                "ShowerDoor"
+            ],
+            "keys": [
+                "isToggled",
+                "isOpen"
+            ],
+            "parentReceptacles": [
+                "Cabinet"
+            ]
+        },
+        "FloorPlan403": {
+            "objectTypes": [
+                "Candle",
+                "Mirror",
+                "Cabinet"
+            ],
+            "keys": [
+                "isToggled",
+                "isOpen",
+                "isBroken"
+            ],
+            "parentReceptacles": [
+                "Cabinet"
+            ]
+        },
+        "FloorPlan405": {
+            "objectTypes": [
+                "ScrubBrush"
+            ],
+            "keys": [],
+            "parentReceptacles": [
+                "Toilet"
+            ]
+        },
+        "FloorPlan414": {
+            "objectTypes": [
+                "Candle"
+            ],
+            "keys": [
+                "isToggled"
+            ],
+            "parentReceptacles": []
+        },
+        "FloorPlan422": {
+            "objectTypes": [
+                "Candle",
+                "Cabinet"
+            ],
+            "keys": [
+                "isToggled",
+                "isOpen"
+            ],
+            "parentReceptacles": [
+                "Cabinet"
+            ]
+        },
+        "FloorPlan4": {
+            "objectTypes": [
+                "Pot",
+                "StoveKnob",
+                "Fork",
+                "HousePlant",
+                "Apple",
+                "Knife",
+                "Microwave"
+            ],
+            "keys": [
+                "isToggled",
+                "isOpen",
+                "isFilledWithLiquid"
+            ],
+            "parentReceptacles": [
+                "StoveBurner",
+                "Microwave"
+            ]
+        },
+        "FloorPlan2": {
+            "objectTypes": [
+                "Egg",
+                "CellPhone",
+                "Potato",
+                "Tomato",
+                "Microwave",
+                "CoffeeMachine",
+                "Fridge",
+                "Mug",
+                "Cup"
+            ],
+            "keys": [
+                "isToggled",
+                "isOpen",
+                "isFilledWithLiquid",
+                "isPickedUp"
+            ],
+            "parentReceptacles": [
+                "CoffeeMachine",
+                "Fridge",
+                "Microwave",
+                "Cup"
+            ]
+        },
+        "FloorPlan7": {
+            "objectTypes": [
+                "Egg",
+                "Bowl",
+                "Knife",
+                "Microwave",
+                "Fridge",
+                "Mug"
+            ],
+            "keys": [
+                "isToggled",
+                "isOpen",
+                "isBroken"
+            ],
+            "parentReceptacles": [
+                "Bowl",
+                "Fridge",
+                "Microwave"
+            ]
+        },
+        "FloorPlan314": {
+            "objectTypes": [
+                "Microwave",
+                "KeyChain"
+            ],
+            "keys": [
+                "isToggled"
+            ],
+            "parentReceptacles": [
+                "Microwave"
+            ]
+        },
+        "FloorPlan303": {
+            "objectTypes": [
+                "Vase"
+            ],
+            "keys": [
+                "isBroken"
+            ],
+            "parentReceptacles": []
+        },
+        "FloorPlan202": {
+            "objectTypes": [
+                "Television",
+                "LightSwitch"
+            ],
+            "keys": [
+                "isToggled",
+                "isBroken"
+            ],
+            "parentReceptacles": []
+        },
+        "FloorPlan416": {
+            "objectTypes": [
+                "ShowerDoor"
+            ],
+            "keys": [
+                "isOpen",
+                "isBroken"
+            ],
+            "parentReceptacles": []
+        },
+        "FloorPlan307": {
+            "objectTypes": [
+                "CellPhone"
+            ],
+            "keys": [
+                "isBroken"
+            ],
+            "parentReceptacles": []
+        },
+        "FloorPlan8": {
+            "objectTypes": [
+                "Ladle",
+                "Egg",
+                "EggCracked",
+                "Microwave"
+            ],
+            "keys": [
+                "isToggled",
+                "isBroken"
+            ],
+            "parentReceptacles": [
+                "StoveBurner",
+                "Microwave"
+            ]
+        },
+        "FloorPlan10": {
+            "objectTypes": [
+                "Bottle",
+                "Microwave",
+                "Spatula"
+            ],
+            "keys": [
+                "isToggled",
+                "isOpen",
+                "isBroken"
+            ],
+            "parentReceptacles": [
+                "Microwave"
+            ]
+        },
+        "FloorPlan222": {
+            "objectTypes": [
+                "Statue"
+            ],
+            "keys": [
+                "isBroken"
+            ],
+            "parentReceptacles": []
+        },
+        "FloorPlan12": {
+            "objectTypes": [
+                "Mug"
+            ],
+            "keys": [
+                "isBroken"
+            ],
+            "parentReceptacles": [
+                "SinkBasin"
+            ]
+        },
+        "FloorPlan25": {
+            "objectTypes": [
+                "Potato",
+                "Egg",
+                "Microwave"
+            ],
+            "keys": [
+                "isToggled",
+                "isOpen",
+                "isBroken"
+            ],
+            "parentReceptacles": [
+                "Microwave"
+            ]
+        },
+        "FloorPlan305": {
+            "objectTypes": [
+                "CellPhone",
+                "Bowl",
+                "Cellphone",
+                "Microwave",
+                "Window",
+                "Book"
+            ],
+            "keys": [
+                "isPickedUp",
+                "isFilledWithLiquid",
+                "isOpen",
+                "isToggled",
+                "isBroken"
+            ],
+            "parentReceptacles": [
+                "Bowl",
+                "Bed",
+                "Microwave",
+                "Sink",
+                "Shelf"
+            ]
+        },
+        "FloorPlan204": {
+            "objectTypes": [
+                "Drawer",
+                "RemoteControl",
+                "CellPhone",
+                "Statue",
+                "Safe"
+            ],
+            "keys": [
+                "isOpen",
+                "isBroken",
+                "isPickedUp"
+            ],
+            "parentReceptacles": [
+                "Safe"
+            ]
+        },
+        "FloorPlan206": {
+            "objectTypes": [
+                "Window"
+            ],
+            "keys": [
+                "isBroken"
+            ],
+            "parentReceptacles": []
+        },
+        "FloorPlan6": {
+            "objectTypes": [
+                "StoveKnob",
+                "GarbageCan",
+                "Egg",
+                "Microwave",
+                "Pan",
+                "Plate",
+                "SoapBottle"
+            ],
+            "keys": [
+                "isToggled",
+                "isFilledWithLiquid",
+                "isPickedUp",
+                "isBroken"
+            ],
+            "parentReceptacles": [
+                "StoveBurner",
+                "Microwave"
+            ]
+        },
+        "FloorPlan407": {
+            "objectTypes": [
+                "Window",
+                "ShowerGlass",
+                "Cabinet"
+            ],
+            "keys": [
+                "isOpen",
+                "isBroken"
+            ],
+            "parentReceptacles": []
+        },
+        "FloorPlan208": {
+            "objectTypes": [
+                "RemoteControl",
+                "Cabinet",
+                "Laptop",
+                "Vase",
+                "Television"
+            ],
+            "keys": [
+                "isOpen",
+                "isBroken",
+                "isPickedUp"
+            ],
+            "parentReceptacles": [
+                "GarbageCan"
+            ]
+        },
+        "FloorPlan301": {
+            "objectTypes": [
+                "Laptop",
+                "Mug"
+            ],
+            "keys": [
+                "isFilledWithLiquid",
+                "isBroken"
+            ],
+            "parentReceptacles": [
+                "Drawer"
+            ]
+        },
+        "FloorPlan205": {
+            "objectTypes": [
+                "Statue"
+            ],
+            "keys": [
+                "isBroken"
+            ],
+            "parentReceptacles": []
+        },
+        "FloorPlan30": {
+            "objectTypes": [
+                "Fridge",
+                "Plate"
+            ],
+            "keys": [
+                "isOpen",
+                "isBroken"
+            ],
+            "parentReceptacles": [
+                "Fridge"
+            ]
+        },
+        "FloorPlan203": {
+            "objectTypes": [
+                "Plate"
+            ],
+            "keys": [
+                "isBroken"
+            ],
+            "parentReceptacles": []
+        },
+        "FloorPlan306": {
+            "objectTypes": [],
+            "keys": [],
+            "parentReceptacles": []
+        },
+        "FloorPlan308": {
+            "objectTypes": [
+                "AlarmCLock"
+            ],
+            "keys": [
+                "isOpen"
+            ],
+            "parentReceptacles": [
+                "Safe"
+            ]
+        },
+        "FloorPlan309": {
+            "objectTypes": [
+                "SoapBottle",
+                "CellPhone"
+            ],
+            "keys": [],
+            "parentReceptacles": [
+                "Toilet",
+                "Mug"
+            ]
+        },
+        "FloorPlan217": {
+            "objectTypes": [],
+            "keys": [],
+            "parentReceptacles": []
+        },
+        "FloorPlan209": {
+            "objectTypes": [],
+            "keys": [],
+            "parentReceptacles": []
+        },
+        "FloorPlan311": {
+            "objectTypes": [],
+            "keys": [],
+            "parentReceptacles": []
+        },
+        "FloorPlan201": {
+            "objectTypes": [
+                "CreditCard",
+                "Microwave"
+            ],
+            "keys": [
+                "isToggled",
+                "isOpen"
+            ],
+            "parentReceptacles": [
+                "Microwave"
+            ]
+        },
+        "FloorPlan9": {
+            "objectTypes": [
+                "Kettle"
+            ],
+            "keys": [
+                "isFilledWithLiquid"
+            ],
+            "parentReceptacles": [
+                "Cabinet"
+            ]
+        },
+        "FloorPlan11": {
+            "objectTypes": [
+                "Potato"
+            ],
+            "keys": [
+                "isSliced"
+            ],
+            "parentReceptacles": []
+        },
+        "FloorPlan413": {
+            "objectTypes": [
+                "Candle"
+            ],
+            "keys": [],
+            "parentReceptacles": [
+                "Drawer"
+            ]
+        },
+        "FloorPlan320": {
+            "objectTypes": [
+                "Dumbbell"
+            ],
+            "keys": [],
+            "parentReceptacles": [
+                "Bed"
+            ]
+        },
+        "FloorPlan321": {
+            "objectTypes": [],
+            "keys": [],
+            "parentReceptacles": []
+        },
+        "FloorPlan415": {
+            "objectTypes": [
+                "HandTowel"
+            ],
+            "keys": [],
+            "parentReceptacles": [
+                "Toilet"
+            ]
+        },
+        "FloorPlan219": {
+            "objectTypes": [
+                "Newspaper",
+                "Laptop",
+                "Safe"
+            ],
+            "keys": [
+                "isOpen"
+            ],
+            "parentReceptacles": [
+                "GarbageCan",
+                "Safe"
+            ]
+        },
+        "FloorPlan322": {
+            "objectTypes": [
+                "AlarmClock"
+            ],
+            "keys": [],
+            "parentReceptacles": [
+                "GarbageCan"
+            ]
+        },
+        "FloorPlan220": {
+            "objectTypes": [
+                "Laptop"
+            ],
+            "keys": [],
+            "parentReceptacles": [
+                "Drawer"
+            ]
+        },
+        "FloorPlan17": {
+            "objectTypes": [
+                "Mug"
+            ],
+            "keys": [
+                "isFilledWithLiquid"
+            ],
+            "parentReceptacles": [
+                "Shelf"
+            ]
+        },
+        "FloorPlan224": {
+            "objectTypes": [
+                "Television",
+                "LightSwitch"
+            ],
+            "keys": [
+                "isToggled"
+            ],
+            "parentReceptacles": []
+        },
+        "FloorPlan18": {
+            "objectTypes": [],
+            "keys": [],
+            "parentReceptacles": []
+        },
+        "FloorPlan21": {
+            "objectTypes": [
+                "Toaster",
+                "Fork"
+            ],
+            "keys": [
+                "isToggled"
+            ],
+            "parentReceptacles": [
+                "Toaster"
+            ]
+        },
+        "FloorPlan24": {
+            "objectTypes": [
+                "Fridge",
+                "Cup"
+            ],
+            "keys": [
+                "isOpen",
+                "isFilledWithLiquid"
+            ],
+            "parentReceptacles": [
+                "StoveBurner"
+            ]
+        },
+        "FloorPlan26": {
+            "objectTypes": [
+                "TomatoSliced"
+            ],
+            "keys": [],
+            "parentReceptacles": [
+                "CounterTop"
+            ]
+        },
+        "FloorPlan16": {
+            "objectTypes": [
+                "EggCracked"
+            ],
+            "keys": [],
+            "parentReceptacles": [
+                "StoveBurner"
+            ]
+        },
+        "FloorPlan14": {
+            "objectTypes": [
+                "Potato",
+                "Mug",
+                "Microwave",
+                "SaltShaker"
+            ],
+            "keys": [
+                "isToggled",
+                "isCooked"
+            ],
+            "parentReceptacles": [
+                "StoveBurner",
+                "Microwave"
+            ]
+        },
+        "FloorPlan215": {
+            "objectTypes": [],
+            "keys": [],
+            "parentReceptacles": []
+        },
+        "FloorPlan13": {
+            "objectTypes": [
+                "Drawer",
+                "Egg"
+            ],
+            "keys": [
+                "isOpen"
+            ],
+            "parentReceptacles": [
+                "Drawer"
+            ]
+        },
+        "FloorPlan20": {
+            "objectTypes": [
+                "Bowl"
+            ],
+            "keys": [
+                "isFilledWithLiquid"
+            ],
+            "parentReceptacles": [
+                "Fridge"
+            ]
+        },
+        "FloorPlan318": {
+            "objectTypes": [],
+            "keys": [],
+            "parentReceptacles": []
+        },
+        "FloorPlan326": {
+            "objectTypes": [
+                "Bowl",
+                "Pencil"
+            ],
+            "keys": [
+                "isFilledWithLiquid"
+            ],
+            "parentReceptacles": [
+                "Bowl"
+            ]
+        },
+        "FloorPlan323": {
+            "objectTypes": [],
+            "keys": [],
+            "parentReceptacles": []
+        },
+        "FloorPlan218": {
+            "objectTypes": [],
+            "keys": [],
+            "parentReceptacles": []
+        },
+        "FloorPlan15": {
+            "objectTypes": [
+                "Mug",
+                "Microwave"
+            ],
+            "keys": [
+                "isToggled",
+                "isOpen",
+                "isFilledWithLiquid"
+            ],
+            "parentReceptacles": [
+                "Microwave"
+            ]
+        },
+        "FloorPlan19": {
+            "objectTypes": [
+                "Microwave",
+                "Cup"
+            ],
+            "keys": [
+                "isToggled",
+                "isOpen",
+                "isFilledWithLiquid"
+            ],
+            "parentReceptacles": [
+                "Microwave"
+            ]
+        },
+        "FloorPlan329": {
+            "objectTypes": [
+                "Mug",
+                "CellPhone",
+                "Pencil"
+            ],
+            "keys": [
+                "isPickedUp",
+                "isFilledWithLiquid"
+            ],
+            "parentReceptacles": [
+                "Mug"
+            ]
+        },
+        "FloorPlan230": {
+            "objectTypes": [
+                "DeskLamp"
+            ],
+            "keys": [
+                "isToggled"
+            ],
+            "parentReceptacles": []
+        },
+        "FloorPlan210": {
+            "objectTypes": [],
+            "keys": [],
+            "parentReceptacles": []
+        },
+        "FloorPlan212": {
+            "objectTypes": [
+                "HousePlant"
+            ],
+            "keys": [
+                "isFilledWithLiquid"
+            ],
+            "parentReceptacles": []
+        },
+        "FloorPlan317": {
+            "objectTypes": [],
+            "keys": [],
+            "parentReceptacles": []
+        },
+        "FloorPlan325": {
+            "objectTypes": [
+                "Drawer",
+                "CellPhone"
+            ],
+            "keys": [
+                "isOpen"
+            ],
+            "parentReceptacles": [
+                "Drawer"
+            ]
+        },
+        "FloorPlan22": {
+            "objectTypes": [
+                "Egg"
+            ],
+            "keys": [
+                "isSliced"
+            ],
+            "parentReceptacles": []
+        },
+        "FloorPlan229": {
+            "objectTypes": [],
+            "keys": [],
+            "parentReceptacles": []
+        },
+        "FloorPlan29": {
+            "objectTypes": [
+                "DishSponge",
+                "Cup"
+            ],
+            "keys": [
+                "isFilledWithLiquid"
+            ],
+            "parentReceptacles": [
+                "Cup"
+            ]
+        },
+        "FloorPlan211": {
+            "objectTypes": [
+                "Television"
+            ],
+            "keys": [
+                "isToggled"
+            ],
+            "parentReceptacles": []
+        }
+    },
+    "attributes": {},
+    "type_profiles": {
+        "Apple": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": true,
+            "openable": false,
+            "pickupable": true
+        },
+        "Book": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": true,
+            "pickupable": true
+        },
+        "Bottle": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": true,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Bowl": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": true,
+            "isFilledWithLiquid": false,
+            "dirtyable": true,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Bread": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": true,
+            "openable": false,
+            "pickupable": true
+        },
+        "ButterKnife": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Cabinet": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": true,
+            "pickupable": false
+        },
+        "CoffeeMachine": {
+            "toggleable": true,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "CounterTop": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "CreditCard": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Cup": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": true,
+            "isFilledWithLiquid": false,
+            "dirtyable": true,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "DishSponge": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Drawer": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": true,
+            "pickupable": false
+        },
+        "Egg": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": true,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": true,
+            "openable": false,
+            "pickupable": true
+        },
+        "Faucet": {
+            "toggleable": true,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Floor": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Fork": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Fridge": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": true,
+            "pickupable": false
+        },
+        "GarbageCan": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "HousePlant": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Kettle": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": true,
+            "pickupable": true
+        },
+        "Knife": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Lettuce": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": true,
+            "openable": false,
+            "pickupable": true
+        },
+        "LightSwitch": {
+            "toggleable": true,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Microwave": {
+            "toggleable": true,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": true,
+            "pickupable": false
+        },
+        "Mug": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": true,
+            "isFilledWithLiquid": false,
+            "dirtyable": true,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Pan": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": true,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "PaperTowelRoll": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "PepperShaker": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Plate": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": true,
+            "isFilledWithLiquid": false,
+            "dirtyable": true,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Pot": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": true,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Potato": {
+            "toggleable": false,
+            "cookable": true,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": true,
+            "openable": false,
+            "pickupable": true
+        },
+        "SaltShaker": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Shelf": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "ShelvingUnit": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Sink": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "SinkBasin": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "SoapBottle": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Spatula": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Spoon": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Statue": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": true,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Stool": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "StoveBurner": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "StoveKnob": {
+            "toggleable": true,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Toaster": {
+            "toggleable": true,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Tomato": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": true,
+            "openable": false,
+            "pickupable": true
+        },
+        "Vase": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": true,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Window": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": true,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "WineBottle": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": true,
+            "isFilledWithLiquid": true,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "AlarmClock": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "BasketBall": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Bed": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": true,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Blinds": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": true,
+            "pickupable": false
+        },
+        "Box": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": true,
+            "pickupable": true
+        },
+        "CD": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "CellPhone": {
+            "toggleable": true,
+            "cookable": false,
+            "breakable": true,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Chair": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Desk": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "DeskLamp": {
+            "toggleable": true,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "KeyChain": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Laptop": {
+            "toggleable": true,
+            "cookable": false,
+            "breakable": true,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": true,
+            "pickupable": true
+        },
+        "LaundryHamper": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": true,
+            "pickupable": false
+        },
+        "Mirror": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": true,
+            "isFilledWithLiquid": false,
+            "dirtyable": true,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Pen": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Pencil": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Pillow": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Painting": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Safe": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": true,
+            "pickupable": false
+        },
+        "SideTable": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "TeddyBear": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "TennisRacket": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Bathtub": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "BathtubBasin": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Candle": {
+            "toggleable": true,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Cloth": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": true,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "HandTowel": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "HandTowelHolder": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Plunger": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "ScrubBrush": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "ShowerCurtain": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": true,
+            "pickupable": false
+        },
+        "ShowerHead": {
+            "toggleable": true,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "SoapBar": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "SprayBottle": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "TissueBox": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Toilet": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": true,
+            "pickupable": false
+        },
+        "ToiletPaper": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "ToiletPaperHanger": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Towel": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "TowelHolder": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Ladle": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Dumbbell": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "ShowerDoor": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": true,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": true,
+            "pickupable": false
+        },
+        "ShowerGlass": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": true,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "DiningTable": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "BaseballBat": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "GarbageBag": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Poster": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "ArmChair": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "CoffeeTable": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Curtains": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "FloorLamp": {
+            "toggleable": true,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "RemoteControl": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Sofa": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Television": {
+            "toggleable": true,
+            "cookable": false,
+            "breakable": true,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "TVStand": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Watch": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Newspaper": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "WateringCan": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Ottoman": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Boots": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "DogBed": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Dresser": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "Footstool": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "RoomDecor": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        },
+        "AluminumFoil": {
+            "toggleable": false,
+            "cookable": false,
+            "breakable": false,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": true
+        },
+        "Desktop": {
+            "toggleable": true,
+            "cookable": false,
+            "breakable": true,
+            "isFilledWithLiquid": false,
+            "dirtyable": false,
+            "canBeUsedUp": false,
+            "sliceable": false,
+            "openable": false,
+            "pickupable": false
+        }
+    }
+}
