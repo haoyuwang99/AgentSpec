@@ -1,6 +1,6 @@
 import json
 import math
-from .embodied import embodied_abstract
+from .embodied import abstract
 from safereach.learn_dtmc import learn_dtmc
 import pandas as pd 
 import os
@@ -125,7 +125,7 @@ def raw_log_to_state_transition(log, bitstrs):
     for pair in log["s_trans"]:
         objects = pair["state"] 
         sorted_objects = sorted(objects, key=lambda obj: obj["name"])
-        bitstr = embodied_abstract.encode()
+        bitstr = abstract.encode()
             
         bitstrs.add(bitstr)
         bitstr_transition.append(bitstr) 
