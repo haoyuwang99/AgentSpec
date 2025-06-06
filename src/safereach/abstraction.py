@@ -1,14 +1,14 @@
 from abc import ABC, abstractmethod
-from typing import Any, Set
+from typing import Any, Set, List
 
 class Abstraction(ABC):
 
     @abstractmethod
-    def encode(self, observation: Any) -> str:
+    def encode(self, observations: List[Any]) -> str:
         pass
 
     @abstractmethod
-    def decode(self, state: str) -> Any:
+    def decode(self, state: str) -> List[Any]:
         pass
 
     @abstractmethod
@@ -19,3 +19,4 @@ class Abstraction(ABC):
     def enumerate_possible_states(self) -> Set[str]:
         pass
 
+    
