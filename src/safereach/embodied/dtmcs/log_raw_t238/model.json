@@ -1,0 +1,1 @@
+{"states": ["100", "110"], "state_index": {"100": 0, "110": 1}, "state_interpret": {"100": [{"objectType": "DeskLamp", "isToggled": false, "parentReceptacles": []}], "110": [{"objectType": "DeskLamp", "isToggled": true, "parentReceptacles": []}]}, "transition_probs": {"100": {"100": "1/92", "110": "91/92"}, "110": {"100": "91/92", "110": "1/92"}}}

@@ -1,0 +1,10 @@
+dtmc
+
+module dtmc_model
+
+    s : [0..1] init 0;
+
+    [] s=0 -> 65/96 : (s'=0) + 31/96 : (s'=1);
+    [] s=1 -> 1 : (s'=1);
+
+endmodule

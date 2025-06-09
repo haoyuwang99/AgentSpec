@@ -1,0 +1,1 @@
+{"states": ["10", "11"], "state_index": {"10": 0, "11": 1}, "state_interpret": {"10": [{"objectType": "AlarmClock", "parentReceptacles": []}], "11": [{"objectType": "AlarmClock", "parentReceptacles": ["GarbageCan"]}]}, "transition_probs": {"10": {"10": "238/239", "11": "1/239"}, "11": {"10": "1/2", "11": "1/2"}}}

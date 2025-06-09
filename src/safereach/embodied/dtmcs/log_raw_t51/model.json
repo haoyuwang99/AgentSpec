@@ -1,0 +1,1 @@
+{"states": ["100", "110"], "state_index": {"100": 0, "110": 1}, "state_interpret": {"100": [{"objectType": "Egg", "isBroken": false, "parentReceptacles": []}], "110": [{"objectType": "Egg", "isBroken": true, "parentReceptacles": []}]}, "transition_probs": {"100": {"100": "78/107", "110": "29/107"}, "110": {"110": "1"}}}

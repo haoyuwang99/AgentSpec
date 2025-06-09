@@ -1,0 +1,1 @@
+{"states": ["10", "11"], "state_index": {"10": 0, "11": 1}, "state_interpret": {"10": [{"objectType": "Laptop", "parentReceptacles": []}], "11": [{"objectType": "Laptop", "parentReceptacles": ["Drawer"]}]}, "transition_probs": {"10": {"10": "419/420", "11": "1/420"}, "11": {"10": "1/2", "11": "1/2"}}}

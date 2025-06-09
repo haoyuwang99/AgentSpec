@@ -1,4 +1,4 @@
-# This script is to enumerate all the possible state for a given object description
+
 import json
 import math
 from deepdiff import DeepDiff
@@ -19,6 +19,11 @@ keys_map = {
     "isPickedUp":"pickupable",
 }
 
+type_profile = {}
+with open("embodied/meta_data1.json") as f:
+    meta_data = json.loads(f.read())
+    type_profile = meta_data["type_profiles"]
+     
 class EmbodiedAbstraction(Abstraction):
 
     def __init__(self, object_types: Set[str], keys: Set[str], parentReceptacles: Set[str]):
@@ -26,7 +31,7 @@ class EmbodiedAbstraction(Abstraction):
         self.keys = sorted(list(keys))
         self.parentReceptacles = sorted(list(parentReceptacles))
         self.type_profile = {}
-        with open("meta_data1.json") as f:
+        with open("embodied/meta_data1.json") as f:
             meta_data = json.loads(f.read())
             self.type_profile = meta_data["type_profiles"]
             
@@ -35,7 +40,14 @@ class EmbodiedAbstraction(Abstraction):
         self.ty_bit_len = math.ceil(math.log2(len(object_types))) + 1 
         
         self.rec_type_to_index = {type: idx+1 for idx, type in enumerate(parentReceptacles)}
-        self.rec_bit_len = math.ceil(math.log2(len(parentReceptacles))) + 1
+        if len(parentReceptacles)==0:
+            self.rec_bit_len = 1
+        else:
+            self.rec_bit_len = math.ceil(math.log2(len(parentReceptacles))) + 1
+
+        self.obj_len = self.ty_bit_len + len(self.keys) + self.rec_bit_len
+        self.state_space=self.enumerate_possible_states()
+     
      
     def encode(self, observations: List[Any]) -> str:
         bitstr=""
@@ -51,7 +63,7 @@ class EmbodiedAbstraction(Abstraction):
             
             has_rec = False
             for receptacle in self.parentReceptacles:
-                if any(len(o["parentReceptacles"])>0 and \
+                if any(o["parentReceptacles"] !=None and len(o["parentReceptacles"])>0 and \
                     o["parentReceptacles"][0] == receptacle for o in observations_by_type):
                     has_rec = True
                     bitstr += format(self.rec_type_to_index[receptacle], f"0{self.rec_bit_len}b")
@@ -65,11 +77,10 @@ class EmbodiedAbstraction(Abstraction):
  
     def decode(self, state: str) -> List[Any]:
       
-        obj_len = self.ty_bit_len + len(self.keys) + self.rec_bit_len
         
-        bitstrs = [state[i:i+obj_len] for i in range(0, len(state), obj_len)]
+        bitstrs = [state[i:i+self.obj_len] for i in range(0, len(state), self.obj_len)]
 
-        
+    
         observations = []
         for bitstr in bitstrs: 
             idx = 0
@@ -95,15 +106,15 @@ class EmbodiedAbstraction(Abstraction):
         
         return observations
     
-    def enumerate_possible_states(self) -> Set[str]:
+    def enumerate_possible_states(self) -> Set[str]: 
         prefixes = {}
         for object_type in self.object_types:
             prefixes[object_type] = [format(self.obj_type_to_index[object_type], f'0{self.ty_bit_len}b')]
         
         # for each object type, enumerate its possible configuration
         for object_type in self.object_types:
-            for i in range(len(keys)):
-                key = keys[i]
+            for i in range(len(self.keys)):
+                key = self.keys[i]
                 n = len(prefixes[object_type])
                 # enumerate all the possible state prefixes
                 for j in range(n):
@@ -116,11 +127,12 @@ class EmbodiedAbstraction(Abstraction):
                     keyable = keys_map[key]
                     
                     prefix_0 = prefix + "0"
-                    prefixes[object_type].append(prefix_0)
+                    prefixes[object_type].append(prefix_0) 
                     if profile[keyable]: 
                         prefix_1 = prefix + "1"
                         prefixes[object_type].append(prefix_1)     
         # add description that an object is in receptacles.
+
         for object_type in self.object_types:
             n = len(prefixes[object_type])   
             for i in range(n):
@@ -132,12 +144,11 @@ class EmbodiedAbstraction(Abstraction):
     
                 profile = type_profile[type]  
                 no_receptacles = format(0, f"0{self.rec_bit_len}b")
-                prefixes[object_type].append(prefix + no_receptacles)
+                prefixes[object_type].append(prefix + no_receptacles) 
                 if profile["pickupable"]:
                     for rec in self.parentReceptacles:
                         re_idx = format(self.rec_type_to_index[rec], f'0{self.rec_bit_len}b')
                         prefixes[object_type].append(prefix + re_idx)
-
         values = list(prefixes.values())
         state_space = values[0] 
         for i in range(1, len(self.object_types)):
@@ -148,6 +159,22 @@ class EmbodiedAbstraction(Abstraction):
                     state_space.append(prefix + values[i][j])
             
         return set(state_space)
+    
+    def filter(self, spec) -> Set[str]:
+        
+        filtered_states = set()
+        for state in state_space: 
+            observations = self.decode(state)
+            for o in observations:
+                is_filtered = True
+                for key in spec:
+                    is_unsafe = is_filtered and spec[key] == o[key] 
+                if is_filtered:   
+                    break
+            if is_unsafe:
+                filtered_states.add(state)
+
+        return filtered_states
  
     def can_reach(self, state1: str, state2: str) -> bool:
         
@@ -226,11 +253,9 @@ class EmbodiedAbstraction(Abstraction):
         plt.show()
 
 
-    
-
 def process_type_profile():
 
-    with open("meta_data.json") as f:
+    with open("embodied/meta_data.json") as f:
         
         meta_data = json.loads(f.read())
         obj_types = meta_data["obj_types"]
@@ -243,29 +268,25 @@ def process_type_profile():
                 type_profile[k] = obj_types[type][k]
             type_profiles[type] = type_profile
         
-        with open("meta_data1.json", 'w') as j:
+        with open("embodied/meta_data1.json", 'w') as j:
             del meta_data["obj_types"]
             meta_data["type_profiles"] = type_profiles
             j.write(json.dumps(meta_data))
-        exit(0)
-# process_type_profile()
         
-type_profile = {}
-with open("meta_data1.json") as f:
-    meta_data = json.loads(f.read())
-    type_profile = meta_data["type_profiles"]
+process_type_profile()
+        
 
 
 ## below are tests
 
-obj_types = ["Apple", "Window"]
-keys = ["isPickedUp", "isSliced"]
-receptacles =["Sink", "Sink2"]
-abs = EmbodiedAbstraction(set(obj_types), set(keys), set(receptacles))
-state_space = list(abs.enumerate_possible_states())
-# print(state_space)
+# obj_types = ["Apple", "Window"]
+# keys = ["isPickedUp", "isSliced"]
+# receptacles =["Sink", "Sink2"]
+# example_abs = EmbodiedAbstraction(set(obj_types), set(keys), set(receptacles))
+# state_space = list(example_abs.state_space)
+# # print(state_space)
 
-abs.can_reach(state_space[5], state_space[4])
+# example_abs.can_reach(state_space[5], state_space[4])
 
 # for type in obj_types:
 #     state_space = prefixes[type]
@@ -281,8 +302,9 @@ abs.can_reach(state_space[5], state_space[4])
 
 ## for visuallization
 
+# for state in example_abs.filter({"objectType":"Apple", "parentReceptacles": ["Sink2"]}):
+#     print(example_abs.decode(state))
+    
 def find_absorbing_states(G):
     absorbing_states = [node for node in G.nodes if G.out_degree(node) == 0]
     return absorbing_states
-
-abs.show_reachability_graph()

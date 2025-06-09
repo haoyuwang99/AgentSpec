@@ -1,0 +1,1 @@
+{"states": ["100", "110"], "state_index": {"100": 0, "110": 1}, "state_interpret": {"100": [{"objectType": "Plate", "isBroken": false, "parentReceptacles": []}], "110": [{"objectType": "Plate", "isBroken": true, "parentReceptacles": []}]}, "transition_probs": {"100": {"100": "30/61", "110": "31/61"}, "110": {"110": "1"}}}
