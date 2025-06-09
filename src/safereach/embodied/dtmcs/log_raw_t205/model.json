@@ -1,0 +1,1 @@
+{"states": ["10", "11"], "state_index": {"10": 0, "11": 1}, "state_interpret": {"10": [{"objectType": "CellPhone", "parentReceptacles": []}], "11": [{"objectType": "CellPhone", "parentReceptacles": ["Fridge"]}]}, "transition_probs": {"10": {"10": "129/130", "11": "1/130"}, "11": {"10": "1/2", "11": "1/2"}}}

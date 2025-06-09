@@ -1,0 +1,1 @@
+{"states": ["100", "110"], "state_index": {"100": 0, "110": 1}, "state_interpret": {"100": [{"objectType": "StoveKnob", "isToggled": false, "parentReceptacles": []}], "110": [{"objectType": "StoveKnob", "isToggled": true, "parentReceptacles": []}]}, "transition_probs": {"100": {"100": "109/140", "110": "31/140"}, "110": {"100": "1/107", "110": "106/107"}}}

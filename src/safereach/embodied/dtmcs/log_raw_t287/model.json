@@ -1,0 +1,1 @@
+{"states": ["100", "110"], "state_index": {"100": 0, "110": 1}, "state_interpret": {"100": [{"objectType": "LightSwitch", "isToggled": false, "parentReceptacles": []}], "110": [{"objectType": "LightSwitch", "isToggled": true, "parentReceptacles": []}]}, "transition_probs": {"100": {"100": "1/62", "110": "61/62"}, "110": {"100": "86/117", "110": "31/117"}}}

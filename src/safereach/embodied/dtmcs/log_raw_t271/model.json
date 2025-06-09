@@ -1,0 +1,1 @@
+{"states": ["100", "110"], "state_index": {"100": 0, "110": 1}, "state_interpret": {"100": [{"objectType": "Tomato", "isSliced": false, "parentReceptacles": []}], "110": [{"objectType": "Tomato", "isSliced": true, "parentReceptacles": []}]}, "transition_probs": {"100": {"100": "67/84", "110": "17/84"}, "110": {"110": "1"}}}

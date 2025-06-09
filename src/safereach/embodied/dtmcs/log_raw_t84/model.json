@@ -1,0 +1,1 @@
+{"states": ["100", "110"], "state_index": {"100": 0, "110": 1}, "state_interpret": {"100": [{"objectType": "HousePlant", "isFilledWithLiquid": false, "parentReceptacles": []}], "110": [{"objectType": "HousePlant", "isFilledWithLiquid": true, "parentReceptacles": []}]}, "transition_probs": {"100": {"100": "44/49", "110": "5/49"}, "110": {"100": "1/2", "110": "1/2"}}}

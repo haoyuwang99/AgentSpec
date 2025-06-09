@@ -1,0 +1,1 @@
+{"states": ["10", "11"], "state_index": {"10": 0, "11": 1}, "state_interpret": {"10": [{"objectType": "ToiletPaper", "parentReceptacles": []}], "11": [{"objectType": "ToiletPaper", "parentReceptacles": ["Bathtub"]}]}, "transition_probs": {"10": {"10": "91/92", "11": "1/92"}, "11": {"10": "1/2", "11": "1/2"}}}
