@@ -1,0 +1,1 @@
+{"objectTypes": ["CellPhone", "Fridge"], "keys": ["isOpen"], "parentReceptacles": ["Fridge"]}

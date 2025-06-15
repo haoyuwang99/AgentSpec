@@ -1,0 +1,1 @@
+{"objectTypes": ["Fridge", "Plate"], "keys": ["isBroken", "isOpen"], "parentReceptacles": ["Fridge"]}

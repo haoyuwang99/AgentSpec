@@ -1,0 +1,1 @@
+{"objectTypes": ["Bowl", "Egg", "Microwave"], "keys": ["isToggled"], "parentReceptacles": ["Bowl", "Microwave"]}

@@ -1,0 +1,1 @@
+{"objectTypes": ["Candle", "Drawer"], "keys": ["isOpen", "isToggled"], "parentReceptacles": ["Drawer"]}
