@@ -3,7 +3,7 @@ import json
 import math
 from deepdiff import DeepDiff
 from ..abstraction import Abstraction
-from typing import Any, Set, List
+from typing import Any, Set, List, Dict
 import networkx as nx
 import matplotlib.pyplot as plt
 
@@ -20,7 +20,7 @@ keys_map = {
 }
 
 type_profile = {}
-with open("embodied/meta_data1.json") as f:
+with open("safereach/embodied/meta_data1.json") as f:
     meta_data = json.loads(f.read())
     type_profile = meta_data["type_profiles"]
      
@@ -31,7 +31,7 @@ class EmbodiedAbstraction(Abstraction):
         self.keys = sorted(list(keys))
         self.parentReceptacles = sorted(list(parentReceptacles))
         self.type_profile = {}
-        with open("embodied/meta_data1.json") as f:
+        with open("safereach/embodied/meta_data1.json") as f:
             meta_data = json.loads(f.read())
             self.type_profile = meta_data["type_profiles"]
             
@@ -46,16 +46,40 @@ class EmbodiedAbstraction(Abstraction):
             self.rec_bit_len = math.ceil(math.log2(len(parentReceptacles))) + 1
 
         self.obj_len = self.ty_bit_len + len(self.keys) + self.rec_bit_len
-        self.state_space=self.enumerate_possible_states()
+        self.state_space=sorted(list(self.enumerate_possible_states()))
+        self.state_idx = None
+        self.state_interpretation = None
      
+    def to_json(self): 
+        obj = {
+            "objectTypes" : self.object_types,
+            "keys" : self.keys,
+            "parentReceptacles": self.parentReceptacles,
+        }
+        return json.dumps(obj)
+
+    def get_state_idx(self) -> Dict[str, int]:
+        if self.state_idx == None:
+            self.state_idx = {s:i for i, s in enumerate(self.state_space)}
+        return self.state_idx
+
+    def get_state_interpretation(self) -> Dict[str, Any]:
+        if self.state_interpretation == None:
+            self.state_interpretation = {s: self.decode(s) for s in self.state_space}
+        return self.state_interpretation
+
+    # def from_json(path) -> EmbodiedAbstraction:
+    #     with open(path) as f:
+    #         obj = json.loads(f.read())
+    #         return EmbodiedAbstraction(set(obj["objectTypes"]), set(obj["keys"], set(obj["parentReceptacles"])))
      
-    def encode(self, observations: List[Any]) -> str:
+    def encode(self, observation: List[Any]) -> str:
         bitstr=""
         for type in self.object_types: 
             type_idx = self.obj_type_to_index[type]
             bitstr = bitstr + format(type_idx, f'0{self.ty_bit_len}b')
                 
-            observations_by_type = [o for o in observations if o["objectType"] == type]
+            observations_by_type = [obj for obj in observation if obj["objectType"] == type]
                 
             for key in self.keys:
                 val = any(o.get(key, False) for o in observations_by_type)
@@ -255,7 +279,7 @@ class EmbodiedAbstraction(Abstraction):
 
 def process_type_profile():
 
-    with open("embodied/meta_data.json") as f:
+    with open("safereach/embodied/meta_data.json") as f:
         
         meta_data = json.loads(f.read())
         obj_types = meta_data["obj_types"]
@@ -268,7 +292,7 @@ def process_type_profile():
                 type_profile[k] = obj_types[type][k]
             type_profiles[type] = type_profile
         
-        with open("embodied/meta_data1.json", 'w') as j:
+        with open("safereach/embodied/meta_data1.json", 'w') as j:
             del meta_data["obj_types"]
             meta_data["type_profiles"] = type_profiles
             j.write(json.dumps(meta_data))

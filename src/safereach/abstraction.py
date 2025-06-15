@@ -1,7 +1,15 @@
 from abc import ABC, abstractmethod
-from typing import Any, Set, List
+from typing import Any, Set, List, Dict
 
 class Abstraction(ABC):
+
+    @abstractmethod
+    def get_state_idx(self) -> Dict[str, int]:
+        pass
+
+    @abstractmethod
+    def get_state_interpretation(self) -> Dict[str, Any]:
+        pass
 
     @abstractmethod
     def encode(self, observations: List[Any]) -> str:

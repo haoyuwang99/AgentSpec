@@ -18,7 +18,7 @@
     "scene_name": "FloorPlan305",
     "final_state": [
       {
-        "objectType": "Cellphone",
+        "objectType": "CellPhone",
         "isToggled": true,
         "parentReceptacles": [
           "Bowl"

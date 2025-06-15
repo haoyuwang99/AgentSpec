@@ -1,0 +1,1 @@
+{"objectTypes": ["CreditCard"], "keys": ["isPickedUp"], "parentReceptacles": ["GarbageCan"]}
