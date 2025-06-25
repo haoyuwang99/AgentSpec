@@ -4,6 +4,7 @@ import math
 import numpy as np
 from .embodied import abstraction 
 from .embodied.abstraction import EmbodiedAbstraction
+from .abstraction import FINISH
 from collections import defaultdict
 from fractions import Fraction
 import pandas as pd 
@@ -24,12 +25,21 @@ def build_model(logs: List[List[Any]], abs:Abstraction):
     transition_counts = np.zeros((K, K), dtype=int)
     
     for observations in logs:
+        
+        state_trans = []
         prev_state = None
-        for observation in observations:
-            state = abs.encode(observation)
+        for observation in observations: 
+            state_trans.append(abs.encode(observation)) 
+            # if abs.encode(observation) == "10000110":
+            #     print(observation)
+        state_trans.append(FINISH)
+        
+        prev_state = None
+        for state in state_trans: 
             if state not in state_idx:
                 # print(abstraction.type_profile["Window"])
                 # print(abstraction.type_profile["Cabinet"])
+                print(state)
                 print(abs.decode(state))
                 raise Exception("unexpected state in the observation")
                 continue  # Ignore states not in defined state space
@@ -47,6 +57,7 @@ def build_model(logs: List[List[Any]], abs:Abstraction):
         
         for j, s_to in enumerate(states):
             if abs.can_reach(s_from, s_to):
+                
                 count = transition_counts[i, j]
                 numerators.append((s_to, count + 1))  # Laplace: +1
                 denom += count + 1
@@ -149,12 +160,14 @@ LOG_DIR = 'safereach/embodied/samples/'
 MODEL_DIR = 'safereach/embodied/dtmcs/'
 log_dirs = [f for f in os.listdir(LOG_DIR) if f.startswith('log_raw_t')]
 for dir in log_dirs : 
-    # dir = 'log_raw_t153'
+    # dir = 'log_raw_t20'
     model = MODEL_DIR + dir + "/"
     dir = LOG_DIR + dir + "/"
-
+    print(dir)
     try: 
         embodied_build_model(dir, model) 
+        # break
     except Exception as e:
-
+        # raise e
+        # continue
         print(e) 

@@ -1,1 +1,0 @@
-{"objectTypes": ["Egg", "Microwave"], "keys": ["isOpen", "isToggled"], "parentReceptacles": ["Microwave"]}

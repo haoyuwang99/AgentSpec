@@ -1,0 +1,59 @@
+PRISM
+=====
+
+Version: 4.8.1
+Date: Sun Jun 15 23:44:42 SGT 2025
+Hostname: MacBook-Pro.local
+Memory limits: cudd=1g, java(heap)=1g
+Command line: prism safereach/embodied/dtmcs/log_raw_t97/dtmc.prism -pf 'P=? [ F<=3 s=3]'
+
+Parsing model file "safereach/embodied/dtmcs/log_raw_t97/dtmc.prism"...
+
+Type:        DTMC
+Modules:     dtmc_model
+Variables:   s
+
+1 property:
+(1) P=? [ F<=3 s=3 ]
+
+---------------------------------------------------------------------
+
+Model checking: P=? [ F<=3 s=3 ]
+
+Building model...
+
+Computing reachable states...
+
+Reachability (BFS): 3 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Time for model construction: 0.008 seconds.
+
+Type:        DTMC
+States:      4 (1 initial)
+Transitions: 12
+
+Transition matrix: 17 nodes (6 terminal), 12 minterms, vars: 2r/2c
+
+Prob0: 3 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+yes = 1, no = 0, maybe = 3
+
+Computing probabilities...
+Engine: Hybrid
+
+Building hybrid MTBDD matrix... [levels=2, nodes=19] [0.9 KB]
+Adding explicit sparse matrices... [levels=2, num=1, compact] [0.1 KB]
+Creating vector for yes... [dist=2, compact] [0.0 KB]
+Allocating iteration vectors... [2 x 0.0 KB]
+TOTAL: [1.1 KB]
+
+Starting iterations...
+
+Iterative method: 3 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+
+Value in the initial state: 0.03035983947593114
+
+Time for model checking: 0.002 seconds.
+
+Result: 0.03035983947593114 (exact floating point)
+

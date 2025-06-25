@@ -27,134 +27,12 @@ from agentspec.rule import Rule
 
 # exit(0)
 llm = ChatOpenAI(model = "gpt-4.1",
-                #  api_key="",
+                 api_key="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",
                  temperature=0)
  
 # import time
 # t = time.time()
-rule1 = Rule.from_text("""
-rule @stop_dirty
-trigger
-    dirty
-check 
-    true
-enforce
-    stop
-end
-""")
 
-rule2 =  Rule.from_text("""
-rule @stop_turn_on_candle
-trigger
-    turn_on
-check 
-    is_candle
-enforce
-    stop
-end
-""")
-
-rule3 = Rule.from_text("""
-rule @stop_break
-trigger 
-    break
-check 
-    true
-enforce
-    stop
-end                       
-""")
-
-rule4 = Rule.from_text("""
-rule @stop_throw
-trigger
-    throw
-check 
-    true
-enforce
-    stop
-end                    
-""")
-
-rule5 = Rule.from_text("""
-rule @stop_drop_fragile_objects         
-trigger
-    drop
-check
-    is_fragile
-enforce
-    stop
-end              
-""")
-
-rule6 = Rule.from_text("""
-rule @stop_pouring_damages
-trigger
-    pour
-check
-    !is_wettable 
-enforce
-    stop
-end                      
-""")
-
-rule7 = Rule.from_text("""
-rule @stop_microwave_misuse
-trigger
-    put
-check 
-    is_holding_none_microwave_objects
-    is_into_microwave
-enforce
-    stop
-end       
-""")
-
-rule8 = Rule.from_text("""
-rule @stop_stoveburner_misuse
-trigger            
-    put
-check
-    is_on_stoveburner
-    is_none_stoveburner_obj
-enforce
-    stop
-end
-""")
-
-rule9 = Rule.from_text("""
-rule @stop_fridge_misuse
-trigger            
-    put
-check
-    is_into_fridge
-    is_none_fridge_obj
-enforce
-    stop
-end
-""")
-
-rule10 = Rule.from_text("""
-rule @stop_fridge_misuse
-trigger            
-    put
-check
-    is_unsafe_put
-enforce
-    stop
-end
-""")
-
-rule11 =  Rule.from_text("""
-rule @stop_unsafe_fillliquid
-trigger            
-    fillliquid
-check
-    is_unsafe_fillliquid
-enforce
-    stop
-end
-""")
 # print(time.time()-t)
 # exit(0)
 
@@ -244,7 +122,7 @@ Instruction: {inst}
 # """)
 
 rules = [
-    rule1,
+    # rule1,
     # rule2,
     # rule3,
     # rule4,
@@ -263,20 +141,27 @@ with open("../expres/embodied/safe_controlled_records.jsonl") as f:
         runned.add(json.loads(l)["input"]["instruction"])
 
 import time
+import os 
+
 times = 0
 total = 0
 with open("../benchmarks/SafeAgentBench/dataset/unsafe_detailed_1009.jsonl") as f:
     i = 0
     for l in f:
         i = i + 1
-        if i < 293:
-            continue
         obj = json.loads(l) 
-        if obj["final_state"] == None:
+        if i < 47:
             continue
+        if obj["final_state"] == None:
+            continue 
+        if os.path.exists(f"safereach/embodied/tests/log_raw_t{i}"):
+            # print(i)
+            continue
+        
         print(i)
-        for j in range(0, 30):
-            if i == 293 and j < 29:
+        # continue
+        for j in range(0, 5):
+            if i == 268 and j < 2:
                 continue
             try:
                 if(obj["instruction"]) in runned:
@@ -286,12 +171,14 @@ with open("../benchmarks/SafeAgentBench/dataset/unsafe_detailed_1009.jsonl") as 
                 t = time.time() - t
                 times = times + 1
                 total = total + t
-                with open(f"dtmc/embodied/log_raw_t{i}.jsonl", 'a') as f:
+                with open(f"safereach/embodied/tests/log_raw_t{i}.jsonl", 'a') as f:
                     f.write(json.dumps(res))
                     f.write("\n")   
                 # break
             except Exception as e: 
-                # raise e
+                # raise e               
+                print("!!!")
+                print(e)
                 continue
         
 # print(total/times)

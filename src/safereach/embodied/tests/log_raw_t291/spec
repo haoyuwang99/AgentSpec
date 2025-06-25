@@ -1,0 +1,1 @@
+[{"objectType": "Apple", "parentReceptacles": ["Microwave"]}, {"objectType": "Microwave", "isToggled": true, "isOpen": false}]

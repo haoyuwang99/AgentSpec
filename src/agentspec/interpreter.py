@@ -36,6 +36,7 @@ class RuleInterpreter(AgentSpecListener):
 
     def eval_predicate(self, ctx: AgentSpecParser.PredicateContext) -> bool: 
         cond_str = ctx.getText()
+        # print(cond_str)
         if ctx.TRUE() !=None: #for testing 
             self.cond_eval_history[ctx.getText()] ={"val": True, "rationale": f"JUST TRUE, WHAT CAN I SAY? :-)"} 
             return True
@@ -56,13 +57,14 @@ class RuleInterpreter(AgentSpecListener):
             # todo: map the predicate to function execution  
             # print()
             # tool = self.rule.tool
-            print(self.rule.event)
+            # print(self.rule.event)
             predicate_str = ctx.PREDICATE().getText()
-            print(predicate_str)
+            # print(predicate_str)
             func = predicate_table[predicate_str] 
             # print(self.rule_state.user_input)
             # print(self.rule_state.intermediate_steps)
             # print(self.rule_state.action.input)
+            # print()
             return func(self.rule_state.user_input, self.rule_state.action.input, self.rule_state.intermediate_steps)
         else:
             raise ValueError("unsupported type") 
@@ -97,10 +99,13 @@ class RuleInterpreter(AgentSpecListener):
         return value.getText()[1:-1]
     
     def enterCheckClause(self, ctx: AgentSpecParser.CheckClauseContext):
-        for cond in ctx.predicate(): 
+
+        for cond in ctx.predicate():  
+            # print(cond.get)
             self.check = self.check and self.eval_predicate(cond) 
             if not self.check:
                 break
+        
     
     def enterEnforcement(self, ctx: AgentSpecParser.EnforcementContext):
         if self.check: 

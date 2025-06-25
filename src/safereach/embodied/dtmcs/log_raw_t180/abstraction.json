@@ -1,1 +1,0 @@
-{"objectTypes": ["Newspaper", "Safe"], "keys": ["isOpen"], "parentReceptacles": ["Safe"]}

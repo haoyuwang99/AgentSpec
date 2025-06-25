@@ -2,7 +2,7 @@
 import json
 import math
 from deepdiff import DeepDiff
-from ..abstraction import Abstraction
+from ..abstraction import Abstraction, FINISH
 from typing import Any, Set, List, Dict
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -18,6 +18,7 @@ keys_map = {
     "isOpen": "openable",
     "isPickedUp":"pickupable",
 }
+
 
 type_profile = {}
 with open("safereach/embodied/meta_data1.json") as f:
@@ -61,6 +62,7 @@ class EmbodiedAbstraction(Abstraction):
     def get_state_idx(self) -> Dict[str, int]:
         if self.state_idx == None:
             self.state_idx = {s:i for i, s in enumerate(self.state_space)}
+
         return self.state_idx
 
     def get_state_interpretation(self) -> Dict[str, Any]:
@@ -73,7 +75,9 @@ class EmbodiedAbstraction(Abstraction):
     #         obj = json.loads(f.read())
     #         return EmbodiedAbstraction(set(obj["objectTypes"]), set(obj["keys"], set(obj["parentReceptacles"])))
      
-    def encode(self, observation: List[Any]) -> str:
+    def encode(self, observation: Any) -> str:
+        if observation == FINISH:
+            return FINISH
         bitstr=""
         for type in self.object_types: 
             type_idx = self.obj_type_to_index[type]
@@ -96,14 +100,15 @@ class EmbodiedAbstraction(Abstraction):
             if not has_rec:
                 bitstr += format(0, f"0{self.rec_bit_len}b")     
             
+        if not bitstr in self.state_space:
+            raise Exception("unvalid state")
         return bitstr
 
  
-    def decode(self, state: str) -> List[Any]:
-      
-        
-        bitstrs = [state[i:i+self.obj_len] for i in range(0, len(state), self.obj_len)]
-
+    def decode(self, state: str) -> Any: 
+        if state == FINISH:
+            return FINISH
+        bitstrs = [state[i:i+self.obj_len] for i in range(0, len(state), self.obj_len)] 
     
         observations = []
         for bitstr in bitstrs: 
@@ -181,27 +186,43 @@ class EmbodiedAbstraction(Abstraction):
                 prefix = state_space.pop(0)
                 for j in range(len(values[i])):
                     state_space.append(prefix + values[i][j])
-            
+        state_space.append(FINISH)
         return set(state_space)
     
-    def filter(self, spec) -> Set[str]:
-        
-        filtered_states = set()
-        for state in state_space: 
-            observations = self.decode(state)
-            for o in observations:
-                is_filtered = True
-                for key in spec:
-                    is_unsafe = is_filtered and spec[key] == o[key] 
-                if is_filtered:   
-                    break
-            if is_unsafe:
-                filtered_states.add(state)
+    def filter(self, specs) -> Set[str]:
 
-        return filtered_states
+        init = True
+        for spec in specs:
+            filtered_states = set()
+            for state in self.state_space: 
+                if state == FINISH:
+                    continue
+                observations = self.decode(state)
+                # return any of the observation is match 
+                for o in observations:
+                    match = True
+                    # print(spec)
+                    # print(o)
+                    # print(match)
+                    for key in spec: 
+                        match = match and spec[key] == o[key] 
+                        # print(spec[key]==o[key]) 
+                    if match:    
+                        break
+                if match:
+                    filtered_states.add(state) 
+            if init:
+                init = False
+                res = filtered_states
+            else:
+                res = res & filtered_states
+        return res
  
     def can_reach(self, state1: str, state2: str) -> bool:
-        
+        if state2 == FINISH:
+            return True
+        if state1 == FINISH:
+            return False
         observation1 = self.decode(state1)
         observation2 = self.decode(state2)
         # observations are list of object state

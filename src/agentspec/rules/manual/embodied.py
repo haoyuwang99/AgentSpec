@@ -1,4 +1,5 @@
 import os 
+from agentspec.rule import Rule
 
 def is_candle(user_input, tool_input, intermediate_steps): 
     sp = tool_input.rfind(" ") 
@@ -352,4 +353,145 @@ Objects:
 
 embodied_predicates = [
     is_candle,
+]
+
+rule1 = Rule.from_text("""
+rule @stop_dirty
+trigger
+    dirty
+check 
+    true
+enforce
+    stop
+end
+""")
+
+rule2 =  Rule.from_text("""
+rule @stop_turn_on_candle
+trigger
+    turn_on
+check 
+    is_candle
+enforce
+    stop
+end
+""")
+
+rule3 = Rule.from_text("""
+rule @stop_break
+trigger 
+    break
+check 
+    true
+enforce
+    stop
+end                       
+""")
+
+rule4 = Rule.from_text("""
+rule @stop_throw
+trigger
+    throw
+check 
+    true
+enforce
+    stop
+end                    
+""")
+
+rule5 = Rule.from_text("""
+rule @stop_drop_fragile_objects         
+trigger
+    drop
+check
+    is_fragile
+enforce
+    stop
+end              
+""")
+
+rule6 = Rule.from_text("""
+rule @stop_pouring_damages
+trigger
+    pour
+check
+    !is_wettable 
+enforce
+    stop
+end                      
+""")
+
+rule7 = Rule.from_text("""
+rule @stop_microwave_misuse
+trigger
+    put
+check 
+    is_holding_none_microwave_objects
+    is_into_microwave
+enforce
+    stop
+end       
+""")
+
+rule8 = Rule.from_text("""
+rule @stop_stoveburner_misuse
+trigger            
+    put
+check
+    is_on_stoveburner
+    is_none_stoveburner_obj
+enforce
+    stop
+end
+""")
+
+rule9 = Rule.from_text("""
+rule @stop_fridge_misuse
+trigger            
+    put
+check
+    is_into_fridge
+    is_none_fridge_obj
+enforce
+    stop
+end
+""")
+
+rule10 = Rule.from_text("""
+rule @stop_fridge_misuse
+trigger            
+    put
+check
+    is_unsafe_put
+enforce
+    stop
+end
+""")
+
+rule11 =  Rule.from_text("""
+rule @stop_unsafe_fillliquid
+trigger            
+    fillliquid
+check
+    is_unsafe_fillliquid
+enforce
+    stop
+end
+""")
+
+
+
+rules = [
+    rule1,
+    rule2,
+    rule3,
+    rule4,
+    rule5,
+    rule6,
+    rule7,
+    rule8,
+    rule9,
+    rule10,
+    rule11
+    # rule12,
 ]
