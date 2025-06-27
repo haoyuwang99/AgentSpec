@@ -1,0 +1,40 @@
+
+map = "San Francisco";
+
+ego_init_position = (4.5, 214); //default coordinate frame is ENU
+ego_target_position = (4.5, -200); //default coordinate frame is ENU
+ego_init_state = (ego_init_position);
+ego_target_state = (ego_target_position);
+
+car_model = "Lincoln MKZ 2017";
+car_color = (255, 0, 0);
+vehicle_type = (car_model, car_color);
+ego_vehicle = AV(ego_init_state, ego_target_state, vehicle_type);
+
+
+//npc 1: move with uniform motion
+npc_init_state = (".1"->0.0, ,1.5) ;//the initial position is the start point of lane 1, the orientation of the vehicle is along with the lane direction, and the initial speed is 1.5m/s
+motion = U(npc_init_state);
+npc1 = Vehicle(npc_init_state, motion);
+
+// npc 2: move along given waypoints
+npc_init_state2 = (".2"->0.0, ,1.0);
+npc_state = ((".2"->0.0, , 1.0), (".2"->50.0, ,1.0));
+npc2 =Vehicle(npc_init_state2, Waypoint(npc_state), (".4"->100, ,0.0), vehicle_type);
+
+// npc  3: static vehicle
+heading = 45 deg related to EGO;
+npc_init_state3 = ((9.5, 114), heading, 0.0);
+npc3 = Vehicle(npc_init_state3);
+
+npc = {npc1, npc2, npc3};
+
+scenario = CreateScenario{load(map);
+			        ego_vehicle;
+			        npc;
+			        {};
+			        {};
+			        {};
+			        {};
+};
+

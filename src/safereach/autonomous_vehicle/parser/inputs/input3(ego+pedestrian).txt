@@ -1,0 +1,29 @@
+
+map = "San Francisco";
+
+ego_init_position = (4.5, 214); //default coordinate frame is ENU
+ego_target_position = (4.5, -200); //default coordinate frame is ENU
+ego_init_state = (ego_init_position);
+ego_target_state = (ego_target_position);
+
+car_model = "Lincoln MKZ 2017";
+car_color = (255, 0, 0);
+vehicle_type = (car_model, car_color);
+ego_vehicle = AV(ego_init_state, ego_target_state, vehicle_type);
+
+//pedestian with default uniform motion
+pedestrian_type = (1.65, black);
+pedestrian_init_state = ((19,13), ,0.5)
+pedestrian_target_state = ((0,13), ,0)
+pedestrian = Pedestrian(pedestrian_init_state, ,pedestrian_target_state, pedestrian_type);
+pedestrians={pedestrian};
+
+scenario = CreateScenario{load(map);
+			        ego_vehicle;
+			        {};
+			        pedestrians;
+			        {};
+			        {};
+			        {};
+};
+

@@ -1,0 +1,21 @@
+
+map = "San Francisco";
+
+ego_init_position = (4.5, 214); //default coordinate frame is ENU
+ego_target_position = (4.5, -200); //default coordinate frame is ENU
+ego_init_state = (ego_init_position);
+ego_target_state = (ego_target_position);
+
+car_model = "Lincoln MKZ 2017";
+car_color = (255, 0, 0);
+vehicle_type = (car_model, car_color);
+ego_vehicle = AV(ego_init_state, ego_target_state, vehicle_type);
+
+scenario = CreateScenario{load(map);
+			        ego_vehicle;
+			        {}; // no other vehicles;
+			        {}; // no pedestrians;
+			        {}; // no obstacles;
+			        {}; // default environment
+			        {}; // no traffic constraints
+};

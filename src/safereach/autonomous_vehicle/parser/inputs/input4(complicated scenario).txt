@@ -1,0 +1,58 @@
+
+map = "San Francisco";
+
+// ego vehicle
+ego_init_position = (4.5, 214); //default coordinate frame is ENU
+ego_target_position = (4.5, -200); //default coordinate frame is ENU
+ego_init_state = (ego_init_position);
+ego_target_state = (ego_target_position);
+
+car_model = "Lincoln MKZ 2017";
+car_color = (255, 0, 0);
+vehicle_type = (car_model, car_color);
+ego_vehicle = AV(ego_init_state, ego_target_state, vehicle_type);
+
+
+//npc vehicles
+npc_init_state = (1->0.0, ,1.5) ;//the initial position is the start point of lane 1, the orientation of the vehicle is along with the lane direction, and the initial speed is 1.5m/s 
+motion = U(npc_init_state);
+npc1 = Vehicle(npc_init_state, motion);
+
+npc_init_state2 = (2->0.0, ,1.0);
+npc_state = ((2->0.0, , 1.0), (2->50.0, ,1.0));
+
+npc2 =Vehicle(npc_init_state2, Waypoint(npc_state), (4->100, ,0.0), vehicle_type);
+heading = 45 deg related to EGO;
+npc_init_state3 = ((9.5, 114), heading, 0.0);
+npc3 = Vehicle(npc_init_state3);
+
+npc = {npc1, npc2, npc3};
+
+
+//pedestrians
+pedestrian_type = (1.65, black);
+pedestrian = Pedestrian(((19,13), ,0.5), , ((0,13), ,0), pedestrian_type);
+pedestrians={pedestrian};
+
+
+//environment
+time = 10:00;
+weather = {rain: 0.1};
+env = Environment(time, weather);
+
+
+//traffic requirements
+speed_range = (0,20);
+speed_limit = SpeedLimit(5, speed_range);
+i1 = Intersection(1, 1, 0, 1);
+traffic = {i1,speed_limit};
+
+scenario = CreateScenario{load(map);
+			        ego_vehicle;
+			        npc;
+			        pedestrians;
+			        {};
+			        env;
+			        traffic;
+};
+
