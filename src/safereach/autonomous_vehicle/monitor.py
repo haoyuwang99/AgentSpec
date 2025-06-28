@@ -4,6 +4,8 @@ import numpy as np
 from TracePreprocess import Trace
 import json
 import copy 
+from antlr4 import *
+from antlr4.InputStream import InputStream
 from AssertionExtraction import SingleAssertion, ExtractAll
 from shapely.geometry import Polygon, Point 
 
@@ -282,20 +284,7 @@ class Monitor:
         self.muti_traffic_rules["rule51_7"] = rule51_7
         self.muti_traffic_rules["rule52"] = rule52
         self.muti_traffic_rules["rule53"] = rule53
-        # self.muti_traffic_rules["rule57"] = rule57
-        # self.muti_traffic_rules["rule58"] = rule58
-        # self.muti_traffic_rules["rule59"] = rule59
-        # self.muti_traffic_rules["rule62"] = rule62
-
-        # self.traffic_rules = '(' + rule38_1 +'and'+ rule38_2 +'and'+ rule38_3 + ')'
-
-        # self.traffic_rules = '(' + rule38_1 +'and'+ rule38_2 +'and'+ rule38_3 + 'and'+ rule44 + ')'
-
-                                # and \
-                                #     (   (   junctionAhead == 0 and \
-                                #             ((PriorityNPCAhead > 0) or (PriorityPedsAhead > 0)) ) \
-                                #     implies (eventually[0,100](speed < 0.5))    )\
-
+        
     def prepare_for_rule38_1(self):              
         #GREEN = 3; 
         traffic_rule = '(\
@@ -917,6 +906,8 @@ class Monitor:
             self.atom_data[item] = (diff_velocity*weight_vel + diff_position*weight_dis +
                                     diff_heading*weight_heading + diff_shape*weight_shape)/(weight_dis + weight_vel + weight_heading + weight_shape)
 
+
+
     def discrete_monitor(self):
         spec = rtamt.STLSpecification(semantics=rtamt.Semantics.STANDARD)
         for item in self.item_names_of_variable_of_APIS:
@@ -991,20 +982,24 @@ class Monitor:
         rob = spec.evaluate(*_data)
         return rob[0][1]
 
-
     def continuous_monitor_for_muti_traffic_rules(self):
             # print(item)
         result = dict()
         for key in self.muti_traffic_rules:
+            print(key)
+            # print()
             spec = rtamt.StlDenseTimeSpecification(semantics=rtamt.Semantics.STANDARD)
             for item in self.item_names_of_variable_of_APIS:
-                print(item)
+                # print(item)
                 spec.declare_var(item, 'float')
             spec.spec = self.muti_traffic_rules[key]
+            # print(spec.spec)
             try:
                 spec.parse()
                 # spec.pastify()
+
             except Exception as err:
+                raise err
                 print('STL Parse Exception: {}'.format(err))
                 sys.exit()
             _data = [[var, self.c_data[var]] for var in self.item_names_of_variable_of_APIS]
@@ -1027,6 +1022,46 @@ class Monitor:
         # rob = spec.evaluate(*_data)
         # return rob[0][1]
  
+
+def extract_predicates(node, predicates):
+    print(type(node))
+    if node is None:
+        return
+    print(dir(node))
+    if hasattr(node, 'children'):
+        for child in node.children:
+            extract_predicates(child, predicates)
+
+    # Detect atomic predicate nodes (BinaryExpression is commonly used)
+    # print(node.__class__.__name__)
+    if node.__class__.__name__.endswith('BinaryOperation'):
+        predicates.add(str(node))
+
+from rtamt.syntax.node.ltl.predicate import Predicate
+# from rtamt.syntax.node.ltl.binary_node import BinaryNode
+from rtamt.syntax.ast.visitor.stl.ast_visitor import StlAstVisitor
+
+class PredicateCollector(StlAstVisitor):
+    def __init__(self):
+        self.predicates = []
+
+        
+    def visit(self, node, *args, **kwargs):
+        if isinstance(node, Predicate):
+            self.visit_predicate(node, args, kwargs)
+        else:
+            super().visit(node, *args, **kwargs)
+        
+    def visit_predicate(self, node, *args, **kwargs):
+        op = str(node.operator)
+        pre_str = node.name
+        print(pre_str)
+        print(op)
+        lhs = pre_str[1:pre_str.find(op)-1]
+        rhs = pre_str[pre_str.find(op)+len(op)+1:-1]
+        self.predicates.append((lhs, op, rhs))
+        # super().visit_predicate( node, args, kwargs)
+        
 if __name__ == "__main__": 
 
     import pickle
@@ -1035,10 +1070,47 @@ if __name__ == "__main__":
     isGroundTruth = True
     extracted_script = ExtractAll(input_file,isGroundTruth)
     specification = extracted_script.Get_Specifications()[0]
+    # print(specification.dis_variables)
+    # print(specification.dis_statement)
     # extracted_data = ExtractAll('law.txt', True)
     output_file = 'Law38_0_2_record_1.00000.20250618131620.record.pickle'
     with open(output_file, 'rb') as f:
         data = pickle.load(f)  
         monitor = Monitor(data, specification, weather)
-        fitness = monitor.continuous_monitor_for_muti_traffic_rules()
-        print(fitness)
+        # print(json.dumps(monitor.data))
+        # fitness = monitor.continuous_monitor_for_muti_traffic_rules()
+        # print(fitness)
+
+
+
+
+    for key in monitor.muti_traffic_rules:
+        collector = PredicateCollector()
+        
+        # print(monitor.muti_traffic_rules[key] )       # print()
+        spec = rtamt.StlDenseTimeSpecification(semantics=rtamt.Semantics.STANDARD)
+
+        for item in monitor.item_names_of_variable_of_APIS:
+            # print(item)
+            spec.declare_var(item, 'float')
+        spec.spec = monitor.muti_traffic_rules[key]
+        spec.parse()
+        
+        # print(type(spec))
+        ast = spec.ast.specs[0]
+        # print(type(ast))
+        collector.visit(ast)
+        print(collector.predicates)
+
+
+        # ctx = spec.ast.specification_file()
+        # visitor.visit(ctx)
+    #     print(spec.ast.vars)
+        # for attr in dir(spec.ast):
+        #     if attr.startswith('_') or callable(getattr(spec.ast, attr)):
+        #         continue
+        #     print(vars)
+        # collector = PredicateCollector()
+        # spec.accept(collector)
+
+        # print(collector.predicates)
