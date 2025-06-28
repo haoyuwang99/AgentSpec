@@ -7,3 +7,4 @@ langchain_community
 langchain_experimental 
 numpy
 shapely
+rtamt
