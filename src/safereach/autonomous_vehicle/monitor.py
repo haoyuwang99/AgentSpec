@@ -1077,6 +1077,7 @@ if __name__ == "__main__":
     with open(output_file, 'rb') as f:
         data = pickle.load(f)  
         monitor = Monitor(data, specification, weather)
+        print(monitor.item_names_of_variable_of_APIS)
         # print(json.dumps(monitor.data))
         # fitness = monitor.continuous_monitor_for_muti_traffic_rules()
         # print(fitness)
