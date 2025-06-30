@@ -6,6 +6,7 @@ import math
 from numpy import linalg as LA
 from shapely.geometry import Polygon
 
+ARROW_DIRECTIONS = ['forward', 'left', 'right', 'forwardOrLeft', 'forwardOrRight', 'Uturn']
 _color = {
     'UNKNOWN' : 0,
     'RED' : 1,
@@ -14,6 +15,17 @@ _color = {
     'BLACK' : 4
 }
 
+def append_boolean_value(original_data, position_to_append):
+    if original_data:
+        position_to_append.append(1)
+    else:
+        position_to_append.append(0)
+
+def convert_velocity_to_speed(velocity):
+    x = velocity["x"]
+    y = velocity["y"]
+    z = velocity["z"]
+    return math.sqrt(x*x+y*y+z*z)
 
 def point2norm(point1, point2):
     if point1 is None or point2 is None:
@@ -70,61 +82,15 @@ def get_ego_polygon(ego_state):
 
 
 
-class Trace:
-    '''
-    Main attributes in Trace class:
-    1. list of npc, pedestrian and static obstacle
-    agent: ['npc1', 'npc2', 'pedestrian1', 'pedestrian2',...]
-    2. distance dict
-    distance:
-        'perception':
-            'npc1': [10.3, 10.2, 10.1, ...]
-            'npc2': [10.3, 10.2, 10.1, ...]
-        'truth':
-            'npc1': [10.3, 10.2, 10.1, ...]
-            'npc2': [10.3, 10.2, 10.1, ...]
-    3. trace dict
-    trace:
-        'time': [0, 0.1, 0.2, 0.3,...]
-        'ego':
-        [(array(x,y,z), array(qx,qy,qz,qw), array(vx,vy,vz), array(ax, ay,az))]
-        'perception':
-            'npc1': [(array(x,y,z), array(vx,vy,vz), theta, [[x,y,z], [x,y,z])] position, velocity, heading, polygon
-            'pedestrian1': [(array(x,y,z), array(vx,vy,vz)), (array(x,y,z), array(vx,vy,vz)), (array(x,y,z), array(vx,vy,vz))]
-        'truth':
-            'npc1': [(array(x,y,z), array(vx,vy,vz)), (array(x,y,z), array(vx,vy,vz)), (array(x,y,z), array(vx,vy,vz))]
-            'pedestrian1': [(array(x,y,z), array(vx,vy,vz)), (array(x,y,z), array(vx,vy,vz)), (array(x,y,z), array(vx,vy,vz))]
-    '''
-
+class Trace: 
+    
     def __init__(self, origin_trace):
         # origin_trac = execution trace
         self.init_trace = copy.deepcopy(origin_trace['trace'])
         self.is_groundtruth = origin_trace['groundTruthPerception']
         self.time = []
         self.trace = {}
-        self.distance = {}
-        self.perception_diff = {}
-        self.agent = origin_trace['AgentNames']
-        self.trace['time'] = []
-        self.trace['ego'] = {'position': [], 'velocity': [], 'heading': [], 'acceleration': [], 'shape': []}
-        self.trace['perception'] = dict()
-        self.trace['truth'] = dict()
-        for _item in self.agent:
-            self.perception_diff[_item] = {'type': [0.0]*len(self.init_trace),
-                                           'position': [0.0]*len(self.init_trace),
-                                           'velocity': [0.0]*len(self.init_trace),
-                                           'heading': [0.0]*len(self.init_trace),
-                                           'shape': [0.0]*len(self.init_trace)}
-            self.trace['perception'][_item] = {'position': [], 'velocity': [], 'heading': [], 'acceleration': [], 'shape': []}
-            self.trace['truth'][_item] = {'position': [], 'velocity': [], 'heading': [], 'acceleration': [], 'shape': []}
-        _distance = {}
-        perception_dis = {}
-        truth_dist = {}
-        for _item in self.agent:
-            perception_dis[_item] = []
-            truth_dist[_item] = []
-        self.distance['perception'] = perception_dis
-        self.distance['truth'] = truth_dist
+        self.trace['time'] = [] 
 
         #self.trace["ego-forTrafficRule"] = {'highBeamOn':[], 'lowBeamOn':[], 'turnSignal':[], 'fogLightOn':[], 'hornOn':[], 'warningflashOn':[], 'gear':[], 'engineOn':[], 'direction':[], 'manualIntervention':[]}
         self.trace["ego-forTrafficRule"] = {'gear':[], 'engineOn':[], 'direction':[], 'manualIntervention':[]}
@@ -146,19 +112,6 @@ class Trace:
             self.trace["trafficLightAhead-arrow-forTrafficRule"][_item] = { 'color': [], 'blink': []}        
         self.extract()
 
-
-    def convert_velocity_to_speed(self, velocity):
-        x = velocity["x"]
-        y = velocity["y"]
-        z = velocity["z"]
-        return math.sqrt(x*x+y*y+z*z)
-
-    def append_boolean_value(self, original_data, position_to_append):
-        if original_data:
-            position_to_append.append(1)
-        else:
-            position_to_append.append(0)
-
     def BUILD_single_traffic_rule_API(self, trace_state):
         ego = trace_state['ego']
         truth = trace_state['truth']
@@ -166,15 +119,9 @@ class Trace:
         ego_currentLane = ego['currentLane']
         traffic_light = trace_state['traffic_lights']
 
-
-        # self.append_boolean_value(ego_chasis['highBeamOn'], self.trace['ego-forTrafficRule']['highBeamOn'])
-        # self.append_boolean_value(ego_chasis['lowBeamOn'], self.trace['ego-forTrafficRule']['lowBeamOn'])
-        # self.append_boolean_value(ego_chasis['turnSignal'], self.trace['ego-forTrafficRule']['turnSignal'])
-        # self.trace['ego-forTrafficRule']['fogLightOn'].append(0) #not support for apollo at now stage
-        # self.append_boolean_value(ego_chasis['hornOn'], self.trace['ego-forTrafficRule']['hornOn'])
-        # self.trace['ego-forTrafficRule']['warningflashOn'].append(0) #not support for apollo at now stage
+ 
         self.trace['ego-forTrafficRule']['gear'].append(ego_chasis['gearLocation'])
-        self.append_boolean_value(ego_chasis['engineStarted'], self.trace['ego-forTrafficRule']['engineOn'])
+        append_boolean_value(ego_chasis['engineStarted'], self.trace['ego-forTrafficRule']['engineOn'])
         self.trace['ego-forTrafficRule']['direction'].append(ego['planning_of_turn'])
         if ego_chasis['drivingMode'] != "COMPLETE_AUTO_DRIVE":
             self.trace['ego-forTrafficRule']['manualIntervention'].append(1)
@@ -182,13 +129,13 @@ class Trace:
             self.trace['ego-forTrafficRule']['manualIntervention'].append(0)
        
         speed_of_ego = 3.6*ego_chasis['speedMps']
-        acc_of_ego = self.convert_velocity_to_speed(ego['pose']['linearAcceleration'])
+        acc_of_ego = convert_velocity_to_speed(ego['pose']['linearAcceleration'])
         self.trace["ego-driving-forTrafficRule"]['speed'].append(speed_of_ego)
         self.trace["ego-driving-forTrafficRule"]['acc'].append(acc_of_ego)
         self.trace["ego-driving-forTrafficRule"]['brake'].append(ego_chasis['brakePercentage'])
-        self.append_boolean_value(ego['isLaneChanging'], self.trace["ego-driving-forTrafficRule"]['isLaneChanging'])
-        self.append_boolean_value(ego['isOverTaking'], self.trace["ego-driving-forTrafficRule"]['isOverTaking'])
-        self.append_boolean_value(ego['isTurningAround'], self.trace["ego-driving-forTrafficRule"]['isTurningAround'])
+        append_boolean_value(ego['isLaneChanging'], self.trace["ego-driving-forTrafficRule"]['isLaneChanging'])
+        append_boolean_value(ego['isOverTaking'], self.trace["ego-driving-forTrafficRule"]['isOverTaking'])
+        append_boolean_value(ego['isTurningAround'], self.trace["ego-driving-forTrafficRule"]['isTurningAround'])
 
         self.trace["currentlane-forTrafficRule"]['number'].append(ego_currentLane['number'])
         if 'turn' in ego_currentLane: #hasattr(ego_currentLane, 'turn'):
@@ -207,7 +154,7 @@ class Trace:
         if traffic_light == {}:
             self.trace["road-forTrafficRule"]['signalAhead'].append(0)
         else:
-            self.append_boolean_value(True, self.trace["road-forTrafficRule"]['signalAhead'])
+           append_boolean_value(True, self.trace["road-forTrafficRule"]['signalAhead'])
         self.trace["road-forTrafficRule"]['stoplineAhead'].append(ego['stoplineAhead'])
         self.trace["road-forTrafficRule"]['streetLightOn'].append(0)
         
@@ -223,12 +170,12 @@ class Trace:
             if len(_list) == 1:
                 current_signal = _list[0]
                 self.trace["trafficLightAhead-forTrafficRule"]['color'].append(current_signal['color'])
-                self.append_boolean_value(current_signal['blink'], self.trace["trafficLightAhead-forTrafficRule"]['blink'])
+                append_boolean_value(current_signal['blink'], self.trace["trafficLightAhead-forTrafficRule"]['blink'])
             else:
                 # print('warning: more than one traffic light, choose the closer one')
                 current_signal = _list[traffic_light['nearst']]
                 self.trace["trafficLightAhead-forTrafficRule"]['color'].append(_color[current_signal['color']])
-                self.append_boolean_value(False, self.trace["trafficLightAhead-forTrafficRule"]['blink'])
+                append_boolean_value(False, self.trace["trafficLightAhead-forTrafficRule"]['blink'])
 
 
         self.trace["trafficLightAhead-arrow-direction-forTrafficRule"]['color'].append(3)
@@ -237,9 +184,9 @@ class Trace:
         for _item in self.arrow_directions:
             self.trace["trafficLightAhead-arrow-forTrafficRule"][_item]['color'].append(3)
             self.trace["trafficLightAhead-arrow-forTrafficRule"][_item]['blink'].append(0)
-        self.append_boolean_value(ego['PriorityNPCAhead'], self.trace["traffic-forTrafficRule"]['PriorityNPCAhead'])
-        self.append_boolean_value(ego['PriorityPedsAhead'], self.trace["traffic-forTrafficRule"]['PriorityPedsAhead'])    
-        self.append_boolean_value(ego['isTrafficJam'], self.trace["traffic-forTrafficRule"]['isTrafficJam'])
+        append_boolean_value(ego['PriorityNPCAhead'], self.trace["traffic-forTrafficRule"]['PriorityNPCAhead'])
+        append_boolean_value(ego['PriorityPedsAhead'], self.trace["traffic-forTrafficRule"]['PriorityPedsAhead'])    
+        append_boolean_value(ego['isTrafficJam'], self.trace["traffic-forTrafficRule"]['isTrafficJam'])
 
         max_dis = 1000
         min_dis = 0
@@ -277,9 +224,8 @@ class Trace:
             self.trace["NPCOpposite-forTrafficRule"]['Ahead'].append(max_dis)
             self.trace["NPCOpposite-forTrafficRule"]['speed'].append(min_speed)
 
-    def extract(self, sensing_range=100.0):
-        inf_dis = 1000.0
-        _trace_len = len(self.init_trace)
+
+    def extract(self):
         time = sorted(self.init_trace.keys())
         initial_time = time[0]
         # initial_time = self.init_trace[0]['timestamp']
@@ -289,126 +235,140 @@ class Trace:
             self.trace['time'].append(_state_time)
             self.time.append(_state_time)
             self.BUILD_single_traffic_rule_API(trace_state)
-            ego_state = trace_state['ego']['pose']
-            ego_state_position = np.array(list(ego_state['position'].values()))
-            ego_state_heading = ego_state['heading']
-            ego_state_velocity = np.array(list(ego_state['linearVelocity'].values()))
-            ego_state_acceleration = np.array(list(ego_state['linearAcceleration'].values()))
-            ego_state_polygon = get_ego_polygon(trace_state['ego'])
-            self.trace['ego']['position'].append(ego_state_position)
-            self.trace['ego']['velocity'].append(ego_state_velocity)
-            self.trace['ego']['heading'].append(ego_state_heading)
-            self.trace['ego']['acceleration'].append(ego_state_acceleration)
-            self.trace['ego']['shape'].append(ego_state_polygon)
-
-            truth_state = trace_state['truth']['obsList']
-            truth_remaining_agent = self.agent.copy()
-            for k in range(len(truth_state)):
-                obs_k = truth_state[k]
-                if obs_k['id'] in self.agent:
-                    truth_remaining_agent.remove(obs_k['id'])
-                    obs_position = np.array(list(obs_k['position'].values()))  # vector
-                    obs_velocity = np.array(list(obs_k['velocity'].values())) # vector
-                    obs_heading = obs_k['theta']  # float
-                    # obs_acceleration = np.array(list(obs_k['acceleration'].values()))
-                    obs_polygon = polygon_point(obs_k['polygonPoint'])
-                    dis2ego = obs_k['distToEgo']
-                    self.trace['truth'][obs_k['id']]['position'].append(obs_position)
-                    self.trace['truth'][obs_k['id']]['velocity'].append(obs_velocity)
-                    self.trace['truth'][obs_k['id']]['heading'].append(obs_heading)
-                    # self.trace['truth'][obs_k['name']]['acceleration'].append(obs_acceleration)
-                    self.trace['truth'][obs_k['id']]['shape'].append(obs_polygon)
-                    self.distance['truth'][obs_k['id']].append(dis2ego)
-            if len(truth_remaining_agent):
-                for item in truth_remaining_agent:
-                    self.trace['truth'][item]['position'].append(np.array([0, 0, 0]))
-                    self.trace['truth'][item]['velocity'].append(np.array([0, 0, 0]))
-                    self.trace['truth'][item]['heading'].append(0)
-                    self.trace['truth'][item]['acceleration'].append(np.array([0, 0, 0]))
-                    self.trace['truth'][item]['shape'].append([])
-                    self.distance['truth'][item].append(inf_dis)
-
-            # extract perception state
-            if not self.is_groundtruth:
-                perception_state = trace_state['perception']['obsList']
-                remaining_agent = self.agent.copy()
-                for j in range(len(perception_state)):
-                    obs_j = perception_state[j]
-                    if obs_j['matchedGT'] in self.agent:
-                        remaining_agent.remove(obs_j['matchedGT'])
-                        obs_position_p = np.array(list(obs_j['position'].values()))
-                        obs_velocity_p = np.array(list(obs_j['velocity'].values()))
-                        obs_heading_p = obs_j['theta']
-                        obs_acceleration_p = np.array(list(obs_j['acceleration'].values()))
-                        obs_polygon_p = polygon_point(obs_j['polygonPointList'])
-                        dis2ego_p = obs_j['distToEgo']
-                        self.trace['perception'][obs_j['matchedGT']]['position'].append(obs_position_p)
-                        self.trace['perception'][obs_j['matchedGT']]['velocity'].append(obs_velocity_p)
-                        self.trace['perception'][obs_j['matchedGT']]['heading'].append(obs_heading_p)
-                        self.trace['perception'][obs_j['matchedGT']]['acceleration'].append(obs_acceleration_p)
-                        self.trace['perception'][obs_j['matchedGT']]['shape'].append(obs_polygon_p)
-
-                        # self.trace['perception'][obs_j['matchedGT']].append({'position': obs_position_p,
-                        #                                                      'velocity': obs_velocity_p,
-                        #                                                      'heading': obs_heading_p,
-                        #                                                      'acceleration': obs_acceleration_p,
-                        #                                                      'shape': obs_polygon_p})
-                        self.distance['perception'][obs_j['matchedGT']].append(dis2ego_p)
-                # For other objects not in perception results
-                if len(remaining_agent):
-                    for item in remaining_agent:
-                        if self.distance['truth'][item][i] <= sensing_range:
-                            self.trace['perception'][item]['position'].append(None)
-                            self.trace['perception'][item]['velocity'].append(None)
-                            self.trace['perception'][item]['heading'].append(None)
-                            self.trace['perception'][item]['acceleration'].append(None)
-                            self.trace['perception'][item]['shape'].append([])
-                            # self.trace['perception'][item].append((np.zeros(3), np.zeros(3), 0, [[0, 0, 0]]))
-                            self.distance['perception'][item].append(self.distance['truth'][item][i])  # todo: determine a more suitable distance
-                        else:
-                            self.trace['perception'][item]['position'].append(np.array([inf_dis, inf_dis, inf_dis]))
-                            self.trace['perception'][item]['velocity'].append(np.array([0, 0, 0]))
-                            self.trace['perception'][item]['heading'].append(0)
-                            self.trace['perception'][item]['acceleration'].append(np.array([0, 0, 0]))
-                            self.trace['perception'][item]['shape'].append([])
-                            self.distance['perception'][item].append(inf_dis)
- 
 
 
-# if __name__ == "__main__":
-#     output_file = 'Law38_0_2_record_1.00000.20250618131620.record.pickle'
-#     with open(output_file, 'rb') as f:
-#         data = pickle.load(f)  # read as a msg from apollo via websocket
-#         trace = Trace(data)
+def raw_to_lawbreaker_API(trace_step, initial_timestamp):
+    lawbreaker_step = {
+        "time": (trace_step["timestamp"] - initial_timestamp)/1000000000,
+    }
+    
+    ego = trace_step['ego']
+    truth = trace_step['truth']
+    ego_chasis = ego['Chassis']
+    ego_currentLane = ego['currentLane']
+    traffic_light = trace_step['traffic_lights']
+    
+    
 
-        # # print(len(trace.trace['ego-forTrafficRule']['highBeamOn']))
-        # print(trace.trace['time'])
-        # print()
-        # print(trace.trace['ego-forTrafficRule'])
-        # print()
-        # print(trace.trace['ego-driving-forTrafficRule'])
-        # print()
-        # print(trace.trace['currentlane-forTrafficRule'])
-        # print()
-        # print(trace.trace['speedLimit-forTrafficRule'])
-        # print()
-        # print(trace.trace['road-forTrafficRule'])
-        # print()
-        # print(trace.trace['specialLocationAhead-forTrafficRule'])
-        # print()
-        # print(trace.trace['trafficLightAhead-forTrafficRule'])
-        # print()
-        # print(trace.trace['traffic-forTrafficRule'])
-        # print()
-        # print(trace.trace['NPCAhead-forTrafficRule'])
-        # print()
-        # print(trace.trace['NearestNPC-forTrafficRule'])
-        # print()
-        # print(trace.trace['perception']['npc1'][34])
-        # print(trace.trace['truth']['npc1'][34])
-        # print(trace.distance['perception']['npc1'][34])
-        # print(trace.distance['truth']['npc1'][34])
-        # print(len(trace.trace['perception']['npc1']))
+    lawbreaker_step['gear'] = ego_chasis['gearLocation']
+    lawbreaker_step['engineOn'] = 1 if ego_chasis['engineStarted'] else 0
+    lawbreaker_step['direction'] = ego['planning_of_turn']
+    lawbreaker_step['manualIntervention'] = 1  if ego_chasis['drivingMode'] != "COMPLETE_AUTO_DRIVE" else 0
+    
+    speed_of_ego = 3.6 * ego_chasis['speedMps']
+    acc_of_ego = convert_velocity_to_speed(ego['pose']['linearAcceleration'])
+    
+    lawbreaker_step['speed'] = speed_of_ego
+    lawbreaker_step['acc'] = acc_of_ego
+    lawbreaker_step['brake'] = ego_chasis['brakePercentage']
+    lawbreaker_step['isLaneChanging'] = 1 if ego['isLaneChanging'] else 0
+    lawbreaker_step['isOverTaking'] = 1 if ego['isOverTaking'] else 0
+    lawbreaker_step['isTurningAround'] = 1 if ego['isTurningAround'] else 0
+
+    lawbreaker_step['currentLanenumber'] = ego_currentLane['number']
+    if 'turn' in ego_currentLane: #hasattr(ego_currentLane, 'turn'):
+        lawbreaker_step['currentLanedirection'] = ego_currentLane['turn']
+    else:
+        lawbreaker_step['currentLanedirection'] = 0
+
+    max_speed = 1000
+    min_speed = 0
+    lawbreaker_step['speedLimitlowerLimit'] = min_speed
+    lawbreaker_step['speedLimitupperLimit'] = max_speed 
+    lawbreaker_step['honkingAllowed'] = 1 #not support for apollo at now stage
+    lawbreaker_step['crosswalkAhead'] = ego['crosswalkAhead']
+    lawbreaker_step['junctionAhead'] = ego['junctionAhead']
+    lawbreaker_step['stopSignAhead'] = ego['stopSignAhead']
+    if traffic_light == {}:
+        lawbreaker_step['signalAhead'] = 0
+    else:
+        lawbreaker_step['signalAhead'] = 1
+    lawbreaker_step['stoplineAhead'] = ego['stoplineAhead']
+    lawbreaker_step['streetLightOn'] = 0
+    
+    # self.trace["specialLocationAhead-forTrafficRule"] = {'location':[], 'type':[]}
+    lawbreaker_step['specialLocationAheadlocation'] = 0
+    lawbreaker_step['specialLocationAheadtype'] = 0
+
+    if traffic_light == {}:
+        lawbreaker_step['trafficLightAheadcolor'] = 3
+        lawbreaker_step['trafficLightAheadblink'] = 0
+    else:
+        _list = traffic_light['trafficLightList']
+        if len(_list) == 1:
+            current_signal = _list[0]
+            lawbreaker_step['trafficLightAheadcolor'] = current_signal['color']
+            lawbreaker_step['trafficLightAheadblink'] = 1 if current_signal['blink'] else 0
+        else:
+            # print('warning: more than one traffic light, choose the closest one')
+            current_signal = _list[traffic_light['nearst']]
+            lawbreaker_step['trafficLightAheadcolor'] = _color[current_signal['color']]
+            lawbreaker_step['trafficLightAheadblink'] = 0
 
 
- 
+    # lawbreaker_step["trafficLightAhead-arrow-direction-forTrafficRule"]['trafficLightAheadArrowDirectioncolor'] = 3
+    # lawbreaker_step["trafficLightAhead-arrow-direction-forTrafficRule"]['trafficLightAheadArrowDirectionblink'] = 0
+
+    # for _item in ARROW_DIRECTIONS:
+    #     lawbreaker_step[_item] = {}
+    #     lawbreaker_step["trafficLightAhead-arrow-forTrafficRule"][_item]['trafficLightAheadArrowDirectioncolor'] = 3
+    #     lawbreaker_step["trafficLightAhead-arrow-forTrafficRule"][_item]['trafficLightAheadArrowDirectionblink'] = 0
+        
+    lawbreaker_step['PriorityNPCAhead'] = 1 if ego['PriorityNPCAhead'] else 0
+    lawbreaker_step['PriorityPedsAhead'] = 1 if ego['PriorityPedsAhead'] else 0
+    lawbreaker_step['isTrafficJam'] = 1 if ego['isTrafficJam'] else 0
+
+    max_dis = 1000
+    min_dis = 0
+    name_of_NPCAhead = truth['NPCAhead']
+    name_of_NearestNPC = truth['NearestNPC']
+    name_of_NPCOpposite = truth['NPCOpposite']
+    for _i in truth['obsList']:
+        if _i['id'] == name_of_NPCAhead:
+            dist_to_NPCAhead = _i['distToEgo']
+            speed_to_NPCAhead = _i['speed']
+        if _i['id'] == name_of_NearestNPC:
+            dist_to_NearestNPC = _i['distToEgo']
+            speed_to_NearestNPC = _i['speed']
+        if _i['id'] == name_of_NPCOpposite:
+            dist_to_NPCOpposite = _i['distToEgo']
+            speed_to_NPCOpposite = _i['speed']
+    if name_of_NPCAhead != None:
+        lawbreaker_step['NPCAheadAhead'] = dist_to_NPCAhead
+        lawbreaker_step['NPCAheadspeed'] = speed_to_NPCAhead
+    else:
+        lawbreaker_step['NPCAheadAhead'] = max_dis
+        lawbreaker_step['NPCAheadspeed'] = min_speed
+
+    if name_of_NearestNPC != None:
+        lawbreaker_step['NearestNPCAhead'] = dist_to_NearestNPC
+        lawbreaker_step['NearestNPCspeed'] = speed_to_NearestNPC
+    else:
+        lawbreaker_step['NearestNPCAhead'] = max_dis
+        lawbreaker_step['NearestNPCspeed'] = min_speed
+
+    if name_of_NPCOpposite != None:
+        lawbreaker_step['NPCOppositeAhead'] = dist_to_NPCOpposite
+        lawbreaker_step['NPCOppositespeed'] = speed_to_NPCOpposite
+    else:
+        lawbreaker_step['NPCOppositeAhead'] = max_dis
+        lawbreaker_step['NPCOppositespeed'] = min_speed
+    
+    return lawbreaker_step
+
+# Helper: convert a Polygon to list-of-tuples
+def polygon_to_list(obj):
+    if isinstance(obj, Polygon):
+        return list(obj.exterior.coords)
+    return obj
+
+# Recursive helper to traverse and convert all polygons in a structure
+def convert_polygons(obj):
+    if isinstance(obj, dict):
+        return {k: convert_polygons(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [convert_polygons(v) for v in obj]
+    elif isinstance(obj, Polygon):
+        return polygon_to_list(obj)
+    else:
+        return obj 

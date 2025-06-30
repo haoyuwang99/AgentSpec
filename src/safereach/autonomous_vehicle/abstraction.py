@@ -75,6 +75,7 @@ class AVAbstraction(Abstraction):
             return FINISH
         
         # for predicate in self.predicates:
+        
             
         
         return super().encode(observations)
