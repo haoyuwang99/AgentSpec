@@ -115,7 +115,7 @@ def abstract_from_samples(dir):
         "specs": specs,
         "unsafe_states": list(unsafe_states)
     }
-    print(unsafe_states)
+
     with open(output_dir + "state_meta.json", 'w') as f:
         f.write(json.dumps(state_meta)) 
 

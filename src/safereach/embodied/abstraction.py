@@ -19,7 +19,6 @@ keys_map = {
     "isPickedUp":"pickupable",
 }
 
-
 type_profile = {}
 with open("safereach/embodied/meta_data1.json") as f:
     meta_data = json.loads(f.read())
@@ -201,12 +200,9 @@ class EmbodiedAbstraction(Abstraction):
                 # return any of the observation is match 
                 for o in observations:
                     match = True
-                    # print(spec)
-                    # print(o)
-                    # print(match)
                     for key in spec: 
                         match = match and spec[key] == o[key] 
-                        # print(spec[key]==o[key]) 
+
                     if match:    
                         break
                 if match:
@@ -298,6 +294,7 @@ class EmbodiedAbstraction(Abstraction):
         plt.show()
 
 
+
 def process_type_profile():
 
     with open("safereach/embodied/meta_data.json") as f:
@@ -321,35 +318,6 @@ def process_type_profile():
 process_type_profile()
         
 
-
-## below are tests
-
-# obj_types = ["Apple", "Window"]
-# keys = ["isPickedUp", "isSliced"]
-# receptacles =["Sink", "Sink2"]
-# example_abs = EmbodiedAbstraction(set(obj_types), set(keys), set(receptacles))
-# state_space = list(example_abs.state_space)
-# # print(state_space)
-
-# example_abs.can_reach(state_space[5], state_space[4])
-
-# for type in obj_types:
-#     state_space = prefixes[type]
-#     for state in state_space:
-#         print("!!!!")
-#         print(state)
-#         observation = decode(state, obj_types, keys, receptacles)
-#         print(observation)
-#         state = encode(observation, obj_types, keys, receptacles)
-#         print(state)
-#         observation = decode(state, obj_types, keys, receptacles)
-#         print(observation)
-
-## for visuallization
-
-# for state in example_abs.filter({"objectType":"Apple", "parentReceptacles": ["Sink2"]}):
-#     print(example_abs.decode(state))
-    
 def find_absorbing_states(G):
     absorbing_states = [node for node in G.nodes if G.out_degree(node) == 0]
     return absorbing_states

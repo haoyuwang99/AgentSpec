@@ -243,6 +243,7 @@ def raw_to_lawbreaker_API(trace_step, initial_timestamp):
     }
     
     ego = trace_step['ego']
+
     truth = trace_step['truth']
     ego_chasis = ego['Chassis']
     ego_currentLane = ego['currentLane']
@@ -317,6 +318,8 @@ def raw_to_lawbreaker_API(trace_step, initial_timestamp):
     lawbreaker_step['PriorityNPCAhead'] = 1 if ego['PriorityNPCAhead'] else 0
     lawbreaker_step['PriorityPedsAhead'] = 1 if ego['PriorityPedsAhead'] else 0
     lawbreaker_step['isTrafficJam'] = 1 if ego['isTrafficJam'] else 0
+    lawbreaker_step['reach_destination'] = 1 if ego["reach_destinaton"] else 0
+    lawbreaker_step['collision'] = 1 if truth["minDistToEgo"] <= 0 else 0
 
     max_dis = 1000
     min_dis = 0
