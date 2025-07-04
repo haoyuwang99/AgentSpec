@@ -320,26 +320,29 @@ class AVAbstraction(Abstraction):
         self.predicates = collector.predicates
         
         self.predicates = sorted(self.predicates)
-        # the last two bits will indicate reach and collision
-        self.predicates.append(REACH_PREDICATE)
-        self.predicates.append(COLLISION_PREDICATE)
         
         self.state_space=sorted(list(self.enumerate_possible_states()))
         self.state_idx = None
         self.state_interpretation = None
 
-    # todo: add reach and crash in each abstraction.
     def encode(self, observation):
         bitstr = ""
-        
+        collision = eval_pred(observation, COLLISION_PREDICATE)
+        reach = eval_pred(observation, REACH_PREDICATE)
+        # if already reach or collision, then we do not care about other variables.
+        if collision or reach:
+            bitstr = "0" * len(self.predicates)
+            bitstr = bitstr + "1" if reach else bitstr + "0"
+            bitstr = bitstr + "1" if collision else bitstr + "0"
+            return bitstr
+            
+
         for predicate in self.predicates: 
             pvalue = eval_pred(observation, predicate)
-
             bitstr = bitstr + "1" if pvalue else bitstr + "0"
-
+        bitstr = bitstr + "00"
         
         if not bitstr in self.state_space:
-
             raise Exception("unvalid state")
             
         return bitstr
@@ -361,19 +364,25 @@ class AVAbstraction(Abstraction):
                 observation[var_name] = rvalue - 1 if cur_bit=='1' else rvalue + 1
             else: 
                 raise Exception(f"unsupported bin op {op}")
+        observation["reach_destination"] = float(state[len(self.predicates)])
+        observation["collision"] = float(state[len(self.predicates)+1])
                 
         return observation
 
     def enumerate_possible_states(self) -> Set[str]: 
-        enums = [''.join(bits) for bits in itertools.product('01', repeat=len(self.predicates))]
-        possible_states = [l for l in enums if not l.endswith("11")]
-        return possible_states
+        enums = [''.join(bits) + "00" for bits in itertools.product('01', repeat=len(self.predicates))]
+        enums.append("0" * len(self.predicates) + "00")
+        enums.append("0" * len(self.predicates) + "10")
+        enums.append("0" * len(self.predicates) + "01")
+        return set(enums)
         # for a in self.predicates:
 
+    # last two bits: reach then collision
     def can_reach(self, state1: str, state2: str) -> bool:
-        if state1.endswith("10") and state2.endswith("01"):
+        if (state1.endswith("10") or state1.endswith("01") or state1.endswith("01")) and state2.endswith("00"):
             return False
-        if state1.endswith("01") and state2.endswith("10"):
+        # we do not consider the crashes after reaching destination
+        if state1.endswith("10") and state2.endswith("01"):
             return False
         return True
 
@@ -384,7 +393,6 @@ class AVAbstraction(Abstraction):
     def get_state_idx(self) -> Dict[str, int]:  
         if self.state_idx == None:
             self.state_idx = {s:i for i, s in enumerate(self.state_space)}
-
         return self.state_idx
 
 
@@ -396,9 +404,10 @@ class AVAbstraction(Abstraction):
         return self.state_interpretation
     
     def to_json(self) -> str:
-        return json.dumps(self.predicates)
+        obj = {
+            "predicates":  self.predicates,
+            "reach" : REACH_PREDICATE, 
+            "collision": COLLISION_PREDICATE 
+        }
+        return json.dumps(obj)
     
-# for key in traffic_rules:
-#     law = traffic_rules[key]
-#     abs = AVAbstraction(law)
-#     print(abs.predicates)
