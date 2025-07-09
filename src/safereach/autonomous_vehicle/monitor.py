@@ -117,13 +117,13 @@ class Monitor:
         # print(self.c_data["isTurningAround"])
 
     def prepare_traffic_rule_related_APIs(self, _time ,state_len , _var_data, name_of_vaiable):
-        state_len = 2
+
         self.c_data[name_of_vaiable] = [[_time[i], _var_data[i]] for i in range(state_len)]
         self.data[name_of_vaiable] = _var_data[:state_len]
 
     def prepare_for_rules(self):
         state_len = len(self.original_data)
-        state_len = 2
+
         _time = self.preprocessed_data.trace['time']
         self.c_data['time'] = [[i, _time[i]] for i in range(state_len)]
 
@@ -131,16 +131,89 @@ class Monitor:
         self.data['t'] = self.preprocessed_data.trace['time'][:state_len]
         TRACE = self.preprocessed_data.trace
 
-        for rule in TRACE:
-            for key in TRACE[rule]:
-                self.prepare_traffic_rule_related_APIs( _time ,state_len , TRACE[rule][key], key)
-                self.item_names_of_variable_of_APIS.append(name_of_vaiable)
+        for key in TRACE["ego-forTrafficRule"]:
+            name_of_vaiable = str(key)
+            self.prepare_traffic_rule_related_APIs( _time ,state_len , TRACE["ego-forTrafficRule"][key], name_of_vaiable)
+            self.item_names_of_variable_of_APIS.append(name_of_vaiable)
+
+        for key in TRACE["ego-driving-forTrafficRule"]:
+            name_of_vaiable = str(key)
+            self.prepare_traffic_rule_related_APIs( _time ,state_len , TRACE["ego-driving-forTrafficRule"][key], name_of_vaiable)
+            self.item_names_of_variable_of_APIS.append(name_of_vaiable)
+        
+        for key in TRACE["currentlane-forTrafficRule"]:
+            name_of_vaiable = 'currentLane' + str(key)
+            self.prepare_traffic_rule_related_APIs( _time ,state_len , TRACE["currentlane-forTrafficRule"][key], name_of_vaiable)
+            self.item_names_of_variable_of_APIS.append(name_of_vaiable)
+
+        for key in TRACE["speedLimit-forTrafficRule"]:
+            name_of_vaiable = 'speedLimit' + str(key)
+            self.prepare_traffic_rule_related_APIs( _time ,state_len , TRACE["speedLimit-forTrafficRule"][key], name_of_vaiable)
+            self.item_names_of_variable_of_APIS.append(name_of_vaiable)
+
+        for key in TRACE["road-forTrafficRule"]:
+            name_of_vaiable = str(key)
+            self.prepare_traffic_rule_related_APIs( _time ,state_len ,  TRACE["road-forTrafficRule"][key], name_of_vaiable)
+            self.item_names_of_variable_of_APIS.append(name_of_vaiable)
+
+        for key in TRACE["specialLocationAhead-forTrafficRule"]:
+            name_of_vaiable = 'specialLocationAhead' + str(key)
+            self.prepare_traffic_rule_related_APIs( _time ,state_len , TRACE["specialLocationAhead-forTrafficRule"][key], name_of_vaiable)
+            self.item_names_of_variable_of_APIS.append(name_of_vaiable)
+
+        for key in TRACE["trafficLightAhead-forTrafficRule"]:
+            name_of_vaiable = 'trafficLightAhead' + str(key)
+            # print(name_of_vaiable)
+            self.prepare_traffic_rule_related_APIs( _time ,state_len , TRACE["trafficLightAhead-forTrafficRule"][key], name_of_vaiable)
+            self.item_names_of_variable_of_APIS.append(name_of_vaiable)
+
+
+        for key in TRACE["traffic-forTrafficRule"]:
+            name_of_vaiable = str(key)
+            self.prepare_traffic_rule_related_APIs( _time ,state_len , TRACE["traffic-forTrafficRule"][key], name_of_vaiable)
+            self.item_names_of_variable_of_APIS.append(name_of_vaiable)
+
+        for key in TRACE["NPCAhead-forTrafficRule"]:
+            name_of_vaiable = 'NPCAhead' + str(key)
+            self.prepare_traffic_rule_related_APIs( _time ,state_len , TRACE["NPCAhead-forTrafficRule"][key], name_of_vaiable)
+            self.item_names_of_variable_of_APIS.append(name_of_vaiable)
+
+        for key in TRACE["NearestNPC-forTrafficRule"]:
+            name_of_vaiable = 'NearestNPC' + str(key)
+            self.prepare_traffic_rule_related_APIs( _time ,state_len , TRACE["NearestNPC-forTrafficRule"][key], name_of_vaiable)
+            self.item_names_of_variable_of_APIS.append(name_of_vaiable)
+
+        for key in TRACE["NPCOpposite-forTrafficRule"]:
+            name_of_vaiable = 'NPCOpposite' + str(key)
+            self.prepare_traffic_rule_related_APIs( _time ,state_len , TRACE["NPCOpposite-forTrafficRule"][key], name_of_vaiable)
+            self.item_names_of_variable_of_APIS.append(name_of_vaiable)
+
+        for key in self.weather_raw:
+            name_of_vaiable = str(key)
+            data = [self.weather_raw[key]] * state_len
+            self.prepare_traffic_rule_related_APIs( _time ,state_len , data, name_of_vaiable)
+            self.item_names_of_variable_of_APIS.append(name_of_vaiable)
+
+        for key in TRACE["trafficLightAhead-arrow-direction-forTrafficRule"]:
+            name_of_vaiable = 'trafficLightAheadArrowDirection' + str(key)
+            self.prepare_traffic_rule_related_APIs( _time ,state_len , TRACE["trafficLightAhead-arrow-direction-forTrafficRule"][key], name_of_vaiable)
+            self.item_names_of_variable_of_APIS.append(name_of_vaiable)
+
+        name_of_vaiable = 'snow'
+        data = [0] * state_len
+        self.prepare_traffic_rule_related_APIs( _time ,state_len , data, name_of_vaiable)
+        self.item_names_of_variable_of_APIS.append(name_of_vaiable)
 
         name_of_vaiable = 'visibility'
         data = [100] * state_len
         self.prepare_traffic_rule_related_APIs( _time ,state_len , data, name_of_vaiable)
         self.item_names_of_variable_of_APIS.append(name_of_vaiable)
 
+
+        # name_of_vaiable = 'Time'
+        # data = [int(self.time_raw['hour']) + int(self.time_raw['minute'])/60 ] * state_len
+        # self.prepare_traffic_rule_related_APIs( _time ,state_len , data, name_of_vaiable)
+        # self.item_names_of_variable_of_APIS.append(name_of_vaiable)
  
         rule38_1 = self.prepare_for_rule38_1()
         rule38_2 = self.prepare_for_rule38_2()
@@ -395,7 +468,7 @@ class Monitor:
             # print(item)
         result = dict()
         for key in self.muti_traffic_rules:
-            print(key)
+
             # print()
             spec = rtamt.StlDenseTimeSpecification(semantics=rtamt.Semantics.STANDARD)
             for item in self.item_names_of_variable_of_APIS:
@@ -412,8 +485,7 @@ class Monitor:
                 print('STL Parse Exception: {}'.format(err))
                 sys.exit()
             _data = [[var, self.c_data[var]] for var in self.item_names_of_variable_of_APIS]
-            print(_data)
-            exit(0)
+
             rob = spec.evaluate(*_data)
             result[key] = rob[0][1]
             del spec
@@ -446,6 +518,7 @@ class PredicateCollector(StlAstVisitor):
         # super().visit_predicate( node, args, kwargs)
         
 if __name__ == "__main__": 
+    import os
     from TracePreprocess import raw_to_lawbreaker_API
     import pickle
     input_file = 'law.txt'
@@ -456,14 +529,31 @@ if __name__ == "__main__":
     # print(specification.dis_variables)
     # print(specification.dis_statement)
     # extracted_data = ExtractAll('law.txt', True)
-    output_file = 'Law38_0_2_record_1.00000.20250618131620.record.pickle'
-    with open(output_file, 'rb') as f:
-        trace = pickle.load(f)["trace"] 
-        time_seq = sorted(list(trace.keys()))
-        if len(trace.keys()) == 0:
-            exit(0)
-        initial_timestamp = time_seq[0]
-        trajectory = []
-        for key in trace:
-            trajectory.append(raw_to_lawbreaker_API(trace[key], initial_timestamp))
-        print(trajectory[:3])
+    # output_file = 'Law38_0_2_record_1.00000.20250618131620.record.pickle'
+    SAMPLE_DIR = "samples/"
+    for scenario in os.listdir(SAMPLE_DIR):
+        scenario = "Law44_2"
+        for filename in os.listdir(f"{SAMPLE_DIR}{scenario}"):
+            if not filename.endswith("pickle"):
+                continue
+            path = f"{SAMPLE_DIR}{scenario}/{filename}"
+            with open(path, 'rb') as f:
+                print(path)
+                msg = pickle.load(f)
+                trace = msg["trace"]
+                monitor = Monitor(msg, specification, weather)
+                print(monitor.continuous_monitor_for_muti_traffic_rules())
+                continue
+        
+                time_seq = sorted(list(trace.keys()))
+                if len(trace.keys()) == 0:
+                    exit(0)
+                initial_timestamp = time_seq[0]
+                trajectory = []
+                for key in trace:
+                    trajectory.append(raw_to_lawbreaker_API(trace[key], initial_timestamp))
+
+                log = {"trajectory": trajectory}
+                with open(f"{path}.json", 'w') as w:
+                    w.write(json.dumps(log))
+        break

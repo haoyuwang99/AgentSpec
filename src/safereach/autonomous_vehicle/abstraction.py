@@ -14,6 +14,7 @@ from rtamt.syntax.node.ltl.predicate import Predicate
 # from rtamt.syntax.node.ltl.binary_node import BinaryNode
 from rtamt.syntax.ast.visitor.stl.ast_visitor import StlAstVisitor
 
+
         
 def prepare_for_rule38_1():              
     #GREEN = 3; 
@@ -244,6 +245,8 @@ traffic_rules = {
     "rule53" : prepare_for_rule53(),
 
 }
+ 
+
 
 VARIABLE_APIS = ['gear', 'engineOn', 'direction', 'manualIntervention', \
     'speed', 'acc', 'brake', 'isLaneChanging', 'isOverTaking',\
@@ -293,6 +296,23 @@ def eval_bin_op(lvalue, op, rvalue):
     binop = STR_TO_BINOP[op]
     return binop(lvalue, rvalue)    
 
+
+def parse_law(law_str):
+
+
+    spec = rtamt.StlDenseTimeSpecification(semantics=rtamt.Semantics.STANDARD)
+
+    for item in VARIABLE_APIS:
+        spec.declare_var(item, 'float')
+    spec.spec = law_str
+    spec.parse()
+    
+    ast = spec.ast.specs[0]
+
+    collector = PredicateCollector()
+    collector.visit(ast)
+    
+    return collector.predicates
         
 class AVAbstraction(Abstraction):
     
@@ -302,22 +322,8 @@ class AVAbstraction(Abstraction):
     #     implies (eventually[0,100](speed > 0.5)) ) \
     #   )\
     #  )'
-    def __init__(self, law_str):
-        self.law_str = law_str
-        
-
-        spec = rtamt.StlDenseTimeSpecification(semantics=rtamt.Semantics.STANDARD)
-
-        for item in VARIABLE_APIS:
-            spec.declare_var(item, 'float')
-        spec.spec = law_str
-        spec.parse()
-        
-        ast = spec.ast.specs[0]
-
-        collector = PredicateCollector()
-        collector.visit(ast)
-        self.predicates = collector.predicates
+    def __init__(self, predicates):
+        self.predicates = predicates
         
         self.predicates = sorted(self.predicates)
         
@@ -377,18 +383,38 @@ class AVAbstraction(Abstraction):
         return set(enums)
         # for a in self.predicates:
 
-    # last two bits: reach then collision
+    # last two bits: reach | collision
     def can_reach(self, state1: str, state2: str) -> bool:
         if (state1.endswith("10") or state1.endswith("01") or state1.endswith("01")) and state2.endswith("00"):
             return False
-        # we do not consider the crashes after reaching destination
+        # we do not consider first crashes then reaching destination
         if state1.endswith("10") and state2.endswith("01"):
             return False
         return True
 
-    #currently, we only support collision and finish journey
-    def filter(self, specs) -> Set[str]:
-        pass
+    # specs is a list of predicates and its coressponding value. 
+    # currently, we only support collision and finish journey
+    def filter(self, specs = [(COLLISION_PREDICATE,True)]) -> Set[str]:
+        supported_predicates = [COLLISION_PREDICATE, REACH_PREDICATE]
+        # supported_predicates to be replaced by self.predicates + ..
+        if any( not spec[0] in supported_predicates  for spec in specs):
+            raise Exception("unsupported predicate")
+        
+        res = set()
+
+        for state in self.state_space:
+            hold = True
+            for spec in specs:
+                predicate = spec[0]
+                pval = spec[1]
+                observation = self.decode(state)
+
+                if eval_pred(observation, predicate) != pval:
+                    hold = False
+                    break       
+            if hold:
+                res.add(state)       
+        return res
 
     def get_state_idx(self) -> Dict[str, int]:  
         if self.state_idx == None:

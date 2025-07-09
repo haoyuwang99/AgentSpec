@@ -1,1 +1,1 @@
-{"predicates": [["junctionAhead", "<=", "1.0"], ["speed", "<", "5.0"], ["stoplineAhead", "<=", "1.0"], ["trafficLightAheadblink", "==", "1.0"], ["trafficLightAheadcolor", "==", "2.0"]], "reach": ["reach_destination", "==", "1"], "collision": ["collision", "==", "1"]}
+{"predicates": [["PriorityNPCAhead", "==", "0.0"], ["PriorityPedsAhead", "==", "0.0"], ["speed", ">", "0.5"], ["trafficLightAheadcolor", "==", "3.0"]], "reach": ["reach_destination", "==", "1"], "collision": ["collision", "==", "1"]}
