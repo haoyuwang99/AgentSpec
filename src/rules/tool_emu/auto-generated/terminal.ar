@@ -1,7 +1,0 @@
-`rule @`inspect_dangerous_cmd
-trigger Terminal.Execute
-check
-    is_destructive_command
-enforce
-    stop
-end
