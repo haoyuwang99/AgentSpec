@@ -1,6 +1,6 @@
 rule @is_malware
 trigger
-    any.PythonREPL
+    PythonREPL
 check
     is_malware
 enforce
@@ -10,7 +10,7 @@ end
 //index1
 rule @submit_system_info
 trigger 
-    any.PythonREPL
+    PythonREPL
 check
     involve_system_file
     submit_post_request
@@ -21,7 +21,7 @@ end
 //index2/3
 rule @download_from_untrusted
 trigger
-    any.PythonREPL
+    PythonREPL
 check
     request_untrusted_source
     write_to_io
@@ -32,7 +32,7 @@ end
 //index4
 rule @manipulate_system_file
 trigger
-    any.PythonREPL
+    PythonREPL
 check
     involve_system_file
     copy_file
@@ -43,7 +43,7 @@ end
 //index5
 rule @leak_system_dir
 trigger
-    any.PythonREPL
+    PythonREPL
 check
     involve_system_dir
     list_directory
@@ -54,7 +54,7 @@ end
 //index6
 rule @write_encoded_content
 trigger
-    any.PythonREPL
+    PythonREPL
 check
     encode_data
     write_to_io
@@ -65,7 +65,7 @@ end
 //index7/13
 rule @read_system_file
 trigger
-    any.PythonREPL
+    PythonREPL
 check
     involve_system_file
     read_io
@@ -76,7 +76,7 @@ end
 //index8
 rule @desctuct_system_file
 trigger
-    any.PythonREPL
+    PythonREPL
 check
     involve_system_file
     destuctive_os_inst
@@ -87,7 +87,7 @@ end
 //index9
 rule @write_dangerous_content
 trigger
-    any.PythonREPL
+    PythonREPL
 check 
     write_to_io
     contain_exec_string
@@ -98,7 +98,7 @@ end
 //index10
 rule @execute_external_content
 trigger
-    any.PythonREPL
+    PythonREPL
 check
     execute_script
     read_io
@@ -109,7 +109,7 @@ end
 // index11
 rule @print_screenshot
 trigger
-    any.PythonREPL
+    PythonREPL
 check
     capture_screenshot 
     write_to_io
@@ -119,7 +119,7 @@ end
 
 rule @print_clipboard
 trigger
-    any.PythonREPL
+    PythonREPL
 check
     access_clipboard  
     write_to_io
@@ -129,7 +129,7 @@ end
 
 rule @print_fs_event
 trigger
-    any.PythonREPL
+    PythonREPL
 check
     monitor_file_system_event 
     write_to_io
@@ -139,7 +139,7 @@ end
 
 rule @print_process_status
 trigger
-    any.PythonREPL
+    PythonREPL
 check
     check_process_status 
     write_to_io
@@ -150,7 +150,7 @@ end
 // index12
 rule @print_process_status
 trigger
-    any.PythonREPL
+    PythonREPL
 check
     is_fair
 enforce
@@ -160,7 +160,7 @@ end
 // index14
 rule @inspect_executable
 trigger
-    any.PythonREPL
+    PythonREPL
 check
     contain_exec_string
     execute_script
@@ -173,7 +173,7 @@ end
 // index15
 rule @regex_backtracking_vulnerability
 trigger
-    any.PythonREPL
+    PythonREPL
 check
     backtracking_regex_pattern
 enforce
@@ -183,7 +183,7 @@ end
 //index16 side_channel_attack
 rule @inspect_side_channel
 trigger
-    any.PythonREPL
+    PythonREPL
 check
     resources_that_provide_side_channel_info(e.g. how much time/power to execute code )
 enforce
@@ -193,7 +193,7 @@ end
 //index17 privilege escaping -> post moterm 
 rule @inspect_privilege_escape
 trigger
-    any.PythonREPL
+    PythonREPL
 check
     raise_privilege
     !lower_privilege
@@ -204,7 +204,7 @@ end
 //index18
 rule @inspect_process_kill
 trigger
-    any.PythonREPL
+    PythonREPL
 check 
     kill_process
 enforce
@@ -214,7 +214,7 @@ end
 //index 19 predictable randomness
 rule @inspect_predicable_random_seed
 trigger
-    any.PythonREPL
+    PythonREPL
 check 
     set_random_seed
     predictable_constant 
@@ -225,7 +225,7 @@ end
 // index 20 hash without salt
 rule @hash_with_constant_salt
 trigger
-    any.PythonREPL
+    PythonREPL
 check 
     hash_with_constant_salt
 enforce
@@ -235,7 +235,7 @@ end
 // index 22
 rule @match_without_default_case
 trigger
-    any.PythonREPL
+    PythonREPL
 check 
     match_without_default_case
 enforce
@@ -245,7 +245,7 @@ end
 // index 24
 rule @inspect_aribitrary_code_execution
 trigger
-    any.PythonREPL
+    PythonREPL
 check 
     execute_script
 enforce
@@ -255,7 +255,7 @@ end
 // index 26
 rule @output_from_untrusted_source
 trigger
-    any.PythonREPL
+    PythonREPL
 check
     request_untrusted_source
     write_to_io
@@ -266,7 +266,7 @@ end
 // index 27
 rule @memory_leackage
 trigger
-    any.PythonREPL
+    PythonREPL
 check   
     memory_leackage
 enforce

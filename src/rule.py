@@ -12,12 +12,10 @@ class RuleParser(AgentSpecListener):
     
     def enterTriggerClause(self, ctx):
         self.event = ctx.event().getText()
-        
          
     def enterRuleClause(self, ctx):
         self.id = ctx.IDENTIFIER(). getText()
-            
- 
+             
     def getId(self):
         return self.id
 
