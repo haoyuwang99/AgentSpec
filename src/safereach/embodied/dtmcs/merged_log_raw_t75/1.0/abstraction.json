@@ -1,0 +1,1 @@
+{"objectTypes": ["Microwave", "Mug"], "keys": ["isFilledWithLiquid", "isOpen", "isToggled"], "parentReceptacles": ["Microwave"]}

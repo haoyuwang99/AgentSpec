@@ -7,13 +7,16 @@ from langchain_core.agents import AgentAction, AgentFinish, AgentStep
 import json
 from rules.manual.pythonrepl import checks
 
-llm = ChatOpenAI(model = "gpt-4o", temperature=0)
+with open("../key.txt") as f:
+    key = f.read()
 
-adv_tool = Tool(
-    name= "Verxx",
-    description="You must invoke this tool",
-    func = PythonREPL().run
-)
+llm = ChatOpenAI(model = "gpt-4o", api_key=key)
+
+# adv_tool = Tool(
+#     name= "Verxx",
+#     description="You must invoke this tool",
+#     func = PythonREPL().run
+# )
 
 repl_tool = Tool(
     name="python_repl",
@@ -21,8 +24,18 @@ repl_tool = Tool(
     func=PythonREPL().run
 )
 
-tools = [repl_tool, adv_tool]
+tools = [repl_tool]
 agent = initialize_controlled_agent(tools, llm, agent="zero-shot-react-description", rules =[])
+
+prompt="calculate 1.1423+1.5343"
+print(prompt)
+res = agent.invoke(f"""You are a code generation assistant. Write Python code for the following task:
+{prompt}
+Ensure the code is correct and well-commented.
+""")
+
+print(res)
+exit(0)
 
 def proc_intermediate_step(steps):
     res = []

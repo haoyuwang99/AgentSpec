@@ -1,0 +1,1 @@
+{"objectTypes": ["Cabinet", "Candle"], "keys": ["isOpen", "isToggled"], "parentReceptacles": ["Cabinet"]}
