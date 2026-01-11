@@ -62,7 +62,7 @@ class ControlledAgentExecutor(AgentExecutor) :
            rules = rules,
            callbacks=callbacks,
            handle_parsing_errors=True, # important: other wise, skip will raise parsing error.
-           return_intermediate_steps=True,
+           return_intermediate_steps=False,
            **kwargs,
         ) 
 
@@ -83,6 +83,7 @@ class ControlledAgentExecutor(AgentExecutor) :
         if self.rules==None:
             raise ValueError("rules should not be none")
         for rule in self.rules:  
+            print(type(action))
             if action.is_finish() and rule.trigger_finished() or rule.triggered(action.name, action.input): 
                 interpreter = RuleInterpreter(rule, state)
                 res, action = interpreter.verify_and_enforce(action)
@@ -93,6 +94,7 @@ class ControlledAgentExecutor(AgentExecutor) :
                 elif res == EnforceResult.STOP:
                     return rule, Action.get_finish(f"action stopped by {rule.raw}", f"action stopped by {rule.raw}")
                 elif res == EnforceResult.SELF_REFLECT: 
+                    action = Action.from_langchain(action)
                     return self.validate_and_enforce(action, state)
                 else:
                     raise ValueError("Unreachable")
@@ -109,6 +111,8 @@ class ControlledAgentExecutor(AgentExecutor) :
                 callbacks=run_manager.get_child() if run_manager else None,
                 **inputs,
             )  
+            print("Before Tool Execution")
+            print(output)
             # with open("code_agent_exec", 'a') as f:
             #     o = { "prompt": inputs, "code": str(output)}
             #     f.write(json.dumps(o))
@@ -152,7 +156,7 @@ class ControlledAgentExecutor(AgentExecutor) :
             )
             yield AgentStep(action=output, observation=observation)
             return
-
+        
         action = Action.from_langchain(output)
         state = RuleState(
             action = action,

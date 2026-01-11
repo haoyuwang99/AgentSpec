@@ -27,6 +27,11 @@ class Rule(BaseModel):
     raw: str
      
     def triggered(self, action_name, input:str):  
+        print(self.event)
+        if self.event == "before_action":
+            return True
+        if input== None:
+            return False
         return self.event == "any" or action_name == self.event or input.strip().startswith(self.event.replace("_",' '))
     
     def trigger_finished(self):

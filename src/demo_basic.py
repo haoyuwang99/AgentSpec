@@ -23,7 +23,25 @@ repl_tool = Tool(
 
 tools = [repl_tool]
 
-agent = initialize_controlled_agent(tools, llm, agent="zero-shot-react-description", rules =[])
+from rule import Rule
+# rules for inspection before every tool call
+
+rule_before_tool_execution = """
+rule @stop_before_tool
+trigger
+    before_action
+check
+    true
+enforce
+    user_inspection
+end
+"""
+
+rule_before_tool_execution = Rule.from_text(rule_before_tool_execution)
+print(rule_before_tool_execution.event)
+
+agent = initialize_controlled_agent(tools, llm, agent="zero-shot-react-description", rules =[rule_before_tool_execution])
 
 res = agent.invoke("what is 1.123+1.432?")
 print(res)
+

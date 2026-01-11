@@ -1,0 +1,20 @@
+{
+  "id": "usr_7k9m2n4p",
+  "firstName": "Alex",
+  "lastName": "Johnson",
+  "email": "alex.johnson@example.com",
+  "phone": "+1-555-0123",
+  "dateOfBirth": "1990-05-15",
+  "address": {
+    "street": "123 Main Street",
+    "city": "Springfield",
+    "state": "IL",
+    "zipCode": "62701",
+    "country": "USA"
+  },
+  "nationality": "American",
+  "occupation": "Software Developer",
+  "company": "Tech Solutions Inc.",
+  "createdAt": "2024-01-15T10:30:00Z",
+  "updatedAt": "2025-01-10T14:22:00Z"
+}
