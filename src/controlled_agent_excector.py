@@ -83,14 +83,15 @@ class ControlledAgentExecutor(AgentExecutor) :
         if self.rules==None:
             raise ValueError("rules should not be none")
         for rule in self.rules:  
-            print(type(action))
+            # print(type(action))
             if action.is_finish() and rule.trigger_finished() or rule.triggered(action.name, action.input): 
                 interpreter = RuleInterpreter(rule, state)
                 res, action = interpreter.verify_and_enforce(action)
                 if res == EnforceResult.CONTINUE:
                     continue
                 elif res == EnforceResult.SKIP:
-                    return rule, Action.get_skip()
+                    print(action)
+                    return rule, action
                 elif res == EnforceResult.STOP:
                     return rule, Action.get_finish(f"action stopped by {rule.raw}", f"action stopped by {rule.raw}")
                 elif res == EnforceResult.SELF_REFLECT: 
@@ -168,6 +169,9 @@ class ControlledAgentExecutor(AgentExecutor) :
         rule, action = self.validate_and_enforce(action, state) 
         if action.is_skip():
             observation_text = f"after the enforcement of rule:\n{rule.raw}, the action is skipped by user" 
+            
+            if action.input !=None:
+                observation = f"{action.input}"
             yield AgentStep(action=output, observation=observation_text)
             return
         output = action.unwrap()

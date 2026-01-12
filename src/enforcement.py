@@ -5,6 +5,7 @@ from agent import Action
 from typing import Union, Tuple, Dict
 from state import RuleState
 
+
 class EnforceResult(Enum):
     CONTINUE =0
     SKIP = 1
@@ -83,15 +84,30 @@ Comment:
         ctx.reflection_depth = ctx.reflection_depth + 1
         return EnforceResult.SELF_REFLECT, action_prime
   
-  
 class InvokeAction(Enforcement):
     def apply(self, action: Action) -> Tuple[EnforceResult, Action]:
         return EnforceResult.CONTINUE, action
+
+NEW_PLAN = ""
+
+def set_new_plan(new_plan):
+    global NEW_PLAN
+    NEW_PLAN = new_plan
+
+class Replan(Enforcement):
+
+    def apply(self, action) :
+        global NEW_PLAN
+        print("!!!")
+        print(NEW_PLAN)
+        return EnforceResult.SKIP, Action.get_skip(input=NEW_PLAN)
+
 
 ENFORCEMENT_TO_CLASS = {
     "none" : EmptyEnforcement,
     "skip" : Skip,
     "llm_self_reflect": LLMSelfReflect,
     "user_inspection" : UserInspection,
+    "re_plan": Replan,
     "stop" : Stop,
 } 

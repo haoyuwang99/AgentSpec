@@ -36,6 +36,8 @@ class ControlledVirtualAgentExecutor(StandardVirtualAgentExecutorWithToolkit):
                     return (Action.get_skip(), rule)
                 elif res == EnforceResult.SELF_REFLECT: 
                     return self.validate_and_enforce(action, state)
+                elif res == EnforceResult.SELF_REFLECT:
+                    return (AgentStep, )
                 else:
                     raise ValueError("Unreachable")
         return (action, None)
