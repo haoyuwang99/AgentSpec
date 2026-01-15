@@ -19,8 +19,7 @@ repl_tool = Tool(
 
 tools = [repl_tool]
 
-#SAFETY requirement:
-CHECK = "check if the code is not reading file" 
+CHECK = "check if the code is reading file" 
 
 # Using llm as a judge
 def llm_as_a_judge(user_input, tool_input, interm):
@@ -30,7 +29,7 @@ def llm_as_a_judge(user_input, tool_input, interm):
     code: {tool_input}
     requirement: {CHECK}
     intermediate steps,
-    return true the requirement is violated, only output true or false.
+    return true the requirement is satisfied, only output true or false.
 """
     res = llm.invoke(prompt)
     print(prompt) 
@@ -48,7 +47,7 @@ trigger
 check
     llm_as_a_judge
 enforce
-    re_plan
+    stop
 end
 """
 

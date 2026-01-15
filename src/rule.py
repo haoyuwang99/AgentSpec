@@ -49,3 +49,13 @@ class Rule(BaseModel):
         walker.walk(rule_parser, tree)   
         return Rule(raw=rule_str, event=rule_parser.event, id=rule_parser.getId())
  
+rule_inspect_before_python = """
+rule @stop_before_python
+trigger
+    python_repl
+check
+    code is reading file
+enforce
+    user_inspection
+end
+"""
